@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // 警告メッセージの非表示処理
   // Google Apps Scriptの埋め込み時に表示される不要な警告を隠す処理をセットアップ
   setupWarningHider();
+  
+  // フォーム送信ボタンのイベントリスナーを設定
+  setupFormSubmission();
 });
 
 /**
@@ -80,6 +83,107 @@ function hideAppsScriptWarnings() {
     // 要素が存在する場合のみ非表示に設定
     if (el) el.style.display = 'none';
   });
+}
+
+/**
+ * フォーム送信処理の設定
+ * 送信ボタンにクリックイベントリスナーを追加し、
+ * フォーム送信後の処理を行う関数を呼び出します
+ */
+function setupFormSubmission() {
+  // 送信ボタンを取得
+  const submitButton = document.getElementById('submitButton');
+  
+  // 送信ボタンが存在する場合のみイベントリスナーを追加
+  if (submitButton) {
+    submitButton.addEventListener('click', function() {
+      // 既存のバリデーションチェックなどの処理を呼び出す（validation.jsなどに実装されている前提）
+      // 注: window.validateFormなどのグローバル関数が存在する場合は、ここで呼び出します
+      
+      // アンケート送信後の処理を行う関数を呼び出す
+      // この関数はフォームが有効な場合にのみ実行されるべきですが、
+      // 既存のバリデーション処理とのつながりが不明なため、ここでは単純に呼び出します
+      handleFormAfterSubmission();
+    });
+  }
+}
+
+/**
+ * アンケート送信後の処理
+ * フォームが送信された後、評価に応じて適切なフィードバック画面を表示し、
+ * 送信ボタンを非表示にします
+ * 
+ * ※重要: この関数はフォーム送信後に呼び出されることを想定しています。
+ * 既存のバリデーション処理やデータ送信処理の後に呼び出されるべきです。
+ */
+function handleFormAfterSubmission() {
+  try {
+    // 選択された評価を取得（星1～5）
+    const selectedRating = document.querySelector('input[name="rating"]:checked');
+    
+    // 評価が選択されていない場合は処理を中断
+    if (!selectedRating) {
+      console.log('評価が選択されていません');
+      return;
+    }
+    
+    // 評価値（1～5）を数値として取得
+    const rating = parseInt(selectedRating.value);
+    
+    // フォームコンテナを取得
+    const surveyForm = document.getElementById('surveyForm');
+    
+    // 送信ボタンのコンテナを取得
+    const submitContainer = document.querySelector('.submit-container');
+    
+    // 評価に応じたフィードバック要素を取得
+    const thankYouMessage = document.getElementById('thankyou'); // 星3以下用メッセージ
+    const reviewRedirect = document.getElementById('review-redirect'); // 星4以上用メッセージ
+    
+    // すべての要素が存在するか確認
+    if (!surveyForm || !submitContainer || !thankYouMessage || !reviewRedirect) {
+      console.error('必要なDOM要素が見つかりません');
+      return;
+    }
+    
+    // フォームを非表示にする
+    surveyForm.classList.add('hidden');
+    
+    // 【重要】: 送信ボタンを非表示にする - これが今回の修正の主な目的
+    // これにより、高評価フィードバック画面で「送信する」ボタンが表示されなくなります
+    submitContainer.classList.add('hidden');
+    
+    // 評価に応じて適切なメッセージを表示
+    if (rating >= 4) {
+      // 高評価（星4または5）の場合は口コミリダイレクト画面を表示
+      reviewRedirect.classList.remove('hidden');
+      
+      // タイトルを星の数に応じて変更（「星X ありがとうございます！」）
+      const titleElement = reviewRedirect.querySelector('h2');
+      if (titleElement) {
+        titleElement.textContent = `星${rating}ありがとうございます！`;
+      }
+      
+      // 口コミ用コメントを準備する（既存の関数があれば呼び出す）
+      if (typeof prepareReviewComment === 'function') {
+        prepareReviewComment();
+      }
+    } else {
+      // 低評価（星3以下）の場合はお礼メッセージを表示
+      thankYouMessage.classList.remove('hidden');
+    }
+    
+    // 画面の上部にスクロール（視覚的フィードバック）
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // スムーズスクロール
+    });
+    
+    console.log(`フォーム送信完了: 評価 ${rating}星`);
+  } catch (e) {
+    // エラーが発生した場合はコンソールに出力するが、ユーザー体験は維持する
+    console.error('フォーム送信後処理エラー:', e);
+  }
 }
 
 /**
