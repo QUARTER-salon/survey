@@ -110,23 +110,10 @@ function setupFormSubmission() {
  * フォームが送信された後、評価に応じて適切なフィードバック画面を表示し、
  * 送信ボタンを非表示にします
  * 
- * ※重要: この関数はフォーム送信後に呼び出されることを想定しています。
- * 既存のバリデーション処理やデータ送信処理の後に呼び出されるべきです。
+ * @param {number} rating - 選択された評価値（1～5）
  */
-function handleFormAfterSubmission() {
+window.handleFormAfterSubmission = function(rating) {
   try {
-    // 選択された評価を取得（星1～5）
-    const selectedRating = document.querySelector('input[name="rating"]:checked');
-    
-    // 評価が選択されていない場合は処理を中断
-    if (!selectedRating) {
-      console.log('評価が選択されていません');
-      return;
-    }
-    
-    // 評価値（1～5）を数値として取得
-    const rating = parseInt(selectedRating.value);
-    
     // フォームコンテナを取得
     const surveyForm = document.getElementById('surveyForm');
     
@@ -146,8 +133,7 @@ function handleFormAfterSubmission() {
     // フォームを非表示にする
     surveyForm.classList.add('hidden');
     
-    // 【重要】: 送信ボタンを非表示にする - これが今回の修正の主な目的
-    // これにより、高評価フィードバック画面で「送信する」ボタンが表示されなくなります
+    // 送信ボタンを非表示にする
     submitContainer.classList.add('hidden');
     
     // 評価に応じて適切なメッセージを表示
@@ -181,7 +167,7 @@ function handleFormAfterSubmission() {
     // エラーが発生した場合はコンソールに出力するが、ユーザー体験は維持する
     console.error('フォーム送信後処理エラー:', e);
   }
-}
+};
 
 /**
  * コメントをクリップボードにコピー
