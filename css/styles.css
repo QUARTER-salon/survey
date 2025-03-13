@@ -181,7 +181,7 @@ header {
   background-color: white; /* 白い背景 */
   padding: var(--spacing-lg); /* 内側の余白 */
   border-radius: 0; /* 角丸なし */
-  box-shadow: var(--shadow-sm); /* 微妙な影 */
+  box-shadow: var(--shadow-md); /* 微妙な影 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* スムーズな遷移 */
   border-top: 1px solid var(--border-color); /* 上部の境界線 */
   border-left: 1px solid var(--border-color); /* 左側の境界線 */
@@ -219,7 +219,7 @@ h3 {
 .options label {
   display: block; /* 全幅表示 */
   padding: var(--spacing-md); /* 内側の余白 */
-  margin-bottom: var(--spacing-md); /* オプション間のスペース */
+  margin-bottom: var(--spacing-lg); /* オプション間のスペース */
   background-color: white; /* 白い背景 */
   border: 1px solid var(--border-color); /* 境界線 */
   border-radius: 0; /* 角丸なし */
@@ -243,7 +243,7 @@ h3 {
 .options label:hover {
   background-color: var(--background-color); /* ホバー時の背景 */
   transform: translateX(3px); /* わずかに右へシフト */
-  box-shadow: var(--shadow-sm); /* 影を追加 */
+  box-shadow: var(--shadow-md); /* 影を追加 */
 }
 
 .options input[type="radio"]:checked + label,
@@ -251,7 +251,7 @@ h3 {
   background-color: rgba(230, 216, 179, 0.1); /* 選択時のライトゴールド背景 */
   border-color: var(--border-color); /* 境界線の色 */
   border-left: 3px solid var(--primary-color); /* ゴールドの左境界線 */
-  box-shadow: var(--shadow-sm); /* 奥行き用の影 */
+  box-shadow: var(--shadow-md); /* 奥行き用の影 */
   font-weight: 500; /* 中程度の太さ */
   transform: translateX(5px); /* 選択時に右へシフト */
 }
