@@ -427,6 +427,35 @@ textarea:focus {
 }
 
 /* ----------------------------------------
+   フィードバック表示時の送信ボタン非表示
+   口コミリダイレクトまたはお礼メッセージ表示時に送信ボタンを非表示にします
+   ---------------------------------------- */
+/* 
+  重要: 以下のCSSルールは、高評価または低評価のフィードバック画面が表示されている場合に
+  「送信する」ボタンを非表示にするための設定です。これにより、ユーザーが既に送信済みの
+  フォームを再度送信しようとするのを防ぎます。
+  
+  複数のセレクタを使用することで、DOM構造に依存せず確実に動作するようにしています。
+  :not(.hidden)は、要素が表示されている状態（hiddenクラスがない状態）を示します。
+*/
+
+/* 高評価フィードバック画面表示時に送信ボタンを非表示 */
+#review-redirect:not(.hidden) ~ .submit-container,
+#review-redirect:not(.hidden) + .submit-container,
+.container #review-redirect:not(.hidden) ~ .submit-container,
+body:has(#review-redirect:not(.hidden)) .submit-container {
+  display: none !important;
+}
+
+/* 低評価フィードバック画面表示時に送信ボタンを非表示 */
+#thankyou:not(.hidden) ~ .submit-container,
+#thankyou:not(.hidden) + .submit-container,
+.container #thankyou:not(.hidden) ~ .submit-container,
+body:has(#thankyou:not(.hidden)) .submit-container {
+  display: none !important;
+}
+
+/* ----------------------------------------
    サンクスページと口コミリダイレクト
    完了と後続画面のスタイリング
    ---------------------------------------- */
