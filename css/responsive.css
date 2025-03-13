@@ -10,7 +10,7 @@
 @media (max-width: 480px) {
   /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
-    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
+    padding: var(--spacing-md); /* 余白を小さく調整（16pxから8pxへ） */
   }
   
   .question {
