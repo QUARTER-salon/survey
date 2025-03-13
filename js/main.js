@@ -97,13 +97,10 @@ function setupFormSubmission() {
   // 送信ボタンが存在する場合のみイベントリスナーを追加
   if (submitButton) {
     submitButton.addEventListener('click', function() {
-      // 既存のバリデーションチェックなどの処理を呼び出す（validation.jsなどに実装されている前提）
-      // 注: window.validateFormなどのグローバル関数が存在する場合は、ここで呼び出します
-      
-      // アンケート送信後の処理を行う関数を呼び出す
-      // この関数はフォームが有効な場合にのみ実行されるべきですが、
-      // 既存のバリデーション処理とのつながりが不明なため、ここでは単純に呼び出します
-      handleFormAfterSubmission();
+      // validation.jsの関数を呼び出す
+      if (typeof window.validateAndSubmit === 'function') {
+        window.validateAndSubmit();
+      }
     });
   }
 }
