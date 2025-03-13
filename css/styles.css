@@ -469,6 +469,29 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   margin: var(--spacing-xl) 5% 0; /* マージン */
   border-top: 1px solid var(--border-color); /* 上部の境界線 */
   border-left: 3px solid var(--primary-color); /* ゴールドの左境界線 */
+   /* - メインコンテナと同じに */
+  max-width: 680px; /* メインコンテナと同じ幅 */
+  margin: var(--spacing-xl) auto 0; /* 水平方向に中央揃え */
+  width: 90%; /* 幅を親コンテナの90%に */
+  padding: var(--spacing-lg) var(--spacing-xl); /* 内側の余白調整 */
+  box-sizing: border-box; /* パディングを含めた幅計算 */
+}
+
+/* フィードバック画面のテキストエリア幅を調整 */
+#review-redirect .copy-container,
+#review-redirect #comment-to-copy {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ボタンコンテナの間隔調整 */
+#review-redirect .copy-container div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
 }
 
 #thankyou h2, 
