@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>QUARTERアンケート</title>
+  
+  <!-- フォント -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- スタイルシート -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <!-- 設定情報（コードを分離） -->
+  <script src="js/config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- ヘッダー -->
+    <header>
+      <img class="text-logo" 
+           src="./images/quarter-logo.png" 
+           alt="QUARTERロゴ" 
+           style="max-width: 200px; height: auto;">
+    </header>
+
+    <!-- ナビゲーションバー -->
+    <div class="nav-container">
+      <div class="progress-nav">
+        <div class="nav-item active" data-section="store">
+          <span class="nav-text">店舗</span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="rating">
+          <span class="nav-text">評価</span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="info">
+          <span class="nav-text">情報</span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="service">
+          <span class="nav-text">サービス</span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="feedback">
+          <span class="nav-text">感想</span>
+          <div class="nav-indicator"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- アンケートフォーム -->
+    <form id="surveyForm" novalidate>
+      <!-- 店舗選択（必須） -->
+      <div class="question required current" id="question1" data-section="store">
+        <h3>Q1. 本日はどちらの店舗をご利用いただきましたか？</h3>
+        <div class="options">
+          <input type="radio" id="quarter" name="store" value="QUARTER" required>
+          <label for="quarter">QUARTER</label>
+          
+          <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT">
+          <label for="quarter-resort">QUARTER RESORT</label>
+          
+          <input type="radio" id="quarter-seasons" name="store" value="QUARTER SEASONS">
+          <label for="quarter-seasons">QUARTER SEASONS</label>
+          
+          <input type="radio" id="link" name="store" value="LINK">
+          <label for="link">LINK</label>
+          
+          <input type="radio" id="il" name="store" value="iL">
+          <label for="il">iL</label>
+        </div>
+        
+        <div class="validation-message" id="store-validation">
+          <span>店舗を選択してください</span>
+        </div>
+      </div>
+      
+      <!-- 総合評価（必須） -->
+      <div class="question required" id="question2" data-section="rating">
+        <h3>Q2. 本日の総合評価を星1～5でお選びください。</h3>
+        
+        <div class="star-rating-container">
+          <div class="stars-row" id="starsContainer">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          
+          <div class="rating-score" id="ratingScore">
+            評価: <span id="scoreValue">0</span>/5
+          </div>
+          
+          <div class="low-rating-warning" id="lowRatingWarning">
+            <strong>低評価を選択するには:</strong> 星（1-2）をダブルタップしてください
+          </div>
+        </div>
+        
+        <!-- 隠しラジオボタン（送信用） -->
+        <div class="star-rating-hidden">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <input type="radio" id="star4" name="rating" value="4">
+          <input type="radio" id="star3" name="rating" value="3">
+          <input type="radio" id="star2" name="rating" value="2">
+          <input type="radio" id="star1" name="rating" value="1">
+        </div>
+
+        <div class="validation-message" id="rating-validation">
+          <span>評価を選択してください</span>
+        </div>
+      </div>
+      
+      <!-- 任意質問セクション -->
+      <div class="optional-questions">
+        <p class="optional-note">
+          以下の質問は任意です。ご回答いただけると大変参考になります。
+        </p>
+        
+        <!-- お名前（任意） -->
+        <div class="question" id="question3" data-section="info">
+          <h3>Q3. お名前、またはニックネームをお書きください。（任意）</h3>
+          <textarea name="name" rows="1" placeholder="お名前またはニックネームをご記入ください"></textarea>
+        </div>
+        
+        <!-- 来店タイプ（任意） -->
+        <div class="question" id="question4" data-section="info">
+          <h3>Q4. 当店をご利用になるのは…（任意）</h3>
+          <div class="options">
+            <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
+            <label for="first-time">初めて（新規）</label>
+            
+            <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
+            <label for="repeat">2回目以降（常連）</label>
+          </div>
+        </div>
+        
+        <!-- 性別（任意） -->
+        <div class="question" id="question5" data-section="info">
+          <h3>Q5. お客様の性別を教えてください。（任意）</h3>
+          <div class="options">
+            <input type="radio" id="male" name="gender" value="男性">
+            <label for="male">男性</label>
+            
+            <input type="radio" id="female" name="gender" value="女性">
+            <label for="female">女性</label>
+            
+            <input type="radio" id="other" name="gender" value="その他">
+            <label for="other">その他</label>
+          </div>
+        </div>
+        
+        <!-- 年齢（任意） -->
+        <div class="question" id="question6" data-section="info">
+          <h3>Q6. お客様のご年齢を教えてください。（任意）</h3>
+          <div class="options">
+            <input type="radio" id="age10s" name="age" value="10代">
+            <label for="age10s">10代</label>
+            
+            <input type="radio" id="age20s" name="age" value="20代">
+            <label for="age20s">20代</label>
+            
+            <input type="radio" id="age30s" name="age" value="30代">
+            <label for="age30s">30代</label>
+            
+            <input type="radio" id="age40s" name="age" value="40代">
+            <label for="age40s">40代</label>
+            
+            <input type="radio" id="age50s" name="age" value="50代">
+            <label for="age50s">50代</label>
+            
+            <input type="radio" id="age60plus" name="age" value="60代以上">
+            <label for="age60plus">60代以上</label>
+          </div>
+        </div>
+        
+        <!-- 利用サービス（複数選択可） -->
+        <div class="question" id="question7" data-section="service">
+          <h3>Q7. 本日ご利用いただいたサービスを教えてください。（複数選択可）</h3>
+          <div class="options">
+            <input type="checkbox" id="cut" name="services" value="カット">
+            <label for="cut">カット</label>
+            
+            <input type="checkbox" id="color" name="services" value="カラー">
+            <label for="color">カラー</label>
+            
+            <input type="checkbox" id="perm" name="services" value="パーマ">
+            <label for="perm">パーマ</label>
+            
+            <input type="checkbox" id="treatment" name="services" value="トリートメント">
+            <label for="treatment">トリートメント</label>
+            
+            <input type="checkbox" id="styling" name="services" value="スタイリング">
+            <label for="styling">スタイリング</label>
+            
+            <input type="checkbox" id="other-service" name="services" value="その他">
+            <label for="other-service">その他（ネイル・着付け 等）</label>
+          </div>
+        </div>
+        
+        <!-- サービス満足度 -->
+        <div class="question" id="question8" data-section="service">
+          <h3>Q8. 技術や仕上がりに対する満足度をお聞かせください。</h3>
+          <div class="options">
+            <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
+            <label for="service5">非常に満足</label>
+            
+            <input type="radio" id="service4" name="serviceSatisfaction" value="満足">
+            <label for="service4">満足</label>
+            
+            <input type="radio" id="service3" name="serviceSatisfaction" value="普通">
+            <label for="service3">普通</label>
+            
+            <input type="radio" id="service2" name="serviceSatisfaction" value="不満">
+            <label for="service2">不満</label>
+            
+            <input type="radio" id="service1" name="serviceSatisfaction" value="非常に不満">
+            <label for="service1">非常に不満</label>
+          </div>
+        </div>
+        
+        <!-- スタッフ対応 -->
+        <div class="question" id="question9" data-section="service">
+          <h3>Q9. スタッフの対応はいかがでしたか？</h3>
+          <div class="options">
+            <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
+            <label for="staff5">非常に良い</label>
+            
+            <input type="radio" id="staff4" name="staffResponse" value="良い">
+            <label for="staff4">良い</label>
+            
+            <input type="radio" id="staff3" name="staffResponse" value="普通">
+            <label for="staff3">普通</label>
+            
+            <input type="radio" id="staff2" name="staffResponse" value="悪い">
+            <label for="staff2">悪い</label>
+            
+            <input type="radio" id="staff1" name="staffResponse" value="非常に悪い">
+            <label for="staff1">非常に悪い</label>
+          </div>
+        </div>
+        
+        <!-- 待ち時間 -->
+        <div class="question" id="question10" data-section="service">
+          <h3>Q10. 待ち時間に関してのご感想をお聞かせください。</h3>
+          <div class="options">
+            <input type="radio" id="wait5" name="waitTime" value="非常に満足">
+            <label for="wait5">非常に満足</label>
+            
+            <input type="radio" id="wait4" name="waitTime" value="満足">
+            <label for="wait4">満足</label>
+            
+            <input type="radio" id="wait3" name="waitTime" value="普通">
+            <label for="wait3">普通</label>
+            
+            <input type="radio" id="wait2" name="waitTime" value="不満">
+            <label for="wait2">不満</label>
+            
+            <input type="radio" id="wait1" name="waitTime" value="非常に不満">
+            <label for="wait1">非常に不満</label>
+          </div>
+        </div>
+        
+        <!-- 店内清潔感 -->
+        <div class="question" id="question11" data-section="service">
+          <h3>Q11. 店内の清潔感についての印象をお選びください。</h3>
+          <div class="options">
+            <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
+            <label for="clean5">非常に清潔</label>
+            
+            <input type="radio" id="clean4" name="cleanliness" value="清潔">
+            <label for="clean4">清潔</label>
+            
+            <input type="radio" id="clean3" name="cleanliness" value="普通">
+            <label for="clean3">普通</label>
+            
+            <input type="radio" id="clean2" name="cleanliness" value="不清潔">
+            <label for="clean2">不清潔</label>
+            
+            <input type="radio" id="clean1" name="cleanliness" value="非常に不清潔">
+            <label for="clean1">非常に不清潔</label>
+          </div>
+        </div>
+        
+        <!-- 改善点・要望 -->
+        <div class="question" id="question12" data-section="feedback">
+          <h3>Q12. もし何か追加してほしいサービス・改善点、またはご要望等ございましたら、自由にお書きください。（任意）</h3>
+          <textarea name="improvement" rows="3" placeholder="ご意見をご記入ください"></textarea>
+        </div>
+        
+        <!-- その他感想 -->
+        <div class="question" id="question13" data-section="feedback">
+          <h3>Q13. その他お気づきの点やご感想があれば、ぜひお書きください。（任意）</h3>
+          <textarea name="otherComments" rows="3" placeholder="ご感想をご記入ください"></textarea>
+        </div>
+      </div>
+
+      <!-- グローバルバリデーションメッセージ -->
+      <div class="validation-message" id="global-validation" style="text-align: center; margin-bottom: var(--spacing-md);">
+        <span>必須項目をご入力ください</span>
+      </div>
+      
+      <!-- 送信ボタン -->
+      <div class="submit-container">
+        <button type="button" id="submitButton" class="submit-button">送信する</button>
+      </div>
+    </form>
+
+    <!-- 星3以下用のメッセージ -->
+    <div id="thankyou" class="hidden">
+      <h2>ご回答ありがとうございました。</h2>
+      <p>貴重なご意見を参考に、より良いサービスを目指します。</p>
+    </div>
+
+    <!-- 星4以上用の口コミ促進メッセージ -->
+    <div id="review-redirect" class="hidden">
+      <h2>星4以上ありがとうございます！</h2>
+      <p>いつも当店をご利用いただき、誠にありがとうございます。</p>
+      <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
+      <p>
+        - ボタンを押すと簡単にコピーできます<br>
+        - 投稿ページが開いたらペーストしていただくだけでOKです
+      </p>
+      
+      <div class="copy-container">
+        <textarea id="comment-to-copy" readonly></textarea>
+        <div>
+          <button id="copy-button" class="action-button" onclick="copyComment()">コメントをコピー</button>
+          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()">Googleマップで口コミを投稿する</button>
+        </div>
+      </div>
+      
+      <p>
+        今後とも皆様に喜んでいただけるよう、スタッフ一同さらに技術を磨いてまいります。<br>
+        どうぞよろしくお願いいたします。
+      </p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/config.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/scroll-monitor.js"></script>
+  <script src="js/star-rating.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
