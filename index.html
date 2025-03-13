@@ -279,30 +279,49 @@
         -->
         <div class="question" id="question7" data-section="service">
           <h3>Q7. 本日ご利用いただいたサービスを教えてください。（複数選択可）</h3>
-          <div class="options">
             <!-- 
               チェックボックス - 複数選択可能な入力要素
               同じname属性を持つチェックボックスは、グループとして扱われますが
               ラジオボタンと異なり複数選択可能です
             -->
-            <input type="checkbox" id="cut" name="services" value="カット">
-            <label for="cut">カット</label>
-            
-            <input type="checkbox" id="color" name="services" value="カラー">
-            <label for="color">カラー</label>
-            
-            <input type="checkbox" id="perm" name="services" value="パーマ">
-            <label for="perm">パーマ</label>
-            
-            <input type="checkbox" id="treatment" name="services" value="トリートメント">
-            <label for="treatment">トリートメント</label>
-            
-            <input type="checkbox" id="styling" name="services" value="スタイリング">
-            <label for="styling">スタイリング</label>
-            
-            <input type="checkbox" id="other-service" name="services" value="その他">
-            <label for="other-service">その他（ネイル・着付け 等）</label>
-          </div>
+             <!-- 通常店舗用のメニュー（デフォルト表示） -->
+  <div class="options" id="standard-services">
+    <input type="checkbox" id="cut" name="services" value="カット">
+    <label for="cut">カット</label>
+    
+    <input type="checkbox" id="color" name="services" value="カラー">
+    <label for="color">カラー</label>
+    
+    <input type="checkbox" id="perm" name="services" value="パーマ">
+    <label for="perm">パーマ</label>
+    
+    <input type="checkbox" id="treatment" name="services" value="トリートメント">
+    <label for="treatment">トリートメント</label>
+    
+    <input type="checkbox" id="styling" name="services" value="スタイリング">
+    <label for="styling">スタイリング</label>
+    
+    <input type="checkbox" id="other-service" name="services" value="その他">
+    <label for="other-service">その他（ネイル・着付け 等）</label>
+  </div>
+            <!-- iL店舗用のメニュー（初期状態では非表示） -->
+  <div class="options" id="il-services" style="display: none;">
+    <input type="checkbox" id="il-cut" name="services" value="iLカット">
+    <label for="il-cut">iLカット</label>
+    
+    <input type="checkbox" id="il-color" name="services" value="iLカラー">
+    <label for="il-color">iLカラー</label>
+    
+    <input type="checkbox" id="il-treatment" name="services" value="iL専用トリートメント">
+    <label for="il-treatment">iL専用トリートメント</label>
+    
+    <input type="checkbox" id="il-special" name="services" value="iL特別メニュー">
+    <label for="il-special">iL特別メニュー</label>
+    
+    <input type="checkbox" id="il-other" name="services" value="その他iLメニュー">
+    <label for="il-other">その他iLメニュー</label>
+  </div>
+          
         </div>
         
         <!-- サービス満足度 - ラジオボタンでの5段階評価質問 -->
@@ -490,6 +509,7 @@
   <script src="js/scroll-monitor.js"></script><!-- スクロール監視機能 -->
   <script src="js/star-rating.js"></script><!-- 星評価機能 -->
   <script src="js/validation.js"></script><!-- フォーム検証機能 -->
+  <script src="js/dynamic-services.js"></script><!-- 動的メニュー機能 -->
   <script src="js/main.js"></script><!-- メインの処理機能 -->
 </body>
 </html>
