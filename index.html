@@ -150,7 +150,7 @@
         星の数（1〜5）で評価を選択するUI
       -->
       <div class="question required" id="question2" data-section="rating">
-        <h3>Q2. 本日の総合評価を星1～5でお選びください。</h3>
+        <h3>Q2. 本日の総合満足度を星1～5でお聞かせください。</h3>
         
         <div class="star-rating-container">
           <!-- 
@@ -171,13 +171,7 @@
             評価: <span id="scoreValue">0</span>/5
           </div>
           
-          <!-- 
-            低評価警告 - 低評価（1-2）を選択する際のガイダンス
-            誤タップ防止のために、低評価はダブルタップが必要なことを説明
-          -->
-          <div class="low-rating-warning" id="lowRatingWarning">
-            <strong>低評価を選択するには:</strong> 星（1-2）をダブルタップしてください
-          </div>
+       
         </div>
         
         <!-- 
@@ -213,7 +207,7 @@
           requiredクラスはなく、必須ではないことを示します
         -->
         <div class="question" id="question3" data-section="info">
-          <h3>Q3. お名前、またはニックネームをお書きください。（任意）</h3>
+          <h3>Q3. お名前をお聞かせください。（任意）</h3>
           <!-- 
             textarea要素 - 複数行のテキスト入力に対応
             rows属性で表示する行数を指定（ここでは1行）
@@ -224,19 +218,19 @@
         
         <!-- 来店タイプ（任意） - ラジオボタンでの選択質問 -->
         <div class="question" id="question4" data-section="info">
-          <h3>Q4. 当店をご利用になるのは…（任意）</h3>
+          <h3>Q4. 当店へのご来店は…（任意）</h3>
           <div class="options">
             <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
             <label for="first-time">初めて（新規）</label>
             
             <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
-            <label for="repeat">2回目以降（常連）</label>
+            <label for="repeat">2回目以降（リピーター）</label>
           </div>
         </div>
         
         <!-- 性別（任意） - ラジオボタンでの選択質問 -->
         <div class="question" id="question5" data-section="info">
-          <h3>Q5. お客様の性別を教えてください。（任意）</h3>
+          <h3>Q5. お客様の性別をお聞かせください。（任意）</h3>
           <div class="options">
             <input type="radio" id="male" name="gender" value="男性">
             <label for="male">男性</label>
@@ -251,7 +245,7 @@
         
         <!-- 年齢（任意） - ラジオボタンでの選択質問 -->
         <div class="question" id="question6" data-section="info">
-          <h3>Q6. お客様のご年齢を教えてください。（任意）</h3>
+          <h3>Q6. お客様のご年齢をお聞かせください。（任意）</h3>
           <div class="options">
             <input type="radio" id="age10s" name="age" value="10代">
             <label for="age10s">10代</label>
@@ -278,7 +272,7 @@
           type="checkbox"は複数選択が可能な入力要素を作成します
         -->
         <div class="question" id="question7" data-section="service">
-          <h3>Q7. 本日ご利用いただいたサービスを教えてください。（複数選択可）</h3>
+          <h3>Q7. 本日ご利用いただいたメニューをお選びください。（複数選択可）</h3>
             <!-- 
               チェックボックス - 複数選択可能な入力要素
               同じname属性を持つチェックボックスは、グループとして扱われますが
@@ -329,7 +323,7 @@
         
         <!-- サービス満足度 - ラジオボタンでの5段階評価質問 -->
         <div class="question" id="question8" data-section="service">
-          <h3>Q8. 技術や仕上がりに対する満足度をお聞かせください。</h3>
+          <h3>Q8. 施術の技術や仕上がりに対する満足度をお聞かせください。</h3>
           <div class="options">
             <!-- 5段階評価のラジオボタン - 最高評価から最低評価まで -->
             <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
@@ -351,7 +345,7 @@
         
         <!-- スタッフ対応 - ラジオボタンでの5段階評価質問 -->
         <div class="question" id="question9" data-section="service">
-          <h3>Q9. スタッフの対応はいかがでしたか？</h3>
+          <h3>Q9. スタッフの接客対応はいかがでしたか？</h3>
           <div class="options">
             <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
             <label for="staff5">非常に良い</label>
@@ -372,7 +366,7 @@
         
         <!-- 待ち時間 - ラジオボタンでの5段階評価質問 -->
         <div class="question" id="question10" data-section="service">
-          <h3>Q10. 待ち時間に関してのご感想をお聞かせください。</h3>
+          <h3>Q10. ご来店から施術開始までの時間についてのご感想をお聞かせください。。</h3>
           <div class="options">
             <input type="radio" id="wait5" name="waitTime" value="非常に満足">
             <label for="wait5">非常に満足</label>
@@ -393,7 +387,7 @@
         
         <!-- 店内清潔感 - ラジオボタンでの5段階評価質問 -->
         <div class="question" id="question11" data-section="service">
-          <h3>Q11. 店内の清潔感についての印象をお選びください。</h3>
+          <h3>Q11. 店内の空間や清潔感についてのご印象をお聞かせください。</h3>
           <div class="options">
             <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
             <label for="clean5">非常に清潔</label>
@@ -414,7 +408,7 @@
         
         <!-- 改善点・要望 - 自由記述のテキストエリア質問 -->
         <div class="question" id="question12" data-section="feedback">
-          <h3>Q12. もし何か追加してほしいサービス・改善点、またはご要望等ございましたら、自由にお書きください。（任意）</h3>
+          <h3>Q12. ご要望や改善点などがございましたら、ぜひお聞かせください。（任意）</h3>
           <!-- 
             複数行のテキストエリア - 自由回答用
             rows属性で表示行数を3行に設定
@@ -424,7 +418,7 @@
         
         <!-- その他感想 - 自由記述のテキストエリア質問 -->
         <div class="question" id="question13" data-section="feedback">
-          <h3>Q13. その他お気づきの点やご感想があれば、ぜひお書きください。（任意）</h3>
+          <h3>Q13. その他、当店での体験についてのご感想やお気づきの点をお聞かせください。（任意）</h3>
           <textarea name="otherComments" rows="3" placeholder="ご感想をご記入ください"></textarea>
         </div>
       </div>
@@ -455,7 +449,7 @@
     -->
     <div id="thankyou" class="hidden">
       <h2>ご回答ありがとうございました。</h2>
-      <p>貴重なご意見を参考に、より良いサービスを目指します。</p>
+      <p>ご回答ありがとうございました。いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。</p>
     </div>
 
     <!-- 
@@ -463,12 +457,12 @@
       hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
     -->
     <div id="review-redirect" class="hidden">
-      <h2>星4以上ありがとうございます！</h2>
-      <p>いつも当店をご利用いただき、誠にありがとうございます。</p>
+      <h2>高評価をいただき、ありがとうございます。</h2>
+      <p>当店をご利用いただき、心より感謝申し上げます。</p>
       <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
       <p>
-        - ボタンを押すと簡単にコピーできます<br>
-        - 投稿ページが開いたらペーストしていただくだけでOKです
+        ・下のボタンでコメントをコピー<br>
+        ・投稿ページが開いたらペーストするだけです
       </p>
       
       <!-- 
@@ -496,8 +490,8 @@
       </div>
       
       <p>
-        今後とも皆様に喜んでいただけるよう、スタッフ一同さらに技術を磨いてまいります。<br>
-        どうぞよろしくお願いいたします。
+        今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>
+        引き続きQUARTERグループをよろしくお願いいたします。
       </p>
     </div>
   </div>
