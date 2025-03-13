@@ -1,575 +1,592 @@
 /* ============================================
-   QUARTER SURVEY STYLES
+   四半期アンケートのスタイル
+   このスタイルシートは、ゴールド/ベージュのカラースキームと
+   エレガントなデザインを持つアンケートフォームの見た目を定義します
    ============================================ */
 
 /* ----------------------------------------
    リセット + 変数定義
+   すべての要素の余白をリセットし、サイト全体で使用する色やサイズなどの変数を定義します
    ---------------------------------------- */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0;            /* すべての要素の外側の余白をゼロにリセット */
+  padding: 0;           /* すべての要素の内側の余白をゼロにリセット */
+  box-sizing: border-box; /* パディングを追加しても要素の幅が増えないようにする設定 */
 }
 
 :root {
-  /* カラーパレット */
-  --primary-color: #C39000;      /* リッチゴールド */
-  --primary-light: rgba(195, 144, 0, 0.08);
-  --secondary-color: #9F8C55;    /* マットゴールド */
-  --accent-color: #D0A900;       /* ゴールド */
-  --danger-color: #EA4335;       /* エラー色 */
-  --background-color: #F9F6F0;   /* 淡いベージュ */
-  --text-color: #333333;         /* 文字色 */
-  --border-color: #E6D8B3;       /* シャンパンベージュ */
+  /* カラーパレット - サイト全体で統一して使用する色の定義 */
+  --primary-color: #C39000;      /* リッチゴールド - メインのブランドカラー */
+  --primary-light: rgba(195, 144, 0, 0.08); /* 半透明ゴールド - 微妙なハイライト用 */
+  --secondary-color: #9F8C55;    /* マットゴールド - セカンダリーアクセント */
+  --accent-color: #D0A900;       /* ゴールド - 重要な要素やハイライト用 */
+  --danger-color: #EA4335;       /* エラー色 - バリデーションエラーなどに使用 */
+  --background-color: #F9F6F0;   /* 淡いベージュ - ページの背景色 */
+  --text-color: #333333;         /* 文字色 - メインテキストの色 */
+  --border-color: #E6D8B3;       /* シャンパンベージュ - 境界線の色 */
   
-  /* グレースケール */
-  --gray-100: #f8f9fa;
-  --gray-200: #f1f3f4;
-  --gray-300: #e0e0e0;
-  --gray-400: #bdc1c6;
-  --gray-700: #5f6368;
-  --gray-900: #333333;
+  /* グレースケール - UI要素用の一貫したグレーの値 */
+  --gray-100: #f8f9fa; /* 最も明るいグレー - 背景用 */
+  --gray-200: #f1f3f4; /* 明るいグレー - わずかな強調用 */
+  --gray-300: #e0e0e0; /* 中明度のグレー - 無効化された要素用 */
+  --gray-400: #bdc1c6; /* 中間のグレー - 境界線用 */
+  --gray-700: #5f6368; /* 暗いグレー - 二次的なテキスト用 */
+  --gray-900: #333333; /* 最も暗いグレー - 主要なテキスト用 */
   
-  /* シャドウ */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 2px 5px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* シャドウ - 奥行きを表現するための一貫した影のスタイル */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05); /* 微妙な影 - 小さな要素用 */
+  --shadow-md: 0 2px 5px rgba(0, 0, 0, 0.08); /* 中程度の影 - インタラクティブな要素用 */
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.1); /* 大きな影 - 目立つ要素用 */
   
-  /* 角丸 */
-  --radius-sm: 0px;
+  /* 角丸 - 一貫した角の丸みの値（このデザインでは角丸を使用していません） */
+  --radius-sm: 0px; /* 角丸なし - このデザインでは直角の角を意図しています */
   --radius-md: 0px;
   --radius-lg: 0px;
   
-  /* スペーシング */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
+  /* スペーシング - 一貫した間隔のスケール */
+  --spacing-xs: 4px;  /* 超小さい間隔 */
+  --spacing-sm: 8px;  /* 小さい間隔 - 狭いスペースの要素用 */
+  --spacing-md: 16px; /* 中間の間隔 - ほとんどの要素用 */
+  --spacing-lg: 24px; /* 大きい間隔 - セクション間の分離用 */
+  --spacing-xl: 32px; /* 超大きい間隔 - 主要なセクション用 */
   
-  /* フォント */
-  --heading-font: 'Playfair Display', serif;
-  --body-font: 'Noto Sans JP', sans-serif;
+  /* フォント - タイポグラフィの定義 */
+  --heading-font: 'Playfair Display', serif; /* エレガントなセリフフォント - 見出し用 */
+  --body-font: 'Noto Sans JP', sans-serif;   /* クリーンなサンセリフフォント - 本文用（日本語対応） */
 }
 
 /* ----------------------------------------
    全体レイアウト
+   ページの主要な構造とコンテナを制御します
    ---------------------------------------- */
 body {
-  font-family: var(--body-font);
-  background-color: var(--background-color);
-  color: var(--text-color);
-  line-height: 1.6;
-  padding-bottom: 100px;
+  font-family: var(--body-font); /* すべてのテキストに本文フォントを適用 */
+  background-color: var(--background-color); /* 明るいベージュの背景 */
+  color: var(--text-color); /* デフォルトのテキスト色 */
+  line-height: 1.6; /* 行間を広げて読みやすさを向上 */
+  padding-bottom: 100px; /* ページの下部にスペースを確保 */
 }
 
 .container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: white;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  max-width: 680px; /* 読みやすさのために幅を制限 */
+  margin: 0 auto; /* コンテナを中央揃え */
+  padding: var(--spacing-md) var(--spacing-xl); /* 内側の余白 */
+  background-color: white; /* コンテンツエリアの背景を白に */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05); /* 微妙な影で奥行きを表現 */
 }
 
 /* ----------------------------------------
    ヘッダー
+   ロゴがある上部セクションのスタイル
    ---------------------------------------- */
 header {
-  text-align: center;
-  margin-bottom: var(--spacing-xl);
-  padding-top: var(--spacing-lg);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: var(--spacing-lg);
+  text-align: center; /* ヘッダーコンテンツを中央揃え */
+  margin-bottom: var(--spacing-xl); /* ヘッダーの下にスペース */
+  padding-top: var(--spacing-lg); /* ヘッダーの上にスペース */
+  border-bottom: 1px solid var(--border-color); /* 微妙な区切り線 */
+  padding-bottom: var(--spacing-lg); /* 区切り線の下にスペース */
 }
 
 .text-logo {
-  font-family: var(--heading-font);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text-color);
-  letter-spacing: 3px;
-  margin-bottom: var(--spacing-md);
+  font-family: var(--heading-font); /* ロゴに見出しフォントを適用 */
+  font-size: 32px; /* 目立つように大きなサイズ */
+  font-weight: 700; /* 太字 */
+  color: var(--text-color); /* テキスト色に合わせる */
+  letter-spacing: 3px; /* 文字間隔を広げてエレガントに */
+  margin-bottom: var(--spacing-md); /* ロゴの下にスペース */
 }
 
 /* ----------------------------------------
    ナビゲーションバー
+   進行状況を示すスティッキーナビゲーション
    ---------------------------------------- */
 .nav-container {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  width: 100%;
-  background-color: white;
-  padding: 0;
-  margin: 0 auto var(--spacing-lg);
-  max-width: 600px;
-  border-bottom: 1px solid var(--border-color);
+  position: sticky; /* スクロール時に上部に固定 */
+  top: 0; /* ビューポートの上部に配置 */
+  z-index: 100; /* 他のコンテンツの上に表示されるようにする */
+  width: 100%; /* 全幅 */
+  background-color: white; /* 白い背景 */
+  padding: 0; /* パディングなし */
+  margin: 0 auto var(--spacing-lg); /* 中央揃えし、下部にスペース */
+  max-width: 600px; /* 最大幅 */
+  border-bottom: 1px solid var(--border-color); /* 下部の境界線 */
 }
 
 .progress-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0;
-  background-color: white;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
+  display: flex; /* 水平レイアウト */
+  justify-content: space-between; /* アイテムを均等に配置 */
+  align-items: center; /* アイテムを垂直方向に中央揃え */
+  width: 100%; /* 全幅 */
+  padding: 0; /* パディングなし */
+  background-color: white; /* 白い背景 */
+  border-radius: 0; /* 角丸なし */
+  box-shadow: none; /* 影なし */
+  border: none; /* 境界線なし */
 }
 
 .nav-item {
-  flex: 1;
-  text-align: center;
-  position: relative;
-  padding: 15px 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-  min-height: 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex: 1; /* 各アイテムが等しいスペースを取る */
+  text-align: center; /* テキストを中央揃え */
+  position: relative; /* インジケーターの配置用 */
+  padding: 15px 0; /* 垂直方向のパディングのみ */
+  cursor: pointer; /* クリック可能を示す */
+  transition: all 0.3s ease; /* ホバー効果のスムーズな遷移 */
+  user-select: none; /* テキスト選択を防止 */
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* モバイルでのタップハイライトを削除 */
+  min-height: 44px; /* アクセシビリティのための最小タッチターゲットサイズ */
+  display: flex; /* フレックスボックスを使用した配置 */
+  flex-direction: column; /* 子要素を垂直に積み重ねる */
+  justify-content: center; /* 垂直方向に中央揃え */
+  align-items: center; /* 水平方向に中央揃え */
 }
 
 .nav-text {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--text-color);
-  transition: color 0.3s ease;
-  letter-spacing: 0.5px;
+  font-size: 14px; /* 小さめのテキストサイズ */
+  font-weight: 400; /* 通常の太さ */
+  color: var(--text-color); /* テキスト色に合わせる */
+  transition: color 0.3s ease; /* 色の変化をスムーズに */
+  letter-spacing: 0.5px; /* わずかな文字間隔 */
 }
 
 .nav-item.active .nav-text {
-  color: var(--primary-color);
-  font-weight: 500;
+  color: var(--primary-color); /* アクティブなアイテムはゴールド色 */
+  font-weight: 500; /* やや太く */
 }
 
 .nav-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background-color: var(--primary-color);
-  transition: width 0.3s ease;
+  position: absolute; /* 絶対位置 */
+  bottom: 0; /* コンテナの下部に */
+  left: 50%; /* 水平方向に中央 */
+  transform: translateX(-50%); /* 中央調整 */
+  width: 0; /* デフォルトでは幅なし */
+  height: 2px; /* 下線の高さ */
+  background-color: var(--primary-color); /* ゴールドのインジケーター */
+  transition: width 0.3s ease; /* 幅の変化をアニメーション */
 }
 
 .nav-item.active .nav-indicator {
-  width: 60%;
+  width: 60%; /* アクティブ時の幅 */
 }
 
 .nav-item:active {
-  background-color: rgba(195, 144, 0, 0.1);
+  background-color: rgba(195, 144, 0, 0.1); /* 押下時の薄いゴールド背景 */
 }
 
 /* ----------------------------------------
    質問カード
+   個々の質問を含むコンテナ
    ---------------------------------------- */
 .question {
-  margin: 0 5% var(--spacing-xl);
-  background-color: white;
-  padding: var(--spacing-lg);
-  border-radius: 0;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 1px solid var(--border-color);
-  border-left: 1px solid var(--border-color);
-  position: relative;
+  margin: 0 5% var(--spacing-xl); /* 左右の余白と下部余白 */
+  background-color: white; /* 白い背景 */
+  padding: var(--spacing-lg); /* 内側の余白 */
+  border-radius: 0; /* 角丸なし */
+  box-shadow: var(--shadow-sm); /* 微妙な影 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* スムーズな遷移 */
+  border-top: 1px solid var(--border-color); /* 上部の境界線 */
+  border-left: 1px solid var(--border-color); /* 左側の境界線 */
+  position: relative; /* 内部要素の配置用 */
 }
 
 .question.current {
-  border-left: 3px solid var(--primary-color);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  border-left: 3px solid var(--primary-color); /* 現在の質問は太い左境界線 */
+  transform: translateY(-3px); /* 強調のために少し持ち上げる */
+  box-shadow: var(--shadow-md); /* より強い影 */
 }
 
 .question.completed {
-  border-left: 3px solid var(--secondary-color);
+  border-left: 3px solid var(--secondary-color); /* 完了した質問は別の色 */
 }
 
 .options {
-  margin: 0 5%;
+  margin: 0 5%; /* 左右の余白 */
 }
 
 h3 {
-  font-family: var(--body-font);
-  font-size: 16px;
-  margin-bottom: var(--spacing-md);
-  font-weight: 500;
-  color: var(--text-color);
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(230, 216, 179, 0.5);
+  font-family: var(--body-font); /* 質問テキストに本文フォントを使用 */
+  font-size: 16px; /* 適度なサイズ */
+  margin-bottom: var(--spacing-md); /* 下部にスペース */
+  font-weight: 500; /* 中程度の太さ */
+  color: var(--text-color); /* テキスト色 */
+  padding-bottom: 10px; /* テキストの下にスペース */
+  border-bottom: 1px solid rgba(230, 216, 179, 0.5); /* 微妙な下部セパレーター */
 }
 
 /* ----------------------------------------
    フォーム要素（ラジオ、チェックボックス）
+   カスタムスタイルのラジオボタンとチェックボックス
    ---------------------------------------- */
 .options label {
-  display: block;
-  padding: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
-  background-color: white;
-  border: 1px solid var(--border-color);
-  border-radius: 0;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 15px;
-  position: relative;
-  overflow: hidden;
-  border-left: 3px solid transparent;
+  display: block; /* 全幅表示 */
+  padding: var(--spacing-md); /* 内側の余白 */
+  margin-bottom: var(--spacing-sm); /* オプション間のスペース */
+  background-color: white; /* 白い背景 */
+  border: 1px solid var(--border-color); /* 境界線 */
+  border-radius: 0; /* 角丸なし */
+  cursor: pointer; /* クリック可能を示す */
+  transition: all 0.3s ease; /* スムーズな遷移 */
+  font-size: 15px; /* テキストサイズ */
+  position: relative; /* 内部要素の配置用 */
+  overflow: hidden; /* 内部要素を含める */
+  border-left: 3px solid transparent; /* ホバー効果用の透明な左境界線 */
 }
 
 .options input[type="radio"],
 .options input[type="checkbox"] {
-  opacity: 0;
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  opacity: 0; /* デフォルトの入力を非表示 */
+  position: absolute; /* フローから削除 */
+  width: 1px; /* ほぼゼロサイズ */
+  height: 1px; /* ほぼゼロサイズ */
+  overflow: hidden; /* オーバーフローを非表示 */
 }
 
 .options label:hover {
-  background-color: var(--background-color);
-  transform: translateX(3px);
-  box-shadow: var(--shadow-sm);
+  background-color: var(--background-color); /* ホバー時の背景 */
+  transform: translateX(3px); /* わずかに右へシフト */
+  box-shadow: var(--shadow-sm); /* 影を追加 */
 }
 
 .options input[type="radio"]:checked + label,
 .options input[type="checkbox"]:checked + label {
-  background-color: rgba(230, 216, 179, 0.1);
-  border-color: var(--border-color);
-  border-left: 3px solid var(--primary-color);
-  box-shadow: var(--shadow-sm);
-  font-weight: 500;
-  transform: translateX(5px);
+  background-color: rgba(230, 216, 179, 0.1); /* 選択時のライトゴールド背景 */
+  border-color: var(--border-color); /* 境界線の色 */
+  border-left: 3px solid var(--primary-color); /* ゴールドの左境界線 */
+  box-shadow: var(--shadow-sm); /* 奥行き用の影 */
+  font-weight: 500; /* 中程度の太さ */
+  transform: translateX(5px); /* 選択時に右へシフト */
 }
 
 .options input[type="radio"]:checked + label::after,
 .options input[type="checkbox"]:checked + label::after {
-  content: "✓";
-  position: absolute;
-  right: var(--spacing-md);
-  color: var(--primary-color);
-  font-weight: bold;
+  content: "✓"; /* チェックマーク */
+  position: absolute; /* 絶対位置 */
+  right: var(--spacing-md); /* 右揃え */
+  color: var(--primary-color); /* ゴールド色 */
+  font-weight: bold; /* 太字 */
 }
 
 /* ----------------------------------------
    星評価
+   インタラクティブな星評価コンポーネント
    ---------------------------------------- */
 .star-rating-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: var(--spacing-xl) 0;
+  display: flex; /* フレックスボックスレイアウト */
+  flex-direction: column; /* 垂直に積み重ねる */
+  align-items: center; /* 水平方向に中央揃え */
+  margin: var(--spacing-xl) 0; /* 垂直方向のマージン */
 }
 
 .stars-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--spacing-md);
+  display: flex; /* 水平レイアウト */
+  justify-content: center; /* 水平方向に中央揃え */
+  margin-bottom: var(--spacing-md); /* 下部にスペース */
 }
 
 .star {
-  font-size: 42px;
-  cursor: pointer;
-  color: var(--gray-300);
-  transition: all 0.2s ease;
-  user-select: none;
-  padding: 0 var(--spacing-sm);
-  transform-origin: center;
+  font-size: 42px; /* 大きな星 */
+  cursor: pointer; /* クリック可能 */
+  color: var(--gray-300); /* 非アクティブ時はグレー */
+  transition: all 0.2s ease; /* スムーズな遷移 */
+  user-select: none; /* テキスト選択を防止 */
+  padding: 0 var(--spacing-sm); /* より大きなタッチ領域のための水平パディング */
+  transform-origin: center; /* 中心から変形 */
 }
 
 .star:hover {
-  transform: scale(1.1);
+  transform: scale(1.1); /* ホバー時に拡大 */
 }
 
 .star.active {
-  color: var(--accent-color);
+  color: var(--accent-color); /* アクティブ時はゴールド */
 }
 
 .star-rating-hidden {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;    
+  position: absolute; /* 絶対位置 */
+  opacity: 0; /* 非表示 */
+  pointer-events: none; /* インタラクションなし */
+  width: 1px; /* ほぼゼロサイズ */
+  height: 1px; /* ほぼゼロサイズ */
+  overflow: hidden; /* オーバーフローを非表示 */
 }
 
 .rating-score {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-color);
-  margin: var(--spacing-sm) 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  text-align: center;
+  font-size: 16px; /* テキストサイズ */
+  font-weight: 500; /* 中程度の太さ */
+  color: var(--text-color); /* テキスト色 */
+  margin: var(--spacing-sm) 0; /* 垂直方向のマージン */
+  opacity: 0; /* デフォルトでは非表示 */
+  transition: opacity 0.3s ease; /* フェードイン遷移 */
+  text-align: center; /* テキストを中央揃え */
 }
 
 .rating-score.visible {
-  opacity: 1;
+  opacity: 1; /* クラス適用時に表示 */
 }
 
 .low-rating-warning {
-  width: 100%;
-  max-width: 400px;
-  margin: var(--spacing-md) auto 0;
-  padding: var(--spacing-sm) var(--spacing-md);
-  background-color: #fef7e0;
-  border-left: 3px solid var(--accent-color);
-  color: var(--text-color);
-  font-size: 14px;
-  display: none;
-  border-radius: 0;
-  text-align: center;
-  animation: fadeIn 0.3s ease;
+  width: 100%; /* 全幅 */
+  max-width: 400px; /* 最大幅 */
+  margin: var(--spacing-md) auto 0; /* 上部マージンで中央揃え */
+  padding: var(--spacing-sm) var(--spacing-md); /* 内側の余白 */
+  background-color: #fef7e0; /* 薄い黄色の背景 */
+  border-left: 3px solid var(--accent-color); /* ゴールドの左境界線 */
+  color: var(--text-color); /* テキスト色 */
+  font-size: 14px; /* 小さめのテキスト */
+  display: none; /* デフォルトでは非表示 */
+  border-radius: 0; /* 角丸なし */
+  text-align: center; /* テキストを中央揃え */
+  animation: fadeIn 0.3s ease; /* フェードインアニメーション */
 }
 
 .low-rating-warning.visible {
-  display: block;
+  display: block; /* クラス適用時に表示 */
 }
 
 .star.pulse {
-  animation: pulse 0.3s ease;
+  animation: pulse 0.3s ease; /* パルスアニメーション */
 }
 
 /* ----------------------------------------
    テキストエリア
+   テキスト入力領域のスタイリング
    ---------------------------------------- */
 textarea {
-  width: 100%;
-  padding: var(--spacing-md);
-  border: 1px solid var(--border-color);
-  border-radius: 0;
-  resize: vertical;
-  font-family: var(--body-font);
-  font-size: 15px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* 全幅 */
+  padding: var(--spacing-md); /* 内側のパディング */
+  border: 1px solid var(--border-color); /* 境界線 */
+  border-radius: 0; /* 角丸なし */
+  resize: vertical; /* 垂直方向のリサイズのみ許可 */
+  font-family: var(--body-font); /* 本文フォントに合わせる */
+  font-size: 15px; /* テキストサイズ */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* スムーズな遷移 */
 }
 
 textarea:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(195, 144, 0, 0.1);
-  outline: none;
+  border-color: var(--primary-color); /* フォーカス時はゴールドの境界線 */
+  box-shadow: 0 0 0 2px rgba(195, 144, 0, 0.1); /* 微妙な輝き効果 */
+  outline: none; /* デフォルトのアウトラインを削除 */
 }
 
 /* ----------------------------------------
    送信ボタン
+   主要なアクションボタンのスタイリング
    ---------------------------------------- */
 .submit-container {
-  text-align: center;
-  margin: var(--spacing-xl) 6% 0;
-  position: relative;
+  text-align: center; /* 中央揃え */
+  margin: var(--spacing-xl) 6% 0; /* マージン */
+  position: relative; /* 内部要素の配置用 */
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #D0A900 0%, #C39000 100%);
-  color: white;
-  border: none;
-  padding: 12px 40px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(195, 144, 0, 0.2);
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  background: linear-gradient(135deg, #D0A900 0%, #C39000 100%); /* ゴールドのグラデーション */
+  color: white; /* 白いテキスト */
+  border: none; /* 境界線なし */
+  padding: 12px 40px; /* 内側のパディング */
+  font-size: 14px; /* テキストサイズ */
+  font-weight: 500; /* 中程度の太さ */
+  border-radius: 2px; /* わずかな角丸 */
+  cursor: pointer; /* クリック可能 */
+  transition: all 0.3s ease; /* スムーズな遷移 */
+  box-shadow: 0 3px 10px rgba(195, 144, 0, 0.2); /* ゴールドの影 */
+  letter-spacing: 1px; /* 文字間隔 */
+  text-transform: uppercase; /* 大文字 */
 }
 
 .submit-button:hover {
-  background: linear-gradient(135deg, #D0A900 0%, #B98600 100%);
-  box-shadow: 0 5px 15px rgba(195, 144, 0, 0.3);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #D0A900 0%, #B98600 100%); /* ホバー時のより暗いゴールドグラデーション */
+  box-shadow: 0 5px 15px rgba(195, 144, 0, 0.3); /* 強調された影 */
+  transform: translateY(-2px); /* わずかに持ち上げる */
 }
 
 .submit-button:active {
-  transform: translateY(0);
+  transform: translateY(0); /* クリック時に元の位置に戻る */
 }
 
 /* ----------------------------------------
    汎用スタイルとヘルパー
+   ユーティリティクラスと共通パターン
    ---------------------------------------- */
 .required h3::after {
-  content: " *";
-  color: var(--danger-color);
+  content: " *"; /* アスタリスクを追加 */
+  color: var(--danger-color); /* 必須フィールド用の赤色 */
 }
 
 .optional-note {
-  text-align: center;
-  margin: var(--spacing-xl) 0;
-  color: var(--text-color);
-  font-size: 14px;
-  background-color: var(--background-color);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: 0;
-  border-left: 3px solid var(--secondary-color);
+  text-align: center; /* テキストを中央揃え */
+  margin: var(--spacing-xl) 0; /* 垂直方向のマージン */
+  color: var(--text-color); /* テキスト色 */
+  font-size: 14px; /* 小さめのテキスト */
+  background-color: var(--background-color); /* ベージュの背景 */
+  padding: var(--spacing-sm) var(--spacing-md); /* 内側のパディング */
+  border-radius: 0; /* 角丸なし */
+  border-left: 3px solid var(--secondary-color); /* ゴールドの左境界線 */
 }
 
 .hidden {
-  display: none;
+  display: none; /* 要素を非表示 */
 }
 
 /* ----------------------------------------
    サンクスページと口コミリダイレクト
+   完了と後続画面のスタイリング
    ---------------------------------------- */
 #thankyou, 
 #review-redirect {
-  text-align: center;
-  padding: var(--spacing-xl) var(--spacing-md);
-  background-color: white;
-  border-radius: 0;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  margin: var(--spacing-xl) 5% 0;
-  border-top: 1px solid var(--border-color);
-  border-left: 3px solid var(--primary-color);
+  text-align: center; /* テキストを中央揃え */
+  padding: var(--spacing-xl) var(--spacing-md); /* 内側のパディング */
+  background-color: white; /* 白い背景 */
+  border-radius: 0; /* 角丸なし */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05); /* 微妙な影 */
+  margin: var(--spacing-xl) 5% 0; /* マージン */
+  border-top: 1px solid var(--border-color); /* 上部の境界線 */
+  border-left: 3px solid var(--primary-color); /* ゴールドの左境界線 */
 }
 
 #thankyou h2, 
 #review-redirect h2 {
-  font-family: var(--heading-font);
-  margin-bottom: var(--spacing-md);
-  font-size: 24px;
-  color: var(--text-color);
-  letter-spacing: 1px;
+  font-family: var(--heading-font); /* 見出しフォント */
+  margin-bottom: var(--spacing-md); /* 下部のマージン */
+  font-size: 24px; /* テキストサイズ */
+  color: var(--text-color); /* テキスト色 */
+  letter-spacing: 1px; /* 文字間隔 */
 }
 
 #review-redirect p {
-  margin-bottom: var(--spacing-md);
-  color: var(--text-color);
+  margin-bottom: var(--spacing-md); /* 下部のマージン */
+  color: var(--text-color); /* テキスト色 */
 }
 
 /* ----------------------------------------
    口コミコピーボタン
+   レビューテキストをコピーするためのコントロール
    ---------------------------------------- */
 .copy-container {
-  margin: var(--spacing-xl) 0;
+  margin: var(--spacing-xl) 0; /* 垂直方向のマージン */
 }
 
 #comment-to-copy {
-  width: 100%;
-  height: 100px;
-  margin-bottom: var(--spacing-md);
-  padding: var(--spacing-md);
-  background-color: var(--background-color);
-  border-radius: 0;
-  border: 1px solid var(--border-color);
+  width: 100%; /* 全幅 */
+  height: 100px; /* 固定高さ */
+  margin-bottom: var(--spacing-md); /* 下部のマージン */
+  padding: var(--spacing-md); /* 内側のパディング */
+  background-color: var(--background-color); /* ベージュの背景 */
+  border-radius: 0; /* 角丸なし */
+  border: 1px solid var(--border-color); /* 境界線 */
 }
 
 .action-button {
-  border: 1px solid var(--border-color);
-  padding: var(--spacing-md) var(--spacing-lg);
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
-  margin: 0 var(--spacing-xs) var(--spacing-md);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  border: 1px solid var(--border-color); /* 境界線 */
+  padding: var(--spacing-md) var(--spacing-lg); /* 内側のパディング */
+  font-size: 14px; /* テキストサイズ */
+  font-weight: 500; /* 中程度の太さ */
+  border-radius: 2px; /* わずかな角丸 */
+  cursor: pointer; /* クリック可能 */
+  transition: all 0.3s ease; /* スムーズな遷移 */
+  box-shadow: var(--shadow-sm); /* 微妙な影 */
+  margin: 0 var(--spacing-xs) var(--spacing-md); /* マージン */
+  text-transform: uppercase; /* 大文字 */
+  letter-spacing: 0.5px; /* 文字間隔 */
 }
 
 #copy-button {
-  background-color: white;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background-color: white; /* 白い背景 */
+  color: var(--primary-color); /* ゴールドのテキスト */
+  border: 1px solid var(--primary-color); /* ゴールドの境界線 */
 }
 
 #redirect-button {
-  background: linear-gradient(135deg, #D0A900 0%, #C39000 100%);
-  color: white;
-  border: none;
+  background: linear-gradient(135deg, #D0A900 0%, #C39000 100%); /* ゴールドのグラデーション */
+  color: white; /* 白いテキスト */
+  border: none; /* 境界線なし */
 }
 
 .action-button:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md); /* ホバー時の強調された影 */
+  transform: translateY(-2px); /* わずかに持ち上げる */
 }
 
 /* ----------------------------------------
    バリデーションスタイル
+   エラーとバリデーションメッセージのスタイリング
    ---------------------------------------- */
 .validation-message {
-  display: none;
-  margin-top: var(--spacing-md);
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 14px;
-  border-left: 3px solid var(--accent-color);
-  background-color: rgba(195, 144, 0, 0.05);
-  color: var(--text-color);
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(-10px);
+  display: none; /* デフォルトでは非表示 */
+  margin-top: var(--spacing-md); /* 上部のマージン */
+  padding: var(--spacing-sm) var(--spacing-md); /* 内側のパディング */
+  font-size: 14px; /* テキストサイズ */
+  border-left: 3px solid var(--accent-color); /* ゴールドの左境界線 */
+  background-color: rgba(195, 144, 0, 0.05); /* 薄いゴールド背景 */
+  color: var(--text-color); /* テキスト色 */
+  opacity: 0; /* デフォルトでは透明 */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* スムーズな遷移 */
+  transform: translateY(-10px); /* 初期位置 */
 }
 
 .validation-message.visible {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-  animation: fadeInMessage 0.5s ease forwards;
+  display: block; /* 表示時に表示 */
+  opacity: 1; /* 完全に不透明 */
+  transform: translateY(0); /* 最終位置 */
+  animation: fadeInMessage 0.5s ease forwards; /* フェードインアニメーション */
 }
 
 .question.error {
-  border-left: 3px solid var(--accent-color);
+  border-left: 3px solid var(--accent-color); /* エラー状態のゴールド左境界線 */
 }
 
 .question.error h3 {
-  color: var(--accent-color);
+  color: var(--accent-color); /* エラー状態のゴールドテキスト */
 }
 
 /* ----------------------------------------
    アニメーション
+   UIインタラクション用のカスタムアニメーション
    ---------------------------------------- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(-10px); } /* 非表示で上から始まる */
+  to { opacity: 1; transform: translateY(0); } /* 表示され位置に到達 */
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% { transform: scale(1); } /* 通常サイズ */
+  50% { transform: scale(1.1); } /* 拡大 */
+  100% { transform: scale(1); } /* 通常サイズに戻る */
 }
 
 @keyframes fadeInMessage {
-  0% { opacity: 0; transform: translateY(-10px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% { opacity: 0; transform: translateY(-10px); } /* 非表示で上から始まる */
+  100% { opacity: 1; transform: translateY(0); } /* 表示され位置に到達 */
 }
 
 @keyframes gentleHighlight {
-  0% { background-color: rgba(208, 169, 0, 0); }
-  50% { background-color: rgba(208, 169, 0, 0.08); }
-  100% { background-color: rgba(208, 169, 0, 0); }
+  0% { background-color: rgba(208, 169, 0, 0); } /* 透明から始まる */
+  50% { background-color: rgba(208, 169, 0, 0.08); } /* ハイライト */
+  100% { background-color: rgba(208, 169, 0, 0); } /* 透明に戻る */
 }
 
 .question.highlight {
-  animation: gentleHighlight 1.5s ease;
+  animation: gentleHighlight 1.5s ease; /* 穏やかなハイライトアニメーションを適用 */
 }
 
 /* ----------------------------------------
    外部警告の非表示
+   埋め込みアプリケーションから不要なUI要素を非表示にする
    ---------------------------------------- */
 .apps-script-warning,
 div[role="alert"],
 .script-application-auth-container,
 .script-application-auth {
-  display: none !important;
-  visibility: hidden !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  display: none !important; /* 強制的に非表示 */
+  visibility: hidden !important; /* 強制的に不可視 */
+  height: 0 !important; /* ゼロ高さ */
+  padding: 0 !important; /* パディングなし */
+  margin: 0 !important; /* マージンなし */
 }
 
 body, html {
-  margin-top: 0 !important;
-  padding-top: 0 !important;
+  margin-top: 0 !important; /* 上部マージンを削除 */
+  padding-top: 0 !important; /* 上部パディングを削除 */
 }
 
 #sandboxFrame {
-  margin-top: 0 !important;
+  margin-top: 0 !important; /* サンドボックスの上部マージンを削除 */
 }
