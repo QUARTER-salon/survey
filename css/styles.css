@@ -634,6 +634,111 @@ div[role="alert"],
   margin: 0 !important; /* マージンなし */
 }
 
+/* ============================================
+   レイアウト改善 - 高級感向上のためのスタイル
+   QUARTERロゴとフィードバック画面を一体化し、
+   より高級感のあるデザインに統一します
+   ============================================ */
+
+/* ----------------------------------------
+   コンテナの一体化
+   ロゴとフィードバック画面を視覚的に統合します
+   ---------------------------------------- */
+
+/* ロゴを含むヘッダー部分の調整 */
+header {
+  margin-bottom: 0; /* ヘッダー下のマージンを削除 */
+  border-bottom: none; /* 下線を削除 */
+  padding-bottom: var(--spacing-md); /* 下部のパディングを縮小 */
+}
+
+/* ヘッダー下の区切り線のスタイル調整 */
+header + hr,
+header::after {
+  content: "";
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 0 auto var(--spacing-md);
+}
+
+/* フィードバック画面のスタイル調整 */
+#thankyou, 
+#review-redirect {
+  max-width: 680px;
+  width: 92%;
+  margin: 0 auto; /* 上部マージンをゼロに */
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
+  background-color: white;
+  box-shadow: none; /* 影を削除 */
+  border-top: none; /* 上部の境界線を削除 */
+  border-left: 3px solid var(--primary-color);
+}
+
+/* コンテナの背景と枠線設定 */
+.container {
+  padding-top: 0; /* 上部のパディングを削除 */
+}
+
+/* 星表示の見出しを大きくして高級感アップ */
+#review-redirect h2, 
+#thankyou h2 {
+  font-family: var(--heading-font);
+  font-size: 28px;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-color);
+  letter-spacing: 1.5px;
+}
+
+/* コメントテキストエリアの高級感を向上 */
+#comment-to-copy {
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  padding: var(--spacing-md);
+  font-family: var(--body-font);
+  resize: none;
+  height: 120px;
+}
+
+/* ボタンの高級感を向上 */
+.action-button {
+  transition: all 0.3s ease;
+}
+
+#copy-button {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+#redirect-button {
+  background: linear-gradient(135deg, #D0A900 0%, #C39000 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 2px 8px rgba(195, 144, 0, 0.2);
+}
+
+/* ボタンホバー時のエフェクト */
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* モバイル向け調整 */
+@media (max-width: 768px) {
+  #thankyou, 
+  #review-redirect {
+    width: 95%;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+  
+  #review-redirect h2, 
+  #thankyou h2 {
+    font-size: 24px;
+  }
+}
 body, html {
   margin-top: 0 !important; /* 上部マージンを削除 */
   padding-top: 0 !important; /* 上部パディングを削除 */
