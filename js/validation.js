@@ -327,8 +327,8 @@ function showResult(rating) {
     if (headingElement) {
       // 5つ星と4つ星で表示メッセージを変える
       headingElement.textContent = rating === 5 ? 
-        '星5ありがとうございます！' : 
-        '星4ありがとうございます！';
+        '高評価ありがとうございます！' : 
+        '高評価ありがとうございます！';
     }
     
     // 口コミリダイレクト画面を表示
