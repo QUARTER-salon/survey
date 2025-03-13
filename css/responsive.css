@@ -10,7 +10,7 @@
 @media (max-width: 480px) {
   /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
-    padding: var(--spacing-md); /* 余白を小さく調整（16pxから8pxへ） */
+    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
   }
   
   .question {
@@ -24,6 +24,20 @@
   
   .options label {
     font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
+  }
+
+   /* 選択肢の間隔を広げる */
+  .options label {
+    font-size: 14px;
+    /* 選択肢間の下マージンを増やす（8pxから16pxへ） */
+    margin-bottom: var(--spacing-md);
+    /* ラベル内の余白も少し大きく */
+    padding: var(--spacing-md) var(--spacing-md);
+    /* タップしやすくするために最小高さを設定 */
+    min-height: 48px;
+    /* フレックスボックスでコンテンツを縦方向に中央揃え */
+    display: flex;
+    align-items: center;
   }
   
   /* ボタン調整 - モバイル画面でタップしやすく */
@@ -82,6 +96,13 @@
   .star {
     font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
   }
+
+   /* タブレットでも選択肢の間隔を少し広げる */
+  .options label {
+    margin-bottom: 12px; /* 8pxから12pxへ */
+    min-height: 44px; /* タッチしやすい最小高さ */
+  }
+}
 }
 
 /* ----------------------------------------
