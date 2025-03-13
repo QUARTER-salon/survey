@@ -272,10 +272,12 @@ window.CONFIG = {
 ```
 │
 ├── index.html                     // HTMLメインファイル
+├── README.md                      // プロジェクト説明書
 ├── css/
 │   ├── styles.css                 // メインスタイル
 │   └── responsive.css             // レスポンシブデザイン用
 ├── js/
+│   ├── config.js                  // 設定ファイル
 │   ├── main.js                    // メインのJavaScript
 │   ├── navigation.js              // ナビゲーション機能
 │   ├── validation.js              // フォームのバリデーション
