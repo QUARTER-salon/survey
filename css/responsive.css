@@ -4,6 +4,61 @@
    ============================================ */
 
 /* ----------------------------------------
+   フィードバック画面の基本レイアウト修正
+   画面サイズに関わらず一貫した表示を提供
+   ---------------------------------------- */
+/* フィードバック画面をメインコンテンツと同じ幅と配置に統一 */
+#thankyou, 
+#review-redirect {
+  /* メインコンテナと同じスタイル適用 */
+  max-width: 680px;
+  width: 90%;
+  margin: var(--spacing-xl) auto 0;
+  padding: var(--spacing-lg) var(--spacing-xl);
+  box-sizing: border-box;
+  
+  /* 既存のスタイルは維持 */
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+}
+
+/* フィードバック表示時に送信ボタンを非表示 - すべての画面サイズで適用 */
+#review-redirect:not(.hidden) ~ .submit-container,
+#review-redirect:not(.hidden) + .submit-container,
+.container #review-redirect:not(.hidden) ~ .submit-container,
+body:has(#review-redirect:not(.hidden)) .submit-container,
+#thankyou:not(.hidden) ~ .submit-container,
+#thankyou:not(.hidden) + .submit-container,
+.container #thankyou:not(.hidden) ~ .submit-container,
+body:has(#thankyou:not(.hidden)) .submit-container {
+  display: none !important;
+}
+
+/* テキストエリアとボタン配置の調整 */
+#review-redirect .copy-container {
+  width: 100%;
+  margin: var(--spacing-lg) 0;
+}
+
+#review-redirect #comment-to-copy {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ボタンコンテナのレイアウト調整 */
+#review-redirect .copy-container div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+/* ----------------------------------------
    モバイル端末（480px以下）
    スマートフォンなどの小さな画面向けの調整
    ---------------------------------------- */
@@ -25,8 +80,8 @@
   .options label {
     font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
   }
-
-   /* 選択肢の間隔を広げる */
+  
+  /* 選択肢の間隔を広げる */
   .options label {
     font-size: 14px;
     /* 選択肢間の下マージンを増やす（8pxから16pxへ） */
@@ -70,12 +125,26 @@
   /* メッセージコンテナ - 完了画面などのコンテナ調整 */
   #thankyou, 
   #review-redirect {
+    width: 95%; /* モバイルでは幅を広げる */
     padding: var(--spacing-md); /* 内側の余白を小さく調整 */
+    margin-top: var(--spacing-md); /* 上部マージンも調整 */
   }
   
   #thankyou h2, 
   #review-redirect h2 {
     font-size: 20px; /* 見出しを小さく（24pxから20pxへ） */
+  }
+  
+  /* コピーボタンとリダイレクトボタンを縦に配置 */
+  #review-redirect .copy-container div {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #review-redirect .action-button {
+    width: 100%;
+    max-width: 300px;
+    margin: var(--spacing-xs) 0;
   }
 }
 
@@ -96,13 +165,19 @@
   .star {
     font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
   }
-
-   /* タブレットでも選択肢の間隔を少し広げる */
+  
+  /* タブレットでも選択肢の間隔を少し広げる */
   .options label {
     margin-bottom: 12px; /* 8pxから12pxへ */
     min-height: 44px; /* タッチしやすい最小高さ */
   }
-}
+  
+  /* フィードバック画面の調整 */
+  #thankyou, 
+  #review-redirect {
+    width: 92%; /* 幅をやや広げる */
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
 }
 
 /* ----------------------------------------
@@ -138,5 +213,11 @@
   /* 星評価のタップエリア拡大 - 指でタップしやすくする */
   .star {
     padding: 0 var(--spacing-md); /* 左右のパディングを大きく（4/8pxから16pxへ）してタップ領域を拡大 */
+  }
+  
+  /* タッチデバイスでのフィードバックボタン調整 */
+  #review-redirect .action-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 48px; /* タップしやすい最小高さ */
   }
 }
