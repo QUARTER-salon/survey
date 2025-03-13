@@ -1,111 +1,121 @@
 /* ============================================
-   QUARTER SURVEY RESPONSIVE STYLES
+   QUARTERアンケートのレスポンシブスタイル
+   異なる画面サイズやデバイスに合わせてレイアウトを調整するためのスタイル
    ============================================ */
 
 /* ----------------------------------------
    モバイル端末（480px以下）
+   スマートフォンなどの小さな画面向けの調整
    ---------------------------------------- */
 @media (max-width: 480px) {
-  /* コンテナとレイアウト */
+  /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
   }
   
   .question {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md); /* 質問カードの内側余白を調整（24pxから16pxへ） */
   }
   
-  /* テキストサイズ調整 */
+  /* テキストサイズ調整 - 小さな画面でも読みやすいサイズに */
   h3 {
-    font-size: 15px;
+    font-size: 15px; /* 見出しを少し小さく（16pxから15pxへ） */
   }
   
   .options label {
-    font-size: 14px;
+    font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
   }
   
-  /* ボタン調整 */
+  /* ボタン調整 - モバイル画面でタップしやすく */
   .submit-button,
   .action-button {
-    width: 80%;
-    margin-bottom: var(--spacing-sm);
+    width: 80%; /* ボタンの幅を広げて（もともと自動）タップしやすく */
+    margin-bottom: var(--spacing-sm); /* ボタン間の余白を確保 */
   }
   
-  /* 星評価 */
+  /* 星評価 - 小さな画面でも操作しやすいサイズに */
   .star {
-    font-size: 36px;
-    padding: 0 var(--spacing-xs);
+    font-size: 36px; /* 星のサイズを小さく（42pxから36pxへ） */
+    padding: 0 var(--spacing-xs); /* 左右の余白を縮小（8pxから4pxへ） */
   }
   
-  /* ナビゲーション */
+  /* ナビゲーション - 小さな画面でもすっきり見えるように調整 */
   .nav-text {
-    font-size: 12px;
+    font-size: 12px; /* ナビゲーションのテキストを小さく（14pxから12pxへ） */
   }
   
   .nav-item {
-    padding: 8px 0;
+    padding: 8px 0; /* 上下のパディングを小さく（15pxから8pxへ） */
   }
   
-  /* テキストエリア */
+  /* テキストエリア - 入力欄のサイズ調整 */
   textarea {
-    font-size: 14px;
+    font-size: 14px; /* フォントサイズを小さく（15pxから14pxへ） */
   }
   
-  /* メッセージコンテナ */
+  /* メッセージコンテナ - 完了画面などのコンテナ調整 */
   #thankyou, 
   #review-redirect {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md); /* 内側の余白を小さく調整 */
   }
   
   #thankyou h2, 
   #review-redirect h2 {
-    font-size: 20px;
+    font-size: 20px; /* 見出しを小さく（24pxから20pxへ） */
   }
 }
 
 /* ----------------------------------------
    タブレット端末（481px〜768px）
+   中間サイズのデバイス向けの微調整
    ---------------------------------------- */
 @media (min-width: 481px) and (max-width: 768px) {
+  /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
   .container {
-    padding: var(--spacing-md);
+    padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */
   }
   
   .nav-item {
-    padding: 10px 0;
+    padding: 10px 0; /* ナビアイテムの上下パディングを少し小さく（15pxから10pxへ） */
   }
   
   .star {
-    font-size: 38px;
+    font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
   }
 }
 
 /* ----------------------------------------
    タッチデバイス対応
+   タッチ操作に最適化した調整（画面サイズに関係なく適用）
    ---------------------------------------- */
 @media (hover: none) {
-  /* タッチデバイスでのホバー効果無効化 */
+  /* 
+   * hover: none は、タッチスクリーンなどのホバー機能がないデバイスを対象にします
+   * これはスマートフォンやタブレットなどで、マウスのようなホバーができない場合に適用されます
+   */
+  
+  /* タッチデバイスでのホバー効果無効化 - タップ操作に最適化 */
   .options label:hover {
-    transform: none;
-    background-color: white;
-    box-shadow: none;
+    transform: none; /* ホバー時の移動効果を無効化（右に3px移動する効果を消去） */
+    background-color: white; /* ホバー時の背景色変更を無効化 */
+    box-shadow: none; /* ホバー時の影効果を無効化 */
   }
   
-  /* タッチフィードバックの強化 */
+  /* タッチフィードバックの強化 - タップ時の視覚的フィードバックを提供 */
   .options label:active {
-    background-color: var(--background-color);
-    transform: translateX(3px);
+    background-color: var(--background-color); /* タップ時に背景色を変更してフィードバック */
+    transform: translateX(3px); /* タップ時に右へ移動させて反応を示す */
   }
   
-  /* ボタンのタップフィードバック */
+  /* ボタンのタップフィードバック - タップされたことがわかりやすく */
   .submit-button:active,
   .action-button:active {
-    transform: scale(0.98);
-    opacity: 0.9;
+    transform: scale(0.98); /* タップ時にわずかに縮小して押された感を出す */
+    opacity: 0.9; /* わずかに透明度を上げて押された感を強調 */
   }
   
-  /* 星評価のタップエリア拡大 */
+  /* 星評価のタップエリア拡大 - 指でタップしやすくする */
   .star {
-    padding: 0 var(--spacing-md);
+    padding: 0 var(--spacing-md); /* 左右のパディングを大きく（4/8pxから16pxへ）してタップ領域を拡大 */
   }
 }
