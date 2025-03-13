@@ -1,0 +1,111 @@
+/* ============================================
+   QUARTER SURVEY RESPONSIVE STYLES
+   ============================================ */
+
+/* ----------------------------------------
+   モバイル端末（480px以下）
+   ---------------------------------------- */
+@media (max-width: 480px) {
+  /* コンテナとレイアウト */
+  .container {
+    padding: var(--spacing-sm);
+  }
+  
+  .question {
+    padding: var(--spacing-md);
+  }
+  
+  /* テキストサイズ調整 */
+  h3 {
+    font-size: 15px;
+  }
+  
+  .options label {
+    font-size: 14px;
+  }
+  
+  /* ボタン調整 */
+  .submit-button,
+  .action-button {
+    width: 80%;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  /* 星評価 */
+  .star {
+    font-size: 36px;
+    padding: 0 var(--spacing-xs);
+  }
+  
+  /* ナビゲーション */
+  .nav-text {
+    font-size: 12px;
+  }
+  
+  .nav-item {
+    padding: 8px 0;
+  }
+  
+  /* テキストエリア */
+  textarea {
+    font-size: 14px;
+  }
+  
+  /* メッセージコンテナ */
+  #thankyou, 
+  #review-redirect {
+    padding: var(--spacing-md);
+  }
+  
+  #thankyou h2, 
+  #review-redirect h2 {
+    font-size: 20px;
+  }
+}
+
+/* ----------------------------------------
+   タブレット端末（481px〜768px）
+   ---------------------------------------- */
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md);
+  }
+  
+  .nav-item {
+    padding: 10px 0;
+  }
+  
+  .star {
+    font-size: 38px;
+  }
+}
+
+/* ----------------------------------------
+   タッチデバイス対応
+   ---------------------------------------- */
+@media (hover: none) {
+  /* タッチデバイスでのホバー効果無効化 */
+  .options label:hover {
+    transform: none;
+    background-color: white;
+    box-shadow: none;
+  }
+  
+  /* タッチフィードバックの強化 */
+  .options label:active {
+    background-color: var(--background-color);
+    transform: translateX(3px);
+  }
+  
+  /* ボタンのタップフィードバック */
+  .submit-button:active,
+  .action-button:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  /* 星評価のタップエリア拡大 */
+  .star {
+    padding: 0 var(--spacing-md);
+  }
+}
