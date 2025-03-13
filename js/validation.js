@@ -178,6 +178,11 @@ function validateAndSubmit(e) {
   // データ送信
   // サーバーにデータを送信（API呼び出し）
   submitFormData(dataObj);
+
+  // 送信後の画面表示処理を呼び出す（追加）
+  if (typeof window.handleFormAfterSubmission === 'function') {
+    window.handleFormAfterSubmission(rating);
+  }
   
   return true; // 処理成功
 }
