@@ -30,7 +30,7 @@
   .submit-button,
   .action-button {
     width: 80%; /* ボタンの幅を広げて（もともと自動）タップしやすく */
-    margin-bottom: var(--spacing-sm); /* ボタン間の余白を確保 */
+    margin-bottom: var(--spacing-md); /* ボタン間の余白を確保 */
   }
   
   /* 星評価 - 小さな画面でも操作しやすいサイズに */
