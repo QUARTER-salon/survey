@@ -274,37 +274,15 @@ body, .container, #thankyou, #review-redirect, .question {
   background-color: white !important;
 }
 
-/* 左側の金色ラインを統一 */
-#thankyou, #review-redirect, .question, .question.current {
-  border-left: 3px solid var(--primary-color) !important;
-  margin: 0 5% var(--spacing-xl) !important;
-  padding: var(--spacing-lg) !important;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) !important;
-}
+
 
 /* テキストエリアの背景色を統一 */
 #comment-to-copy {
   background-color: white !important;
-  border: 1px solid var(--border-color) !important;
+ 
 }
 
-/* ヘッダーとロゴの強調 */
-header {
-  border-bottom: 1px solid var(--border-color) !important;
-  margin-bottom: var(--spacing-md) !important;
-  background-color: white !important;
-}
 
-/* header::after を無効化 */
-header::after {
-  display: none !important;
-}
-
-/* ナビゲーションバーの修正 */
-.nav-container {
-  background-color: white !important;
-  box-shadow: none !important;
-}
 
 /* スマホ表示の特別調整 */
 @media (max-width: 480px) {
@@ -353,9 +331,3 @@ header::after {
   max-width: 680px !important;
 }
 
-/* ヘッダーテキスト中央寄せ */
-header, .text-logo {
-  text-align: center !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
