@@ -329,12 +329,7 @@ function showResult(rating) {
   if (rating >= 4) {
     // 見出しテキストを評価に合わせてカスタマイズ
     const headingElement = document.querySelector('#review-redirect h2');
-    if (headingElement) {
-      // 5つ星と4つ星で表示メッセージを変える
-      headingElement.textContent = rating === 5 ? 
-        '高評価ありがとうございます！' : 
-        '高評価ありがとうございます！';
-    }
+    
     
     // 口コミリダイレクト画面を表示
     const reviewRedirect = document.getElementById('review-redirect');
