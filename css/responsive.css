@@ -20,10 +20,10 @@
   background-color: white;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
-  border-left: none /*1px solid var(--primary-color)*/;
+  border-left: 1px solid var(--primary-color);
   max-width: 680px;
   width: 90%;
-  margin:none/* 0 0% var(--spacing-sm)*/;
+  margin: 0 0% var(--spacing-sm);
   padding: var(--spacing-lg);
   box-sizing: border-box;
 }
@@ -41,7 +41,7 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 
 /* テキストエリアとボタン配置の調整 */
 #review-redirect .copy-container {
-  width: 90%;
+  width: 100%;
   margin: var(--spacing-lg) 0;
 }
 
