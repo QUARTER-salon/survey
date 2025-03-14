@@ -265,41 +265,51 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 }
 
 
-/* ----------------------------------------
-   高級感復元のための緊急修正 - 2025/3/14
-   ---------------------------------------- */
+/* ============================================
+   QUARTER高級感復元 - 最終修正 2025/3/14
+   ============================================ */
 
-/* コンテナ背景を白に戻し、高級感を復元 */
-.container {
+/* すべての画面で白背景を強制 */
+body, .container, #thankyou, #review-redirect, .question {
   background-color: white !important;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
 
-/* 改善したレイアウト統一 */
-body {
-  background-color: #F9F6F0;
+/* 左側の金色ラインを統一 */
+#thankyou, #review-redirect, .question, .question.current {
+  border-left: 3px solid var(--primary-color) !important;
+  margin: 0 5% var(--spacing-xl) !important;
+  padding: var(--spacing-lg) !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* ヘッダー部分の強調 */
+/* テキストエリアの背景色を統一 */
+#comment-to-copy {
+  background-color: white !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* ヘッダーとロゴの強調 */
 header {
-  margin-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color) !important;
+  margin-bottom: var(--spacing-md) !important;
+  background-color: white !important;
 }
 
-/* header::after を無効化 - 余計な線を消す */
+/* header::after を無効化 */
 header::after {
-  display: none;
+  display: none !important;
 }
 
-/* 質問カードのシャドウを控えめに */
-.question {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+/* ナビゲーションバーの修正 */
+.nav-container {
+  background-color: white !important;
+  box-shadow: none !important;
 }
 
-/* フィードバック画面を全体と調和させる */
-#thankyou, 
-#review-redirect {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
-  margin: 0 5% var(--spacing-xl);
+/* スマホ表示の特別調整 */
+@media (max-width: 480px) {
+  #thankyou, #review-redirect, .question {
+    margin: 0 5% var(--spacing-lg) !important;
+    width: 90% !important;
+  }
 }
