@@ -10,21 +10,23 @@
 /* フィードバック画面をメインコンテンツと同じ幅と配置に統一 */
 #thankyou, 
 #review-redirect {
-  /* メインコンテナと同じスタイル適用 */
-  max-width: 680px;
-  width: 90%;
-  margin: var(--spacing-xl) auto 0;
-  padding: var(--spacing-lg) var(--spacing-xl);
-  box-sizing: border-box;
-  
-  /* 既存のスタイルは維持 */
+  /* 個別のスタイル設定を削除し、questionクラスのスタイルを受け継ぐ */
   text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+/* フィードバック画面をカード状に表示するための追加クラス */
+.feedback-card {
   background-color: white;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
   border-left: 3px solid var(--primary-color);
+  max-width: 680px;
+  width: 90%;
+  margin: 0 5% var(--spacing-xl);
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
 }
-
 /* フィードバック表示時に送信ボタンを非表示 - すべての画面サイズで適用 */
 #review-redirect:not(.hidden) ~ .submit-container,
 #review-redirect:not(.hidden) + .submit-container,
