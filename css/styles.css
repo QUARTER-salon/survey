@@ -72,7 +72,7 @@ body {
   margin: 0 auto; /* コンテナを中央揃え */
   padding: var(--spacing-md) var(--spacing-xl); /* 内側の余白 */
   background-color: white; /* コンテンツエリアの背景を白に */
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.06); /* 微妙な影で奥行きを表現 */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05); /* 微妙な影で奥行きを表現 */
 }
 
 /* ----------------------------------------
@@ -181,7 +181,7 @@ header {
   background-color: white; /* 白い背景 */
   padding: var(--spacing-lg); /* 内側の余白 */
   border-radius: 0; /* 角丸なし */
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.06); /* 微妙な影で奥行きを表現 */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05); /* 微妙な影で奥行きを表現 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* スムーズな遷移 */
   border-top: 1px solid var(--border-color); /* 上部の境界線 */
   border-left: 1px solid var(--border-color); /* 左側の境界線 */
@@ -191,7 +191,7 @@ header {
 .question.current {
   border-left: 3px solid var(--primary-color); /* 現在の質問は太い左境界線 */
   transform: translateY(-3px); /* 強調のために少し持ち上げる */
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.06); /* 微妙な影で奥行きを表現 */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05); /* 微妙な影で奥行きを表現 */
 }
 
 .question.completed {
