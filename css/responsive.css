@@ -30,6 +30,22 @@
   text-align: center;
 }
 
+/* コンテナ全体の背景色を統一 */
+body {
+  background-color: var(--background-color); /* 淡いベージュ */
+}
+
+/* コンテナとフィードバックカードの親要素のスタイルを統一 */
+.container {
+  background-color: transparent; /* 背景を透明に */
+}
+
+/* フィードバックカードのコンテナを明示的に設定 */
+#thankyou, #review-redirect {
+  background-color: white;
+  /* 他のスタイル */
+}
+
 /* 質問とフィードバックカードの共通コンテナ設定 */
 .question, .feedback-card {
   /* 両方のコンテナに同じ背景色と余白設定を適用 */
