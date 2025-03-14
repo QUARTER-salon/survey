@@ -20,10 +20,10 @@
   background-color: white;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
-  border-left: 3px solid var(--primary-color);
+  border-left:  1px solid var(--primary-color);
   max-width: 680px;
   width: 90%;
-  margin: 0 5% var(--spacing-xl);
+  margin: 0 0% var(--spacing-sm);
   padding: var(--spacing-lg);
   box-sizing: border-box;
 }
