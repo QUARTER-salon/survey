@@ -665,18 +665,7 @@ header::after {
   margin: 0 auto var(--spacing-md);
 }
 
-/* フィードバック画面のスタイル調整 */
-#thankyou, 
-#review-redirect {
-  max-width: 680px;
-  width: 92%;
-  margin: 0 auto; /* 上部マージンをゼロに */
-  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-lg);
-  background-color: white;
-  box-shadow: none; /* 影を削除 */
-  border-top: none; /* 上部の境界線を削除 */
-  border-left: 3px solid var(--primary-color);
-}
+
 
 /* コンテナの背景と枠線設定 */
 .container {
