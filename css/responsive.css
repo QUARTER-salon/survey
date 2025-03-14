@@ -1,75 +1,48 @@
-/* ============================================
-   QUARTERアンケートのレスポンシブスタイル
-   異なる画面サイズやデバイスに合わせてレイアウトを調整するためのスタイル
-   ============================================ */
-
 /* ----------------------------------------
    フィードバック画面の基本レイアウト修正
-   画面サイズに関わらず一貫した表示を提供
    ---------------------------------------- */
-/* フィードバック画面をメインコンテンツと同じ幅と配置に統一 */
 #thankyou, 
 #review-redirect {
-  /* 個別のスタイル設定を削除し、questionクラスのスタイルを受け継ぐ */
+  display: block;
   text-align: center;
-  margin-bottom: var(--spacing-xl);
-}
-
-/* フィードバック画面をカード状に表示するための追加クラス */
-.feedback-card {
- /* 幅と余白を質問カードと完全に一致させる */
-  margin: 0 5% var(--spacing-xl); /* アンケート質問と同じ左右マージン */
-  width: auto; /* 幅を自動調整 */
-  max-width: none; /* max-widthを解除 */
   background-color: white;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-  border-top: 1px solid var(--border-color);
   border-left: 3px solid var(--primary-color);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  margin: 0 5% var(--spacing-xl);
   padding: var(--spacing-lg);
+  width: auto;
   box-sizing: border-box;
-  text-align: center;
 }
 
-/* コンテナ全体の背景色を統一 */
-body {
-  background-color: var(--background-color); /* 淡いベージュ */
+/* ヘッダー下の区切り線を調整 */
+header {
+  margin-bottom: 0;
+  padding-bottom: var(--spacing-md);
+  border-bottom: none;
 }
 
-/* コンテナとフィードバックカードの親要素のスタイルを統一 */
-.container {
-  background-color: transparent; /* 背景を透明に */
+header::after {
+  content: "";
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 0 auto var(--spacing-md);
 }
 
-/* フィードバックカードのコンテナを明示的に設定 */
-#thankyou, #review-redirect {
-  background-color: white;
-  /* 他のスタイル */
+/* フィードバック画面の見出しスタイル */
+#thankyou h2, 
+#review-redirect h2 {
+  font-family: var(--heading-font);
+  font-size: 24px;
+  margin-bottom: var(--spacing-md);
+  color: var(--text-color);
+  letter-spacing: 1px;
 }
 
-/* 質問とフィードバックカードの共通コンテナ設定 */
-.question, .feedback-card {
-  /* 両方のコンテナに同じ背景色と余白設定を適用 */
-  background-color: white;
-  /* 質問カードと同じ左右5%マージン */
-  margin-left: 5%;
-  margin-right: 5%;
-  /* その他の共通スタイル */
-}
-
-
-/* フィードバック表示時に送信ボタンを非表示 - すべての画面サイズで適用 */
-#review-redirect:not(.hidden) ~ .submit-container,
-#review-redirect:not(.hidden) + .submit-container,
-.container #review-redirect:not(.hidden) ~ .submit-container,
-body:has(#review-redirect:not(.hidden)) .submit-container,
-#thankyou:not(.hidden) ~ .submit-container,
-#thankyou:not(.hidden) + .submit-container,
-.container #thankyou:not(.hidden) ~ .submit-container,
-body:has(#thankyou:not(.hidden)) .submit-container {
-  display: none !important;
-}
-
-/* テキストエリアとボタン配置の調整 */
+/* コメントエリアの調整 */
 #review-redirect .copy-container {
   width: 100%;
   margin: var(--spacing-lg) 0;
@@ -77,12 +50,13 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 
 #review-redirect #comment-to-copy {
   width: 100%;
-  max-width: 100%;
   box-sizing: border-box;
   margin-bottom: var(--spacing-md);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
 }
 
-/* ボタンコンテナのレイアウト調整 */
+/* ボタンコンテナの調整 */
 #review-redirect .copy-container div {
   display: flex;
   flex-wrap: wrap;
@@ -90,94 +64,40 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   gap: var(--spacing-md);
 }
 
-/* ----------------------------------------
-   モバイル端末（480px以下）
-   スマートフォンなどの小さな画面向けの調整
-   ---------------------------------------- */
-@media (max-width: 480px) {
-
-   .feedback-card {
-    /* スマホでの余白調整 - 質問カードと同様に */
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: var(--spacing-md);
-  }
+/* コンテナ全体の背景を透明に */
+.container {
+  background-color: transparent;
 }
 
+/* 統一したスタイルを適用するための共通クラス */
+body {
+  background-color: var(--background-color);
+}
 
-  /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
+/* ----------------------------------------
+   モバイル端末（480px以下）の調整
+   ---------------------------------------- */
+@media (max-width: 480px) {
+  /* コンテナとレイアウト */
   .container {
-    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
+    padding: var(--spacing-sm);
   }
   
-  .question {
-    padding: var(--spacing-md); /* 質問カードの内側余白を調整（24pxから16pxへ） */
-  }
-  
-  /* テキストサイズ調整 - 小さな画面でも読みやすいサイズに */
-  h3 {
-    font-size: 15px; /* 見出しを少し小さく（16pxから15pxへ） */
-  }
-  
-  .options label {
-    font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
-  }
-  
-  /* 選択肢の間隔を広げる */
-  .options label {
-    font-size: 14px;
-    /* 選択肢間の下マージンを増やす（8pxから16pxへ） */
-    margin-bottom: var(--spacing-md);
-    /* ラベル内の余白も少し大きく */
-    padding: var(--spacing-md) var(--spacing-md);
-    /* タップしやすくするために最小高さを設定 */
-    min-height: 48px;
-    /* フレックスボックスでコンテンツを縦方向に中央揃え */
-    display: flex;
-    align-items: center;
-  }
-  
-  /* ボタン調整 - モバイル画面でタップしやすく */
-  .submit-button,
-  .action-button {
-    width: 80%; /* ボタンの幅を広げて（もともと自動）タップしやすく */
-    margin-bottom: var(--spacing-md); /* ボタン間の余白を確保 */
-  }
-  
-  /* 星評価 - 小さな画面でも操作しやすいサイズに */
-  .star {
-    font-size: 36px; /* 星のサイズを小さく（42pxから36pxへ） */
-    padding: 0 var(--spacing-xs); /* 左右の余白を縮小（8pxから4pxへ） */
-  }
-  
-  /* ナビゲーション - 小さな画面でもすっきり見えるように調整 */
-  .nav-text {
-    font-size: 12px; /* ナビゲーションのテキストを小さく（14pxから12pxへ） */
-  }
-  
-  .nav-item {
-    padding: 8px 0; /* 上下のパディングを小さく（15pxから8pxへ） */
-  }
-  
-  /* テキストエリア - 入力欄のサイズ調整 */
-  textarea {
-    font-size: 14px; /* フォントサイズを小さく（15pxから14pxへ） */
-  }
-  
-  /* メッセージコンテナ - 完了画面などのコンテナ調整 */
+  .question, 
   #thankyou, 
   #review-redirect {
-    width: 95%; /* モバイルでは幅を広げる */
-    padding: var(--spacing-md); /* 内側の余白を小さく調整 */
-    margin-top: var(--spacing-md); /* 上部マージンも調整 */
+    padding: var(--spacing-md);
+    margin: 0 5% var(--spacing-lg);
   }
   
+  /* テキストサイズ調整 */
+  h3, 
   #thankyou h2, 
   #review-redirect h2 {
-    font-size: 20px; /* 見出しを小さく（24pxから20pxへ） */
+    font-size: 20px;
   }
   
-  /* コピーボタンとリダイレクトボタンを縦に配置 */
+  /* コピーボタンとリダイレクトボタン */
   #review-redirect .copy-container div {
     flex-direction: column;
     align-items: center;
@@ -191,75 +111,17 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 }
 
 /* ----------------------------------------
-   タブレット端末（481px〜768px）
-   中間サイズのデバイス向けの微調整
+   タブレット端末（481px〜768px）の調整
    ---------------------------------------- */
 @media (min-width: 481px) and (max-width: 768px) {
-  /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
+  /* タブレットサイズ向けの控えめな調整 */
   .container {
-    padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */
+    padding: var(--spacing-md);
   }
   
-  .nav-item {
-    padding: 10px 0; /* ナビアイテムの上下パディングを少し小さく（15pxから10pxへ） */
-  }
-  
-  .star {
-    font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
-  }
-  
-  /* タブレットでも選択肢の間隔を少し広げる */
-  .options label {
-    margin-bottom: 12px; /* 8pxから12pxへ */
-    min-height: 44px; /* タッチしやすい最小高さ */
-  }
-  
-  /* フィードバック画面の調整 */
   #thankyou, 
   #review-redirect {
-    width: 92%; /* 幅をやや広げる */
     padding: var(--spacing-md) var(--spacing-lg);
-  }
-}
-
-/* ----------------------------------------
-   タッチデバイス対応
-   タッチ操作に最適化した調整（画面サイズに関係なく適用）
-   ---------------------------------------- */
-@media (hover: none) {
-  /* 
-   * hover: none は、タッチスクリーンなどのホバー機能がないデバイスを対象にします
-   * これはスマートフォンやタブレットなどで、マウスのようなホバーができない場合に適用されます
-   */
-  
-  /* タッチデバイスでのホバー効果無効化 - タップ操作に最適化 */
-  .options label:hover {
-    transform: none; /* ホバー時の移動効果を無効化（右に3px移動する効果を消去） */
-    background-color: white; /* ホバー時の背景色変更を無効化 */
-    box-shadow: none; /* ホバー時の影効果を無効化 */
-  }
-  
-  /* タッチフィードバックの強化 - タップ時の視覚的フィードバックを提供 */
-  .options label:active {
-    background-color: var(--background-color); /* タップ時に背景色を変更してフィードバック */
-    transform: translateX(3px); /* タップ時に右へ移動させて反応を示す */
-  }
-  
-  /* ボタンのタップフィードバック - タップされたことがわかりやすく */
-  .submit-button:active,
-  .action-button:active {
-    transform: scale(0.98); /* タップ時にわずかに縮小して押された感を出す */
-    opacity: 0.9; /* わずかに透明度を上げて押された感を強調 */
-  }
-  
-  /* 星評価のタップエリア拡大 - 指でタップしやすくする */
-  .star {
-    padding: 0 var(--spacing-md); /* 左右のパディングを大きく（4/8pxから16pxへ）してタップ領域を拡大 */
-  }
-  
-  /* タッチデバイスでのフィードバックボタン調整 */
-  #review-redirect .action-button {
-    padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 48px; /* タップしやすい最小高さ */
+    margin: 0 5% var(--spacing-xl);
   }
 }
