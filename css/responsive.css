@@ -23,7 +23,7 @@
   border-left: 1px solid var(--primary-color);
   max-width: 680px;
   width: 100%;
-  margin: 0 0% var(--spacing-sm);
+  margin: 0 5% var(--spacing-sm);
   padding: var(--spacing-lg);
   box-sizing: border-box;
 }
