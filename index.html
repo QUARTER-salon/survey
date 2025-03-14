@@ -444,16 +444,14 @@
       星3以下用のメッセージ - 低評価の場合に表示する感謝メッセージ
       hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
     -->
-    <div id="thankyou" class="hidden">
-      <h2>ご回答ありがとうございました。</h2>
-      <p>ご回答ありがとうございました。いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。</p>
-    </div>
+    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
+  <h2>ご回答ありがとうございました。</h2>
+  <p>ご回答ありがとうございました。いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。</p>
+</div>
 
-    <!-- 
-      星4以上用の口コミ促進メッセージ - 高評価の場合に表示するGoogleマップ誘導画面
-      hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
-    -->
-    <div id="review-redirect" class="hidden">
+<!-- 星4以上用の口コミ促進メッセージ - 高評価の場合に表示するGoogleマップ誘導画面 -->
+<div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
+  
       <p>当店をご利用いただき、心より感謝申し上げます。</p>
       <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
       <p>
