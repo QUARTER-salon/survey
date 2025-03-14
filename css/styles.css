@@ -468,15 +468,16 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 /* 改善したレイアウト統一 - 高級感向上のためのスタイル */
 .feedback-card {
   /* .questionクラスから継承するスタイル */
-  background-color: white;
+ background-color: white;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
   border-left: 3px solid var(--primary-color);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  margin: 0 5% var(--spacing-xl);
+  padding: var(--spacing-lg);
 }
-  
-}
+
 
 /* フィードバック画面のテキストエリア幅を調整 */
 #review-redirect .copy-container,
