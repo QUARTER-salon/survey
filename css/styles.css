@@ -461,15 +461,19 @@ body:has(#thankyou:not(.hidden)) .submit-container {
    ---------------------------------------- */
 #thankyou, 
 #review-redirect {
+  /* 個別のスタイリングを削除し、共通クラスに任せる */
+  text-align: center;
+}
 
-/* .containerと同じスタイルを適用 */
-  max-width: 680px;/* メインコンテナと同じ幅 */
-  margin: 0 auto; /* 上部マージンを削除 */
-  padding: var(--spacing-md) var(--spacing-xl);/* 内側のパディング */
-  background-color: white;/* 白い背景 */
-  box-shadow: none; /* メインコンテナと同じにする */
-  border-top: none; /* 上部の境界線なし */
-  border-left: none; /* ゴールドの左境界線なし */
+/* 改善したレイアウト統一 - 高級感向上のためのスタイル */
+.feedback-card {
+  /* .questionクラスから継承するスタイル */
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
 }
   
 }
