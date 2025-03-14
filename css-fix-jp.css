@@ -1,0 +1,78 @@
+/* 
+   QUARTERアンケート レイアウト一貫性修正
+   このCSSは質問カードとフィードバックページ（お礼・口コミリダイレクト）が
+   同じレイアウト、マージン、視覚的外観を持つようにします。
+*/
+
+/* フィードバックカードの不一致スタイルをリセット */
+#thankyou, 
+#review-redirect {
+  /* 不一致の原因となる可能性のあるカスタム幅/マージンを削除 */
+  width: auto !important;
+  max-width: none !important;
+  margin: 0 5% var(--spacing-xl) !important; /* 質問カードのマージンに合わせる */
+  padding: var(--spacing-lg) !important;      /* 質問カードのパディングに合わせる */
+  
+  /* 質問カードと同じ視覚的スタイリングを確保 */
+  background-color: white !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) !important;
+  border-top: 1px solid var(--border-color) !important;
+  border-left: 3px solid var(--primary-color) !important;
+  
+  /* テキスト配置 */
+  text-align: center;
+}
+
+/* フッターボタンが一貫したスタイリングを持つことを確保 */
+#review-redirect .copy-container {
+  width: 100%;
+  max-width: 100%;
+  margin: var(--spacing-lg) 0;
+}
+
+#review-redirect #comment-to-copy {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ボタンコンテナのレイアウト */
+#review-redirect .copy-container div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* すべての質問とフィードバックカードが同じ構造に従うことを確認 */
+.question, #thankyou, #review-redirect {
+  /* すべてのレイアウトで一貫した幅とマージンを確保 */
+  box-sizing: border-box !important;
+  position: relative !important;
+}
+
+/* モバイル調整 */
+@media (max-width: 480px) {
+  .question, #thankyou, #review-redirect {
+    padding: var(--spacing-md) !important; /* モバイルでより小さいパディング */
+  }
+  
+  #review-redirect .copy-container div {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #review-redirect .action-button {
+    width: 100%;
+    max-width: 300px;
+    margin: var(--spacing-xs) 0;
+  }
+}
+
+/* タブレット調整 */
+@media (min-width: 481px) and (max-width: 768px) {
+  .question, #thankyou, #review-redirect {
+    padding: var(--spacing-md) var(--spacing-lg) !important;
+  }
+}
