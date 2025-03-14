@@ -263,3 +263,43 @@ body:has(#thankyou:not(.hidden)) .submit-container {
     min-height: 48px; /* タップしやすい最小高さ */
   }
 }
+
+
+/* ----------------------------------------
+   高級感復元のための緊急修正 - 2025/3/14
+   ---------------------------------------- */
+
+/* コンテナ背景を白に戻し、高級感を復元 */
+.container {
+  background-color: white !important;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 改善したレイアウト統一 */
+body {
+  background-color: #F9F6F0;
+}
+
+/* ヘッダー部分の強調 */
+header {
+  margin-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: var(--spacing-lg);
+}
+
+/* header::after を無効化 - 余計な線を消す */
+header::after {
+  display: none;
+}
+
+/* 質問カードのシャドウを控えめに */
+.question {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+}
+
+/* フィードバック画面を全体と調和させる */
+#thankyou, 
+#review-redirect {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  margin: 0 5% var(--spacing-xl);
+}
