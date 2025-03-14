@@ -144,7 +144,7 @@ window.handleFormAfterSubmission = function(rating) {
       // タイトルを星の数に応じて変更（「星X ありがとうございます！」）
       const titleElement = reviewRedirect.querySelector('h2');
       if (titleElement) {
-        titleElement.textContent = `星${rating}ありがとうございます！`;
+        titleElement.textContent = `星${rating}評価ありがとうございます！`;
       }
       
       // 口コミ用コメントを準備する（既存の関数があれば呼び出す）
