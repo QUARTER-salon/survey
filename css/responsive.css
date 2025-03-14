@@ -17,16 +17,30 @@
 
 /* フィードバック画面をカード状に表示するための追加クラス */
 .feedback-card {
+ /* 幅と余白を質問カードと完全に一致させる */
+  margin: 0 5% var(--spacing-xl); /* アンケート質問と同じ左右マージン */
+  width: auto; /* 幅を自動調整 */
+  max-width: none; /* max-widthを解除 */
   background-color: white;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
-  border-left: 1px solid var(--primary-color);
-  max-width: 680px;
-  width: 90%;
-  margin: 0 5% var(--spacing-sm);
+  border-left: 3px solid var(--primary-color);
   padding: var(--spacing-lg);
   box-sizing: border-box;
+  text-align: center;
 }
+
+/* 質問とフィードバックカードの共通コンテナ設定 */
+.question, .feedback-card {
+  /* 両方のコンテナに同じ背景色と余白設定を適用 */
+  background-color: white;
+  /* 質問カードと同じ左右5%マージン */
+  margin-left: 5%;
+  margin-right: 5%;
+  /* その他の共通スタイル */
+}
+
+
 /* フィードバック表示時に送信ボタンを非表示 - すべての画面サイズで適用 */
 #review-redirect:not(.hidden) ~ .submit-container,
 #review-redirect:not(.hidden) + .submit-container,
@@ -65,6 +79,16 @@ body:has(#thankyou:not(.hidden)) .submit-container {
    スマートフォンなどの小さな画面向けの調整
    ---------------------------------------- */
 @media (max-width: 480px) {
+
+   .feedback-card {
+    /* スマホでの余白調整 - 質問カードと同様に */
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: var(--spacing-md);
+  }
+}
+
+
   /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
     padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
