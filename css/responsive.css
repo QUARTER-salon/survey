@@ -32,7 +32,7 @@
 
 /* コンテナ全体の背景色を統一 */
 body {
-  background-color: white; /* 淡いベージュ */
+  background-color: var(--background-color); /* 淡いベージュ */
 }
 
 /* コンテナとフィードバックカードの親要素のスタイルを統一 */
