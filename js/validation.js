@@ -20,17 +20,19 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function initFormValidation() {
   // 送信ボタンのイベント処理を設定
-  // クリックとタッチの両方に対応（デスクトップとモバイル用）
-  const submitButton = document.querySelector('.submit-button');
-  if (submitButton) {
-    // デスクトップ用のクリックイベント
-    submitButton.addEventListener('click', validateAndSubmit);
-    // モバイル用のタッチイベント
-    submitButton.addEventListener('touchend', function(e) {
-      e.preventDefault(); // デフォルトのタッチ動作を防止
-      validateAndSubmit(e); // 検証と送信処理を実行
-    });
-  }
+// クリックとタッチの両方に対応（デスクトップとモバイル用）
+const submitButton = document.querySelector('.submit-button');
+if (submitButton && !submitButton.hasAttribute('data-listener-added')) {
+  // デスクトップ用のクリックイベント
+  submitButton.addEventListener('click', validateAndSubmit);
+  // モバイル用のタッチイベント
+  submitButton.addEventListener('touchend', function(e) {
+    e.preventDefault(); // デフォルトのタッチ動作を防止
+    validateAndSubmit(e); // 検証と送信処理を実行
+  });
+  // イベントリスナーが追加されたことを示す属性を設定
+  submitButton.setAttribute('data-listener-added', 'true');
+}
   
   // 入力フィールドの変更時にバリデーション状態を更新
   // ユーザーが入力するたびにリアルタイムでフィードバックを提供
