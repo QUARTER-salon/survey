@@ -47,7 +47,7 @@
 /* フィードバックカード特有のスタイル */
 .feedback-card {
   /* 初期状態では非表示（hiddenクラスと連携） */
-  display: none;
+  display: block;
 }
 
 /* hidden要素の統一 */
