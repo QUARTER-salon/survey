@@ -103,13 +103,20 @@
 
 /* ===== モバイル向け調整 ===== */
 @media (max-width: 480px) {
+  /* 星の間隔を狭く調整 */
+  .star {
+    padding: 0 var(--spacing-xs); /* 間隔を小さく */
+    font-size: 36px; /* フォントサイズも少し小さく */
+  }
+  
   /* カードの余白調整 */
   .question, 
   #thankyou, 
   #review-redirect {
     padding: var(--spacing-md);
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 3%; /* 左右マージンを狭く */
+    margin-right: 3%; /* 左右マージンを狭く */
+    width: 94%; /* 幅を広く */
   }
   
   /* ボタンのモバイル調整 */
