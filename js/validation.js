@@ -326,27 +326,31 @@ function hideFormElements() {
  * @param {number} rating - 評価値（1-5）
  */
 function showResult(rating) {
-// 高評価（4以上）の場合
-if (rating >= 4) {
-  // 見出しテキストを評価に合わせてカスタマイズ
-  const headingElement = document.querySelector('#review-redirect h2');
-  if (headingElement) {
-    headingElement.textContent = `星${rating}評価ありがとうございます！`;
-  }
-  
-  // 口コミリダイレクト画面を表示（クラスベースで制御）
-  const reviewRedirect = document.getElementById('review-redirect');
-  if (reviewRedirect) {
-    reviewRedirect.classList.remove('hidden');
-  }
-} else {
-  // 低・中評価（3以下）の場合は通常のサンクスページ（クラスベースで制御）
-  const thankyou = document.getElementById('thankyou');
-  if (thankyou) {
-    thankyou.classList.remove('hidden');
+  // 高評価（4以上）の場合
+  if (rating >= 4) {
+    // 見出しテキストを評価に合わせてカスタマイズ
+    const headingElement = document.querySelector('#review-redirect h2');
+    if (headingElement) {
+      headingElement.textContent = `星${rating}評価ありがとうございます！`;
+    }
+    
+    // 口コミリダイレクト画面を表示
+    const reviewRedirect = document.getElementById('review-redirect');
+    if (reviewRedirect) {
+      reviewRedirect.classList.remove('hidden');
+      /* 追加：feedback-cardクラスのスタイルを上書き */
+      reviewRedirect.style.display = 'block';
+    }
+  } else {
+    // 低・中評価（3以下）の場合は通常のサンクスページ
+    const thankyou = document.getElementById('thankyou');
+    if (thankyou) {
+      thankyou.classList.remove('hidden');
+      /* 追加：feedback-cardクラスのスタイルを上書き */
+      thankyou.style.display = 'block';
+    }
   }
 }
-  } 
 
 /**
  * フォームデータをサーバーに送信
