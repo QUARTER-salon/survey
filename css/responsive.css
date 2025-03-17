@@ -265,32 +265,3 @@ body:has(#thankyou:not(.hidden)) .submit-container {
 }
 
 
-/* ============================================
-   QUARTER高級感復元 - 最終修正 2025/3/14
-   ============================================ */
-
-/* すべての画面で白背景を強制 */
-body, .container, #thankyou, #review-redirect, .question {
-  background-color: white !important;
-}
-
-
-
-/* テキストエリアの背景色を統一 */
-#comment-to-copy {
-  background-color: white !important;
- 
-}
-
-
-
-/* スマホ表示の特別調整 */
-@media (max-width: 480px) {
-  #thankyou, #review-redirect, .question {
-    margin: 0 5% var(--spacing-lg) !important;
-    width: 90% !important;
-  }
-}
-
-
-
