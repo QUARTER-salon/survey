@@ -94,14 +94,16 @@ function setupFormSubmission() {
   // 送信ボタンを取得
   const submitButton = document.getElementById('submitButton');
   
-  // 送信ボタンが存在する場合のみイベントリスナーを追加
-  if (submitButton) {
+  // 送信ボタンが存在し、まだイベントリスナーが追加されていない場合のみ追加
+  if (submitButton && !submitButton.hasAttribute('data-listener-added')) {
     submitButton.addEventListener('click', function() {
       // validation.jsの関数を呼び出す
       if (typeof window.validateAndSubmit === 'function') {
         window.validateAndSubmit();
       }
     });
+    // イベントリスナーが追加されたことを示す属性を設定
+    submitButton.setAttribute('data-listener-added', 'true');
   }
 }
 
