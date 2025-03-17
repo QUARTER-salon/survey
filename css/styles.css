@@ -455,6 +455,7 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   display: none !important;
 }
 
+/* フィードバックカードのスタイリング修正 */
 /* ----------------------------------------
    サンクスページと口コミリダイレクト
    完了と後続画面のスタイリング
@@ -474,8 +475,6 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   border-left: 3px solid var(--primary-color);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
-}
-  
 }
 
 /* フィードバック画面のテキストエリア幅を調整 */
