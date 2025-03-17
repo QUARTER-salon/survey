@@ -57,17 +57,7 @@ body {
 }
 
 
-/* フィードバック表示時に送信ボタンを非表示 - すべての画面サイズで適用 */
-#review-redirect:not(.hidden) ~ .submit-container,
-#review-redirect:not(.hidden) + .submit-container,
-.container #review-redirect:not(.hidden) ~ .submit-container,
-body:has(#review-redirect:not(.hidden)) .submit-container,
-#thankyou:not(.hidden) ~ .submit-container,
-#thankyou:not(.hidden) + .submit-container,
-.container #thankyou:not(.hidden) ~ .submit-container,
-body:has(#thankyou:not(.hidden)) .submit-container {
-  display: none !important;
-}
+
 
 /* テキストエリアとボタン配置の調整 */
 #review-redirect .copy-container {
