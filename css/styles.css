@@ -432,22 +432,7 @@ textarea:focus {
    サンクスページと口コミリダイレクト
    完了と後続画面のスタイリング
    ---------------------------------------- */
-#thankyou, 
-#review-redirect {
-  /* 個別のスタイリングを削除し、共通クラスに任せる */
-  text-align: center;
-}
 
-/* 改善したレイアウト統一 - 高級感向上のためのスタイル */
-.feedback-card {
-  /* .questionクラスから継承するスタイル */
-  background-color: white;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-  border-top: 1px solid var(--border-color);
-  border-left: 3px solid var(--primary-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-}
 
 /* フィードバック画面のテキストエリア幅を調整 */
 #review-redirect .copy-container,
