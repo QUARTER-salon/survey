@@ -736,11 +736,3 @@ header::after {
     font-size: 24px;
   }
 }
-body, html {
-  margin-top: 0 !important; /* 上部マージンを削除 */
-  padding-top: 0 !important; /* 上部パディングを削除 */
-}
-
-#sandboxFrame {
-  margin-top: 0 !important; /* サンドボックスの上部マージンを削除 */
-}
