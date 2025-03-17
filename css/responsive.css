@@ -292,42 +292,5 @@ body, .container, #thankyou, #review-redirect, .question {
   }
 }
 
-/* ============================================
-   位置合わせと幅修正 - 緊急修正 2025/3/14
-   ============================================ */
 
-/* コンテナ全体の幅と位置を統一 */
-.container {
-  max-width: 680px !important;
-  margin: 0 auto !important;
-  padding: var(--spacing-md) var(--spacing-xl) !important;
-  background-color: white !important;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) !important;
-}
-
-/* 質問カードの位置合わせ */
-.question, #thankyou, #review-redirect {
-  margin: var(--spacing-lg) 0 var(--spacing-xl) !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* 送信ボタンの幅修正 */
-.submit-button {
-  width: auto !important;
-  min-width: 200px !important;
-  max-width: 300px !important;
-  padding: 12px 40px !important;
-  margin: 0 auto !important;
-  display: block !important;
-}
-
-/* 送信ボタンコンテナ調整 */
-.submit-container {
-  text-align: center !important;
-  margin: var(--spacing-xl) auto !important;
-  width: 100% !important;
-  max-width: 680px !important;
-}
 
