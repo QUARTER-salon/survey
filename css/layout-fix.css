@@ -44,6 +44,17 @@
   border-left: 3px solid var(--secondary-color);
 }
 
+/* フィードバックカード特有のスタイル */
+.feedback-card {
+  /* 初期状態では非表示（hiddenクラスと連携） */
+  display: none;
+}
+
+/* hidden要素の統一 */
+.hidden {
+  display: none !important; /* 確実に非表示にするため */
+}
+
 /* フィードバックカードのテキスト配置 */
 #thankyou, 
 #review-redirect {
