@@ -114,7 +114,7 @@ function setupFormSubmission() {
  * 
  * @param {number} rating - 選択された評価値（1～5）
  */
-window.handleFormAfterSubmission = function(rating, dataObj) { // dataObjパラメータを追加
+window.handleFormAfterSubmission = function(rating, dataObj) {
   try {
     // フォームコンテナを取得
     const surveyForm = document.getElementById('surveyForm');
@@ -123,8 +123,8 @@ window.handleFormAfterSubmission = function(rating, dataObj) { // dataObjパラ�
     const submitContainer = document.querySelector('.submit-container');
     
     // 評価に応じたフィードバック要素を取得
-    const thankYouMessage = document.getElementById('thankyou'); // 星3以下用メッセージ
-    const reviewRedirect = document.getElementById('review-redirect'); // 星4以上用メッセージ
+    const thankYouMessage = document.getElementById('thankyou');
+    const reviewRedirect = document.getElementById('review-redirect');
     
     // すべての要素が存在するか確認
     if (!surveyForm || !submitContainer || !thankYouMessage || !reviewRedirect) {
@@ -138,12 +138,14 @@ window.handleFormAfterSubmission = function(rating, dataObj) { // dataObjパラ�
     // 送信ボタンを非表示にする
     submitContainer.classList.add('hidden');
     
-    // 評価に応じて適切なメッセージを表示（validation.jsのshowResult関数と統一）
+    // 評価に応じて適切なメッセージを表示
     if (rating >= 4) {
       // 高評価（星4または5）の場合は口コミリダイレクト画面を表示
       reviewRedirect.classList.remove('hidden');
+      /* 追加：feedback-cardクラスのスタイルを上書き */
+      reviewRedirect.style.display = 'block';
       
-      // タイトルを星の数に応じて変更（「星X ありがとうございます！」）
+      // タイトルを星の数に応じて変更
       const titleElement = reviewRedirect.querySelector('h2');
       if (titleElement) {
         titleElement.textContent = `星${rating}評価ありがとうございます！`;
@@ -151,6 +153,8 @@ window.handleFormAfterSubmission = function(rating, dataObj) { // dataObjパラ�
     } else {
       // 低評価（星3以下）の場合はお礼メッセージを表示
       thankYouMessage.classList.remove('hidden');
+      /* 追加：feedback-cardクラスのスタイルを上書き */
+      thankYouMessage.style.display = 'block';
     }
 
     // dataObjがある場合のみ口コミ用コメントを準備
@@ -158,15 +162,14 @@ window.handleFormAfterSubmission = function(rating, dataObj) { // dataObjパラ�
       prepareReviewComment(dataObj);
     }
     
-    // 画面の上部にスクロール（視覚的フィードバック）
+    // 画面の上部にスクロール
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // スムーズスクロール
+      behavior: 'smooth'
     });
     
     console.log(`フォーム送信完了: 評価 ${rating}星`);
   } catch (e) {
-    // エラーが発生した場合はコンソールに出力するが、ユーザー体験は維持する
     console.error('フォーム送信後処理エラー:', e);
   }
 };
