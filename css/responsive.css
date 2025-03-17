@@ -19,8 +19,8 @@
 .feedback-card {
  /* 幅と余白を質問カードと完全に一致させる */
   margin: 0 5% var(--spacing-xl); /* アンケート質問と同じ左右マージン */
-  width: auto; /* 幅を自動調整 */
-  max-width: none; /* max-widthを解除 */
+  width: 90%;
+  max-width: 100%;
   background-color: white;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--border-color);
