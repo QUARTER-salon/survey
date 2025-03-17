@@ -1,43 +1,69 @@
 /* 
-   QUARTERアンケート レイアウト一貫性修正
-   このCSSは質問カードとフィードバックページ（お礼・口コミリダイレクト）が
-   同じレイアウト、マージン、視覚的外観を持つようにします。
+   QUARTERアンケート レイアウト統一化
+   このCSSは質問カードとフィードバック画面間で一貫したスタイリングを確立し、
+   コンテナの寸法、間隔、視覚的外観を標準化します。
 */
 
-/* フィードバックカードの不一致スタイルをリセット */
+/* 競合するコンテナスタイルのリセット */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 質問とフィードバックカードのレイアウト統一 */
+.question, 
 #thankyou, 
 #review-redirect {
-  /* 不一致の原因となる可能性のあるカスタム幅/マージンを削除 */
-  width: auto !important;
-  max-width: none !important;
-  margin: 0 5% var(--spacing-xl) !important; /* 質問カードのマージンに合わせる */
-  padding: var(--spacing-lg) !important;      /* 質問カードのパディングに合わせる */
+  /* すべてのカードに対する標準マージン */
+  margin: var(--spacing-lg) 0 var(--spacing-xl);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   
-  /* 質問カードと同じ視覚的スタイリングを確保 */
-  background-color: white !important;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05) !important;
-  border-top: 1px solid var(--border-color) !important;
-  border-left: 3px solid var(--primary-color) !important;
-  
-  /* テキスト配置 */
+  /* 一貫した視覚的スタイリング */
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+  padding: var(--spacing-lg);
+  position: relative;
+}
+
+/* アクティブな質問のハイライト */
+.question.current {
+  border-left: 3px solid var(--primary-color);
+  transform: translateY(-3px);
+}
+
+/* 完了した質問のスタイリング */
+.question.completed {
+  border-left: 3px solid var(--secondary-color);
+}
+
+/* フィードバックカード固有の調整 */
+#thankyou, 
+#review-redirect {
   text-align: center;
 }
 
-/* フッターボタンが一貫したスタイリングを持つことを確保 */
-#review-redirect .copy-container {
+/* コピーコンテナのスタイリング */
+.copy-container {
   width: 100%;
-  max-width: 100%;
   margin: var(--spacing-lg) 0;
 }
 
-#review-redirect #comment-to-copy {
+#comment-to-copy {
   width: 100%;
   box-sizing: border-box;
   margin-bottom: var(--spacing-md);
+  background-color: white;
 }
 
 /* ボタンコンテナのレイアウト */
-#review-redirect .copy-container div {
+.copy-container div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -45,17 +71,12 @@
   margin-top: var(--spacing-md);
 }
 
-/* すべての質問とフィードバックカードが同じ構造に従うことを確認 */
-.question, #thankyou, #review-redirect {
-  /* すべてのレイアウトで一貫した幅とマージンを確保 */
-  box-sizing: border-box !important;
-  position: relative !important;
-}
-
-/* モバイル調整 */
+/* モバイル向け調整 */
 @media (max-width: 480px) {
-  .question, #thankyou, #review-redirect {
-    padding: var(--spacing-md) !important; /* モバイルでより小さいパディング */
+  .question, 
+  #thankyou, 
+  #review-redirect {
+    padding: var(--spacing-md);
   }
   
   #review-redirect .copy-container div {
@@ -70,9 +91,11 @@
   }
 }
 
-/* タブレット調整 */
+/* タブレット向け調整 */
 @media (min-width: 481px) and (max-width: 768px) {
-  .question, #thankyou, #review-redirect {
-    padding: var(--spacing-md) var(--spacing-lg) !important;
+  .question, 
+  #thankyou, 
+  #review-redirect {
+    padding: var(--spacing-md) var(--spacing-lg);
   }
 }
