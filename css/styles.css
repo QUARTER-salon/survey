@@ -566,13 +566,6 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   text-align: left;
 }
 
-#comment-to-copy {
-  background-color: #f9f6f0;
-  background-image: linear-gradient(45deg, rgba(195, 144, 0, 0.03) 25%, transparent 25%, transparent 50%, rgba(195, 144, 0, 0.03) 50%, rgba(195, 144, 0, 0.03) 75%, transparent 75%, transparent);
-  background-size: 20px 20px;
-  border: 1px dashed #E6D8B3;
-}
-
 /* ----------------------------------------
    バリデーションスタイル
    エラーとバリデーションメッセージのスタイリング
