@@ -136,25 +136,23 @@ window.handleFormAfterSubmission = function(rating) {
     // 送信ボタンを非表示にする
     submitContainer.classList.add('hidden');
     
-    // 評価に応じて適切なメッセージを表示
-    if (rating >= 4) {
-      // 高評価（星4または5）の場合は口コミリダイレクト画面を表示
-      reviewRedirect.classList.remove('hidden');
-      
-      // タイトルを星の数に応じて変更（「星X ありがとうございます！」）
-      const titleElement = reviewRedirect.querySelector('h2');
-      if (titleElement) {
-        titleElement.textContent = `星${rating}評価ありがとうございます！`;
-      }
-      
-      // 口コミ用コメントを準備する（既存の関数があれば呼び出す）
-      if (typeof prepareReviewComment === 'function') {
-        prepareReviewComment();
-      }
-    } else {
-      // 低評価（星3以下）の場合はお礼メッセージを表示
-      thankYouMessage.classList.remove('hidden');
-    }
+ // 評価に応じて適切なメッセージを表示（validation.jsのshowResult関数と統一）
+if (rating >= 4) {
+  // 高評価（星4または5）の場合は口コミリダイレクト画面を表示
+  reviewRedirect.classList.remove('hidden');
+  
+  // タイトルを星の数に応じて変更（「星X ありがとうございます！」）
+  const titleElement = reviewRedirect.querySelector('h2');
+  if (titleElement) {
+    titleElement.textContent = `星${rating}評価ありがとうございます！`;
+  }
+} else {
+  // 低評価（星3以下）の場合はお礼メッセージを表示
+  thankYouMessage.classList.remove('hidden');
+}
+
+// 口コミ用コメントを準備
+prepareReviewComment(dataObj);
     
     // 画面の上部にスクロール（視覚的フィードバック）
     window.scrollTo({
