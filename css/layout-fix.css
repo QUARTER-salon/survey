@@ -105,18 +105,18 @@
 @media (max-width: 480px) {
   /* 星の間隔を狭く調整 */
   .star {
-    padding: 0 var(--spacing-xs); /* 間隔を小さく */
-    font-size: 36px; /* フォントサイズも少し小さく */
+    padding: 0 2px; /* より狭い間隔に調整 */
+    font-size: 36px; /* サイズも小さく調整 */
   }
   
   /* カードの余白調整 */
   .question, 
   #thankyou, 
   #review-redirect {
-    padding: var(--spacing-md);
-    margin-left: 3%; /* 左右マージンを狭く */
-    margin-right: 3%; /* 左右マージンを狭く */
-    width: 94%; /* 幅を広く */
+    margin-left: 2%; /* 左右マージンを縮小し、幅を広く */
+    margin-right: 2%;
+    width: 96%; /* 幅を広く設定 */
+    padding: var(--spacing-md); /* 内側パディングは小さく */
   }
   
   /* ボタンのモバイル調整 */
