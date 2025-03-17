@@ -171,22 +171,17 @@ function validateAndSubmit(e) {
   // 送信後はフォームを隠し、結果画面を表示
   hideFormElements();
   
-  // main.jsの関数が存在する場合はそちらを優先、なければshowResult()を使用
+// データ送信
+// サーバーにデータを送信（API呼び出し）
+submitFormData(dataObj);
+
+// 送信後の画面表示処理を呼び出す
 if (typeof window.handleFormAfterSubmission === 'function') {
-  window.handleFormAfterSubmission(rating);
+  window.handleFormAfterSubmission(rating, dataObj); // dataObjを追加して渡す
 } else {
   // フォールバックとして旧関数を使用
   showResult(rating);
 }
-  
-  // データ送信
-  // サーバーにデータを送信（API呼び出し）
-  submitFormData(dataObj);
-
-  // 送信後の画面表示処理を呼び出す（追加）
-  if (typeof window.handleFormAfterSubmission === 'function') {
-    window.handleFormAfterSubmission(rating);
-  }
   
   return true; // 処理成功
 }
