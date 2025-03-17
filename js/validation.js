@@ -349,6 +349,7 @@ if (rating >= 4) {
     thankyou.classList.remove('hidden');
   }
 }
+  } 
 
 /**
  * フォームデータをサーバーに送信
