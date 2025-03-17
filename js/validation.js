@@ -171,9 +171,13 @@ function validateAndSubmit(e) {
   // 送信後はフォームを隠し、結果画面を表示
   hideFormElements();
   
-  // 結果表示
-  // 評価に応じた結果画面（サンクスページ）を表示
+  // main.jsの関数が存在する場合はそちらを優先、なければshowResult()を使用
+if (typeof window.handleFormAfterSubmission === 'function') {
+  window.handleFormAfterSubmission(rating);
+} else {
+  // フォールバックとして旧関数を使用
   showResult(rating);
+}
   
   // データ送信
   // サーバーにデータを送信（API呼び出し）
@@ -325,23 +329,24 @@ function hideFormElements() {
  * @param {number} rating - 評価値（1-5）
  */
 function showResult(rating) {
-  // 高評価（4以上）の場合
-  if (rating >= 4) {
-    // 見出しテキストを評価に合わせてカスタマイズ
-    const headingElement = document.querySelector('#review-redirect h2');
-    
-    
-    // 口コミリダイレクト画面を表示
-    const reviewRedirect = document.getElementById('review-redirect');
-    if (reviewRedirect) {
-      reviewRedirect.style.display = 'block';
-    }
-  } else {
-    // 低・中評価（3以下）の場合は通常のサンクスページ
-    const thankyou = document.getElementById('thankyou');
-    if (thankyou) {
-      thankyou.style.display = 'block';
-    }
+// 高評価（4以上）の場合
+if (rating >= 4) {
+  // 見出しテキストを評価に合わせてカスタマイズ
+  const headingElement = document.querySelector('#review-redirect h2');
+  if (headingElement) {
+    headingElement.textContent = `星${rating}評価ありがとうございます！`;
+  }
+  
+  // 口コミリダイレクト画面を表示（クラスベースで制御）
+  const reviewRedirect = document.getElementById('review-redirect');
+  if (reviewRedirect) {
+    reviewRedirect.classList.remove('hidden');
+  }
+} else {
+  // 低・中評価（3以下）の場合は通常のサンクスページ（クラスベースで制御）
+  const thankyou = document.getElementById('thankyou');
+  if (thankyou) {
+    thankyou.classList.remove('hidden');
   }
 }
 
