@@ -1,10 +1,11 @@
 /* 
-   QUARTERアンケート レイアウト統一化
-   このCSSは質問カードとフィードバック画面間で一貫したスタイリングを確立し、
-   コンテナの寸法、間隔、視覚的外観を標準化します。
+   QUARTER アンケート - レイアウト統一CSS
+   
+   このCSSは質問カードとフィードバック画面の一貫したスタイリングを確立し、
+   モバイルとデスクトップの両方で統一されたデザインを提供します。
 */
 
-/* 競合するコンテナスタイルのリセット */
+/* ===== 基本コンテナの統一 ===== */
 .container {
   max-width: 680px;
   margin: 0 auto;
@@ -13,14 +14,14 @@
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
 }
 
-/* 質問とフィードバックカードのレイアウト統一 */
+/* ===== カードコンポーネントの統一 ===== */
+/* 質問カードとフィードバックカードの共通スタイル */
 .question, 
 #thankyou, 
 #review-redirect {
-  /* すべてのカードに対する標準マージン */
-  margin: var(--spacing-lg) 0 var(--spacing-xl);
-  width: 100%;
-  max-width: 100%;
+  /* 一貫したマージンと幅 */
+  margin: 0 5% var(--spacing-xl);
+  width: 90%;
   box-sizing: border-box;
   
   /* 一貫した視覚的スタイリング */
@@ -43,12 +44,13 @@
   border-left: 3px solid var(--secondary-color);
 }
 
-/* フィードバックカード固有の調整 */
+/* フィードバックカードのテキスト配置 */
 #thankyou, 
 #review-redirect {
   text-align: center;
 }
 
+/* ===== コピーコンテナとボタンの調整 ===== */
 /* コピーコンテナのスタイリング */
 .copy-container {
   width: 100%;
@@ -60,6 +62,16 @@
   box-sizing: border-box;
   margin-bottom: var(--spacing-md);
   background-color: white;
+  min-height: 100px;
+}
+
+/* コピーヒントのスタイリング */
+.copy-hint {
+  color: var(--gray-700);
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  text-align: left;
 }
 
 /* ボタンコンテナのレイアウト */
@@ -71,31 +83,78 @@
   margin-top: var(--spacing-md);
 }
 
-/* モバイル向け調整 */
+/* ===== 送信ボタンのサイズ調整 ===== */
+.submit-button {
+  /* おしゃれなサイズ設定 */
+  width: auto;
+  min-width: 180px;
+  max-width: 280px;
+  padding: 12px 40px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.action-button {
+  /* アクションボタンのサイズ調整 */
+  width: auto;
+  min-width: 160px;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* ===== モバイル向け調整 ===== */
 @media (max-width: 480px) {
+  /* カードの余白調整 */
   .question, 
   #thankyou, 
   #review-redirect {
     padding: var(--spacing-md);
+    margin-left: 5%;
+    margin-right: 5%;
   }
   
+  /* ボタンのモバイル調整 */
+  .submit-button {
+    width: 80%;
+    max-width: 280px;
+    margin: 0 auto var(--spacing-md);
+  }
+  
+  /* コピーボタンコンテナの調整 */
   #review-redirect .copy-container div {
     flex-direction: column;
     align-items: center;
   }
   
+  /* コピーボタンとリダイレクトボタンの調整 */
   #review-redirect .action-button {
     width: 100%;
-    max-width: 300px;
+    max-width: 240px;
     margin: var(--spacing-xs) 0;
   }
 }
 
-/* タブレット向け調整 */
+/* ===== タブレット向け調整 ===== */
 @media (min-width: 481px) and (max-width: 768px) {
+  /* カードの余白調整 */
   .question, 
   #thankyou, 
   #review-redirect {
     padding: var(--spacing-md) var(--spacing-lg);
   }
+  
+  /* ボタンのタブレット調整 */
+  .submit-button {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+/* ===== 全背景色を白に統一 ===== */
+body, .container, #thankyou, #review-redirect, .question {
+  background-color: white;
+}
+
+/* テキストエリアの背景色も統一 */
+#comment-to-copy {
+  background-color: white;
 }
