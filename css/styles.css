@@ -558,6 +558,14 @@ body:has(#thankyou:not(.hidden)) .submit-container {
   transform: translateY(-2px); /* わずかに持ち上げる */
 }
 
+.copy-hint {
+  color: #999;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
 /* ----------------------------------------
    バリデーションスタイル
    エラーとバリデーションメッセージのスタイリング
