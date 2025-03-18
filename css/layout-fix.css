@@ -240,3 +240,49 @@ body, .container, #thankyou, #review-redirect, .question {
 #comment-to-copy {
   background-color: white;
 }
+
+/* 
+   QUARTERアンケート - フィードバックカード幅修正
+   feedback-cardクラスの表示問題を解決
+*/
+
+/* hidden要素の統一的な非表示設定 */
+.hidden {
+  display: none !important;
+}
+
+/* フィードバックカードの基本表示設定 - hiddenクラスが削除された時のスタイル */
+#thankyou:not(.hidden), 
+#review-redirect:not(.hidden) {
+  display: block;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  box-sizing: border-box;
+  background-color: white;
+  padding: var(--spacing-lg);
+}
+
+/* コピーコンテナとそのコンテンツの幅制御 */
+#review-redirect .copy-container {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#review-redirect #comment-to-copy {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+  #thankyou:not(.hidden), 
+  #review-redirect:not(.hidden) {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: var(--spacing-md);
+  }
+}
