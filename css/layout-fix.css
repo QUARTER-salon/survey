@@ -68,6 +68,7 @@
   margin-left: 5%;
   margin-right: 5%;
   box-sizing: border-box;
+  background-color: white;
 }
 
 /* フィードバックカード表示時の幅確保 */
@@ -76,6 +77,7 @@
   margin-left: 5%;
   margin-right: 5%;
 }
+
 /* ===== コピーコンテナとボタンの調整 ===== */
 /* コピーコンテナのスタイリング */
 .copy-container {
@@ -139,9 +141,9 @@
   .question, 
   #thankyou, 
   #review-redirect {
-    margin-left: 2%; /* 左右マージンを縮小し、幅を広く */
-    margin-right: 2%;
-    width: 96%; /* 幅を広く設定 */
+    margin-left: 5%; /* 左右マージンを統一 */
+    margin-right: 5%;
+    width: 90%; /* 幅を統一 */
     padding: var(--spacing-md); /* 内側パディングは小さく */
   }
   
