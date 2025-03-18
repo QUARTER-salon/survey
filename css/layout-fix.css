@@ -1,5 +1,5 @@
 /* 
-   QUARTER アンケート - レイアウト統一CSS
+   QUARTERアンケート - レイアウト統一CSS
    
    このCSSは質問カードとフィードバック画面の一貫したスタイリングを確立し、
    モバイルとデスクトップの両方で統一されたデザインを提供します。
@@ -46,8 +46,12 @@
 
 /* フィードバックカード特有のスタイル */
 .feedback-card {
-  /* 初期状態では非表示（hiddenクラスと連携） */
+  /* display: blockを明示的に設定（hidden解除時に適切に表示されるため） */
   display: block;
+  /* 幅と余白を明示的に再設定（詳細度を高めるため） */
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
 }
 
 /* hidden要素の統一 */
@@ -61,21 +65,26 @@
   text-align: center;
 }
 
-/* フィードバックカードのレイアウト統一 */
+/* フィードバックカードの明示的な幅設定（詳細度を高めるため） */
 .container #thankyou,
 .container #review-redirect {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
   box-sizing: border-box;
   background-color: white;
 }
 
-/* フィードバックカード表示時の幅確保 */
-.feedback-card:not(.hidden) {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+/* フィードバックカード表示時の幅確保（hiddenクラスが削除された後） */
+#thankyou:not(.hidden), 
+#review-redirect:not(.hidden) {
+  display: block;
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+  box-sizing: border-box;
+  background-color: white;
+  padding: var(--spacing-lg);
 }
 
 /* ===== コピーコンテナとボタンの調整 ===== */
@@ -141,9 +150,9 @@
   .question, 
   #thankyou, 
   #review-redirect {
-    margin-left: 5%; /* 左右マージンを統一 */
-    margin-right: 5%;
-    width: 90%; /* 幅を統一 */
+    margin-left: 5% !important; /* 左右マージンを統一 */
+    margin-right: 5% !important;
+    width: 90% !important; /* 幅を統一 */
     padding: var(--spacing-md); /* 内側パディングは小さく */
   }
   
@@ -184,53 +193,6 @@
   }
 }
 
-/* 
-   フィードバックカード幅の統一修正
-   #thankyou, #review-redirectの表示幅を.question要素と同じに揃える
-*/
-
-/* コンテナの統一幅を明示的に再定義 */
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: white;
-}
-
-/* フィードバックカードの幅とマージンを質問カードと正確に揃える */
-.container #thankyou,
-.container #review-redirect {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-bottom: var(--spacing-xl);
-  box-sizing: border-box;
-  background-color: white;
-}
-
-/* コピーコンテナとテキストエリアの幅を明示的に制限 */
-#review-redirect .copy-container {
-  width: 100%;
-  max-width: 100%;
-}
-
-#review-redirect #comment-to-copy {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* レスポンシブ環境でも一貫性を保つための調整 */
-@media (max-width: 480px) {
-  .container #thankyou,
-  .container #review-redirect {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: var(--spacing-md);
-  }
-}
-
 /* ===== 全背景色を白に統一 ===== */
 body, .container, #thankyou, #review-redirect, .question {
   background-color: white;
@@ -239,50 +201,4 @@ body, .container, #thankyou, #review-redirect, .question {
 /* テキストエリアの背景色も統一 */
 #comment-to-copy {
   background-color: white;
-}
-
-/* 
-   QUARTERアンケート - フィードバックカード幅修正
-   feedback-cardクラスの表示問題を解決
-*/
-
-/* hidden要素の統一的な非表示設定 */
-.hidden {
-  display: none !important;
-}
-
-/* フィードバックカードの基本表示設定 - hiddenクラスが削除された時のスタイル */
-#thankyou:not(.hidden), 
-#review-redirect:not(.hidden) {
-  display: block;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  box-sizing: border-box;
-  background-color: white;
-  padding: var(--spacing-lg);
-}
-
-/* コピーコンテナとそのコンテンツの幅制御 */
-#review-redirect .copy-container {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-#review-redirect #comment-to-copy {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* レスポンシブ対応 */
-@media (max-width: 480px) {
-  #thankyou:not(.hidden), 
-  #review-redirect:not(.hidden) {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: var(--spacing-md);
-  }
 }
