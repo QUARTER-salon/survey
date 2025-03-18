@@ -441,11 +441,11 @@
       </div>
     </form>
 
-    <!-- 
-      星3以下用のメッセージ - 低評価の場合に表示する感謝メッセージ
-      hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
-    -->
-    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
+   <!-- 
+  星3以下用のメッセージ - 低評価の場合に表示する感謝メッセージ
+  hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
+-->
+<div id="thankyou" class="question feedback-card hidden" data-section="feedback">
   <h2>ご回答ありがとうございました。</h2>
   <p>ご回答ありがとうございました。いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。</p>
 </div>
@@ -453,45 +453,43 @@
 <!-- 星4以上用の口コミ促進メッセージ - 高評価の場合に表示するGoogleマップ誘導画面 -->
 <div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
   <h2>高評価ありがとうございます！</h2>
-      <p>当店をご利用いただき、心より感謝申し上げます。</p>
-      <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
-      <p>
-        ・下のボタンでコメントをコピー<br>
-        ・投稿ページが開いたらペーストするだけです
-      </p>
-      
+  <p>当店をご利用いただき、心より感謝申し上げます。</p>
+  <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
+  <p>
+    ・下のボタンでコメントをコピー<br>
+    ・投稿ページが開いたらペーストするだけです
+  </p>
+  
+  <!-- 
+    コピー機能付きコンテナ - コメントをコピーしてGoogle口コミに誘導する機能
+  -->
+  <div class="copy-container">
+    <!-- 
+      読み取り専用テキストエリア - コピー用のテキストを表示
+      readonlyは編集を防止し、コピーのみを許可します
+      JavaScriptで事前に回答内容からテキストが生成されます
+    -->
+    <textarea id="comment-to-copy" readonly></textarea>
+    <p class="copy-hint">※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。</p>
+    <div>
       <!-- 
-        コピー機能付きコンテナ - コメントをコピーしてGoogle口コミに誘導する機能
+        コピーボタン - テキストをクリップボードにコピーする機能
+        onclick属性で直接JavaScriptの関数を呼び出しています
       -->
-      <div class="copy-container">
-        <!-- 
-          読み取り専用テキストエリア - コピー用のテキストを表示
-          readonlyは編集を防止し、コピーのみを許可します
-          JavaScriptで事前に回答内容からテキストが生成されます
-        -->
-        <textarea id="comment-to-copy" readonly></textarea>
-<p class="copy-hint">※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。</p>
-        <div>
-          <!-- 
-            コピーボタン - テキストをクリップボードにコピーする機能
-            onclick属性で直接JavaScriptの関数を呼び出しています
-          -->
-          <button id="copy-button" class="action-button" onclick="copyComment()">コメントをコピー</button>
-          <!-- 
-            リダイレクトボタン - Googleマップの口コミページに誘導する機能
-            onclick属性でJavaScript関数を呼び出し、指定URLに移動します
-          -->
-          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()">Googleマップで口コミを投稿する</button>
-        </div>
-      </div>
-      
-      <p>
-        今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>
-        引き続きQUARTERグループをよろしくお願いいたします。
-      </p>
+      <button id="copy-button" class="action-button" onclick="copyComment()">コメントをコピー</button>
+      <!-- 
+        リダイレクトボタン - Googleマップの口コミページに誘導する機能
+        onclick属性でJavaScript関数を呼び出し、指定URLに移動します
+      -->
+      <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()">Googleマップで口コミを投稿する</button>
     </div>
   </div>
-
+  
+  <p>
+    今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>
+    引き続きQUARTERグループをよろしくお願いいたします。
+  </p>
+</div>
   <!-- 
     JavaScript読み込み - ページの機能を実装するためのスクリプト
     本体HTMLの最後でJSファイルを読み込むことで、HTMLの解析が完了してから
