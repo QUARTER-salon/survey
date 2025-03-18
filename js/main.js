@@ -142,8 +142,7 @@ window.handleFormAfterSubmission = function(rating, dataObj) {
     if (rating >= 4) {
       // 高評価（星4または5）の場合は口コミリダイレクト画面を表示
       reviewRedirect.classList.remove('hidden');
-      /* 追加：feedback-cardクラスのスタイルを上書き */
-      reviewRedirect.style.display = 'block';
+     
       
       // タイトルを星の数に応じて変更
       const titleElement = reviewRedirect.querySelector('h2');
@@ -153,8 +152,8 @@ window.handleFormAfterSubmission = function(rating, dataObj) {
     } else {
       // 低評価（星3以下）の場合はお礼メッセージを表示
       thankYouMessage.classList.remove('hidden');
-      /* 追加：feedback-cardクラスのスタイルを上書き */
-      thankYouMessage.style.display = 'block';
+     
+    
     }
 
     // dataObjがある場合のみ口コミ用コメントを準備
