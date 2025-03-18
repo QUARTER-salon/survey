@@ -338,16 +338,14 @@ function showResult(rating) {
     const reviewRedirect = document.getElementById('review-redirect');
     if (reviewRedirect) {
       reviewRedirect.classList.remove('hidden');
-      /* 追加：feedback-cardクラスのスタイルを上書き */
-      reviewRedirect.style.display = 'block';
+      
     }
   } else {
     // 低・中評価（3以下）の場合は通常のサンクスページ
     const thankyou = document.getElementById('thankyou');
     if (thankyou) {
       thankyou.classList.remove('hidden');
-      /* 追加：feedback-cardクラスのスタイルを上書き */
-      thankyou.style.display = 'block';
+     
     }
   }
 }
