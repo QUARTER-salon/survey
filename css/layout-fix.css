@@ -61,6 +61,21 @@
   text-align: center;
 }
 
+/* フィードバックカードのレイアウト統一 */
+.container #thankyou,
+.container #review-redirect {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  box-sizing: border-box;
+}
+
+/* フィードバックカード表示時の幅確保 */
+.feedback-card:not(.hidden) {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
 /* ===== コピーコンテナとボタンの調整 ===== */
 /* コピーコンテナのスタイリング */
 .copy-container {
