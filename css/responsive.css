@@ -34,9 +34,6 @@ body {
   /* その他の共通スタイル */
 }
 
-
-
-
 /* テキストエリアとボタン配置の調整 */
 #review-redirect .copy-container {
   width: 100%;
@@ -59,18 +56,57 @@ body {
 }
 
 /* ----------------------------------------
+   ヘッダーと言語セレクタのスタイル調整
+   全画面サイズでの言語セレクタとロゴの重なりを防止
+   ---------------------------------------- */
+
+/* デスクトップサイズでの基本設定 */
+.site-header-alt {
+  position: relative;
+}
+
+.language-selector-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10; /* 他の要素より前面に表示 */
+}
+
+/* ----------------------------------------
    モバイル端末（480px以下）
    スマートフォンなどの小さな画面向けの調整
    ---------------------------------------- */
 @media (max-width: 480px) {
+  /* 言語セレクタをロゴの上部中央に配置して重なりを防止 */
+  .site-header-alt {
+    padding-top: 50px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 10px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 5px; /* ロゴの上部マージンを調整 */
+  }
 
-   .feedback-card {
+  /* 非常に小さな画面ではロゴを少し小さくする */
+  .text-logo {
+    max-width: 160px;
+  }
+
+  .feedback-card {
     /* スマホでの余白調整 - 質問カードと同様に */
     margin-left: 5%;
     margin-right: 5%;
     padding: var(--spacing-md);
   }
-
 
   /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
@@ -162,6 +198,25 @@ body {
    中間サイズのデバイス向けの微調整
    ---------------------------------------- */
 @media (min-width: 481px) and (max-width: 768px) {
+  /* タブレットでも言語セレクタの位置調整 */
+  .site-header-alt {
+    padding-top: 55px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 12px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 8px; /* ロゴの上部マージンを調整 */
+  }
+
   /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
   .container {
     padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */
@@ -230,5 +285,3 @@ body {
     min-height: 48px; /* タップしやすい最小高さ */
   }
 }
-
-
