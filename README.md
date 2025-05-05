@@ -312,3 +312,212 @@ window.CONFIG = {
 * 各店舗ごとに最適なGoogleマップリンクへ誘導
 * スプレッドシートとの連携によるデータ収集と分析
 * モバイルファーストのレスポンシブデザインで幅広い端末に対応
+
+
+# **QUARTER アンケート開発環境セットアップガイド**
+
+プロジェクトに新しく「11. 開発環境のセットアップとガイドライン」セクションを追加します。このセクションは、本番環境に影響を与えずに安全に開発を行うための手順とベストプラクティスを説明します。
+
+## **11. 開発環境のセットアップとガイドライン**
+
+### **11.1 開発ブランチの作成**
+
+GitHub Pagesで運用されている本番環境に影響を与えないために、開発専用のブランチを使用します。
+
+```bash
+# リポジトリをクローン（初回のみ）
+git clone https://github.com/QUARTER-salon/survey.git
+cd [リポジトリ名]
+
+# 最新の変更を取得
+git pull origin main
+
+# 開発用ブランチを作成
+git checkout -b 拡張開発
+```
+
+### **11.2 ローカル開発環境のセットアップ**
+
+#### **11.2.1 ローカルサーバーの準備**
+
+以下のいずれかの方法でローカルサーバーを起動します：
+
+* **Visual Studio Code + Live Server拡張機能**:
+  1. VS Codeで「Live Server」拡張機能をインストール
+  2. `index.html`を右クリックして「Live Serverで開く」を選択
+
+* **Python組み込みサーバー**:
+  ```bash
+  # Python 3
+  python -m http.server 8000
+  # ブラウザでhttp://localhost:8000を開く
+  ```
+
+* **Node.js http-server**:
+  ```bash
+  # インストール（初回のみ）
+  npm install -g http-server
+  # プロジェクトフォルダで実行
+  http-server -p 8000
+  ```
+
+#### **11.2.2 開発用設定ファイルの作成**
+
+1. `js/config-dev.js`ファイルを作成：
+
+```javascript
+window.CONFIG = {
+  // 開発環境設定
+  APPS_SCRIPT_WEBAPP_URL: 'mock-api', // 実際には使用されない
+  STORE_REVIEW_URLS: {
+    // 本番と同じURLを使用
+    'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',
+    'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',
+    'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',
+    'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',
+    'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'
+  },
+  IS_DEV: true // 開発環境フラグ
+};
+```
+
+2. `js/mock-api.js`ファイルを作成：
+
+```javascript
+/**
+ * 開発環境用モックAPI
+ * Google Apps Scriptへの実際の送信をシミュレートします
+ * 注意: 本番環境へのプッシュ前にindex.htmlから関連スクリプトを削除すること
+ */
+if (window.CONFIG && window.CONFIG.IS_DEV) {
+  // 元の関数を保存
+  window.originalSubmitFormData = window.submitFormData;
+  
+  // モック関数で置き換え
+  window.submitFormData = function(dataObj) {
+    console.log('開発モード - 送信データ:', dataObj);
+    
+    // モックレスポンスを返す
+    setTimeout(() => {
+      // 成功レスポンスをシミュレート
+      const mockResponse = {success: true};
+      console.log('開発モード - 応答:', mockResponse);
+      
+      // フォーム送信後の処理を呼び出し
+      const rating = parseInt(dataObj.rating) || 3;
+      if (typeof window.handleFormAfterSubmission === 'function') {
+        window.handleFormAfterSubmission(rating, dataObj);
+      }
+    }, 500); // リアルな遅延をシミュレート
+    
+    return false; // 実際の送信を防止
+  };
+}
+```
+
+3. 開発用スクリプトタグを`index.html`に追加（一時的な変更）：
+
+```html
+<!-- 開発モード用の設定とモック (本番環境にはプッシュしない) -->
+<script src="js/config-dev.js"></script>
+<script src="js/mock-api.js"></script>
+
+<!-- 本番設定 -->
+<script src="js/config.js"></script>
+```
+
+4. `.gitignore`に開発ファイルを追加（リポジトリのルートに作成または更新）：
+
+```
+# 開発用ファイル
+js/config-dev.js
+js/mock-api.js
+```
+
+### **11.3 開発からデプロイまでのワークフロー**
+
+#### **11.3.1 開発サイクル**
+
+1. 開発ブランチで機能実装・修正を行う
+2. ローカル環境でテスト
+3. 変更をコミット
+
+```bash
+git add .
+git commit -m "機能の追加: XXX"
+```
+
+#### **11.3.2 本番環境への反映手順**
+
+1. 開発用ファイルの削除またはコメントアウト：
+   - `index.html`から開発用スクリプトタグを削除
+   - 一時的なデバッグコードを削除
+
+2. 最終テストを実施
+
+3. 本番ブランチにマージ：
+
+```bash
+# 本番ブランチに切り替え
+git checkout main
+
+# 開発ブランチの変更をマージ
+git merge 開発ブランチ名
+
+# 変更をリモートリポジトリにプッシュ
+git push origin main
+```
+
+### **11.4 開発時の注意点**
+
+1. **常に開発ブランチで作業する**：
+   - 本番ブランチ（main）に直接変更を加えない
+   - 複数の機能追加は別々のブランチで行うことを推奨
+
+2. **バックエンド連携**：
+   - 実際のGAS APIとの連携が必要な場合は、テスト用のスプレッドシートとApps Scriptを別途作成することを検討
+
+3. **パフォーマンステスト**：
+   - モバイルデバイスでの動作確認を忘れずに実施
+   - レスポンシブデザインの崩れがないか確認
+
+4. **コードレビュー**：
+   - 本番環境への反映前に、複数人でのレビューを推奨
+   - 改修による既存機能への影響を確認
+
+5. **デプロイ後の確認**：
+   - GitHub Pagesへのデプロイ後、実際の環境で動作確認を行う
+   - 問題があれば迅速にロールバックできるよう準備
+
+### **11.5 プロジェクト拡張の際のディレクトリ構造**
+
+新機能追加時は既存の構造を維持し、以下のように拡張します：
+
+```
+│
+├── index.html                     // HTMLメインファイル
+├── README.md                      // プロジェクト説明書
+├── css/
+│   ├── styles.css                 // メインスタイル
+│   ├── responsive.css             // レスポンシブデザイン用
+│   ├── layout-fix.css             // レイアウト統一用
+│   ├── style-fix.css              // 幅修正用
+│   └── [新規スタイル].css          // 拡張機能用スタイル
+├── js/
+│   ├── config.js                  // 設定ファイル
+│   ├── config-dev.js              // 開発用設定（本番環境には含めない）
+│   ├── mock-api.js                // APIモック（本番環境には含めない）
+│   ├── dynamic-services.js        // 動的サービス機能
+│   ├── main.js                    // メインのJavaScript
+│   ├── navigation.js              // ナビゲーション機能
+│   ├── validation.js              // フォームのバリデーション
+│   ├── star-rating.js             // 星評価機能
+│   ├── scroll-monitor.js          // スクロール監視機能
+│   └── [新規機能].js              // 拡張機能用スクリプト
+└── images/
+    └── quarter-logo.png           // ロゴ画像
+```
+
+---
+
+このガイドに従うことで、本番環境に影響を与えず安全に開発を進めることができます。各開発者は自分のローカル環境で変更をテストし、確認が取れたら本番環境に反映するというワークフローを維持してください。

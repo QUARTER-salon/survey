@@ -1,0 +1,95 @@
+{
+    "nav.store": "Store",
+    "nav.rating": "Rating",
+    "nav.info": "Information",
+    "nav.service": "Service",
+    "nav.feedback": "Feedback",
+  
+    "q1.title": "Q1. Which store did you visit today?",
+    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
+    "rating.prefix": "Rating:",
+    
+    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
+    
+    "q3.title": "Q3. Please tell us your name (optional)",
+    "q3.placeholder": "Enter your name or nickname",
+    
+    "q4.title": "Q4. Your visit to our store was... (optional)",
+    "q4.firstTime": "First time (New customer)",
+    "q4.repeat": "Repeat visit (Regular customer)",
+    
+    "q5.title": "Q5. Please tell us your gender (optional)",
+    "q5.male": "Male",
+    "q5.female": "Female",
+    "q5.other": "Other",
+    
+    "q6.title": "Q6. Please tell us your age range (optional)",
+    "q6.age10s": "10s",
+    "q6.age20s": "20s",
+    "q6.age30s": "30s",
+    "q6.age40s": "40s",
+    "q6.age50s": "50s",
+    "q6.age60plus": "60s or above",
+    
+    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
+    "q7.cut": "Haircut",
+    "q7.color": "Hair coloring",
+    "q7.perm": "Perm",
+    "q7.treatment": "Treatment",
+    "q7.headspa": "Head spa",
+    "q7.other": "Other (Nail, Kimono dressing, etc.)",
+    "q7.il.eyelashExt": "Eyelash extensions",
+    "q7.il.eyelashPerm": "Eyelash perm",
+    "q7.il.wax": "Waxing services",
+    "q7.il.other": "Other services",
+    
+    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
+    "q8.veryGood": "Very satisfied",
+    "q8.good": "Satisfied",
+    "q8.normal": "Neutral",
+    "q8.bad": "Dissatisfied",
+    "q8.veryBad": "Very dissatisfied",
+    
+    "q9.title": "Q9. How was our staff's customer service?",
+    "q9.veryGood": "Very good",
+    "q9.good": "Good",
+    "q9.normal": "Neutral",
+    "q9.bad": "Poor",
+    "q9.veryBad": "Very poor",
+    
+    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
+    "q10.veryGood": "Very satisfied",
+    "q10.good": "Satisfied",
+    "q10.normal": "Neutral",
+    "q10.bad": "Dissatisfied",
+    "q10.veryBad": "Very dissatisfied",
+    
+    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
+    "q11.veryGood": "Very clean",
+    "q11.good": "Clean",
+    "q11.normal": "Neutral",
+    "q11.bad": "Unclean",
+    "q11.veryBad": "Very unclean",
+    
+    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
+    "q12.placeholder": "Enter your suggestions here",
+    
+    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
+    "q13.placeholder": "Enter your feedback here",
+    
+    "validation.global": "Please fill in all required fields",
+    "validation.store": "Please select a store",
+    "validation.rating": "Please select a rating",
+    "submit": "Submit",
+    
+    "thankyou.title": "Thank you for your response.",
+    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
+    "thankyou.high": "Thank you for your high rating!",
+    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
+    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
+    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
+    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
+    "thankyou.copy.button": "Copy Comment",
+    "thankyou.redirect.button": "Post a Review on Google Maps",
+    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
+  }

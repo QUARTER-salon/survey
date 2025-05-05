@@ -1,128 +1,86 @@
-<!-- 
-  DOCTYPE宣言 - HTML5を使用していることをブラウザに伝えます。
-  これによって最新の標準に基づいたレンダリングが行われます。
--->
 <!DOCTYPE html>
-<!-- 
-  html要素 - ドキュメント全体のルート要素です。
-  lang属性で日本語コンテンツであることを指定し、スクリーンリーダーなどの支援技術に言語情報を提供します。
--->
 <html lang="ja">
 <head>
-  <!-- 文字エンコーディングをUTF-8に設定し、日本語を正しく表示します -->
   <meta charset="UTF-8">
-  <!-- 
-    ビューポート設定 - モバイルデバイスでの表示を最適化します。
-    width=device-width: デバイスの画面幅に合わせる
-    initial-scale=1.0: 初期ズームレベルを1.0（等倍）に設定
-  -->
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <!-- ページのタイトル - ブラウザのタブやブックマークに表示されます -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QUARTERアンケート</title>
   
-  <!-- 
-    Googleフォントの読み込み
-    Noto Sans JP: 日本語対応のサンセリフフォント（メインテキスト用）
-    Playfair Display: 英語用の装飾的なセリフフォント（ロゴなどの特殊テキスト用）
-    複数のウェイト（フォントの太さ）を指定しています
-  -->
+  <!-- Google Fonts - 原版から復元 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
   
-  <!-- 
-    スタイルシートの読み込み
-    メインのスタイルと、レスポンシブ対応のスタイルを別ファイルで管理しています
-  -->
+  <!-- 既存 CSS -->
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/layout-fix.css">
   <link rel="stylesheet" href="css/style-fix.css">
-  
-  <!-- 
-    設定用JavaScriptファイルの読み込み
-    アンケートの設定値（店舗情報、リダイレクト先URLなど）を外部ファイルに分離して管理しています
-  -->
-  <script src="js/config.js"></script>
+
+  <!-- i18next 本体 -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@latest/dist/umd/i18next.min.js"></script>
+  <!-- ブラウザ言語自動判定プラグイン -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+
+  <!-- ★ i18n 初期化 -->
+  <script defer src="js/i18n.js"></script>
+
+  <!-- 既存 JS（順序自由） -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/star-rating.js"></script>
+  <script defer src="js/dynamic-services.js"></script>
+  <script defer src="js/validation.js"></script>
+  <script defer src="js/scroll-monitor.js"></script>
+  <script defer src="js/main.js"></script>
 </head>
 <body>
-  <!-- 
-    container - ページ全体のコンテンツを包む中央寄せのコンテナ
-    CSSで最大幅や余白が設定されています
-  -->
   <div class="container">
-    <!-- 
-      ヘッダー - ページ上部のロゴなどを表示するエリア
-    -->
-    <header>
-      <!-- 
-        ロゴ画像 
-        alt属性に代替テキストを設定し、画像が表示できない場合やスクリーンリーダーのためのアクセシビリティを確保
-        インラインスタイルで最大幅と高さを自動調整
-      -->
-      <img class="text-logo" 
-           src="./images/quarter-logo.png" 
-           alt="QUARTERロゴ" 
-           style="max-width: 200px; height: auto;">
+    <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
+    <header class="site-header-alt">
+      <div class="language-selector-top-right">
+        <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
+      </div>
+      
+      <div class="logo-container">
+        <img class="text-logo" src="./images/quarter-logo.png" alt="QUARTERロゴ" style="max-width: 200px; height: auto;">
+      </div>
     </header>
 
-    <!-- 
-      ナビゲーションバー - アンケートの進行状況を表示し、セクション間を移動するためのUI
-      CSSでsticky設定されており、スクロール時も上部に固定されます
-    -->
+    <!-- ナビゲーションバー - 原版の構造を復元 -->
     <div class="nav-container">
       <div class="progress-nav">
-        <!-- 
-          各ナビゲーション項目
-          data-section属性はJavaScriptでセクション識別に使用されます
-          active classが付いている項目が現在表示中のセクションを示します
-        -->
         <div class="nav-item active" data-section="store">
-          <span class="nav-text">店舗</span>
-          <!-- インジケーター - 現在のセクションを下線で示します -->
+          <span class="nav-text" data-i18n="nav.store"></span>
           <div class="nav-indicator"></div>
         </div>
         <div class="nav-item" data-section="rating">
-          <span class="nav-text">評価</span>
+          <span class="nav-text" data-i18n="nav.rating"></span>
           <div class="nav-indicator"></div>
         </div>
         <div class="nav-item" data-section="info">
-          <span class="nav-text">情報</span>
+          <span class="nav-text" data-i18n="nav.info"></span>
           <div class="nav-indicator"></div>
         </div>
         <div class="nav-item" data-section="service">
-          <span class="nav-text">サービス</span>
+          <span class="nav-text" data-i18n="nav.service"></span>
           <div class="nav-indicator"></div>
         </div>
         <div class="nav-item" data-section="feedback">
-          <span class="nav-text">感想</span>
+          <span class="nav-text" data-i18n="nav.feedback"></span>
           <div class="nav-indicator"></div>
         </div>
       </div>
     </div>
 
-    <!-- 
-      アンケートフォーム
-      novalidate属性はブラウザの標準バリデーションを無効化し、JavaScriptでカスタムバリデーションを行います
-    -->
+    <!-- アンケートフォーム -->
     <form id="surveyForm" novalidate>
-      <!-- 
-        店舗選択（必須） - 最初の質問
-        required class: 必須項目であることを示します
-        current class: 現在表示中の質問であることを示します
-        data-section: どのナビゲーションセクションに属するかを示します
-      -->
+      <!-- Q1. 店舗選択（必須） -->
       <div class="question required current" id="question1" data-section="store">
-        <h3>Q1. 本日はどちらの店舗をご利用いただきましたか？</h3>
+        <h3 data-i18n="q1.title"></h3>
         <div class="options">
-          <!-- 
-            ラジオボタン - 単一選択用の入力要素
-            name属性が同じものがグループ化され、その中から1つだけ選択できます
-            required属性は必須入力項目であることを示します
-          -->
           <input type="radio" id="quarter" name="store" value="QUARTER" required>
-          <!-- 
-            label要素 - 関連するinput要素をクリック可能にし、アクセシビリティを向上させます
-            for属性はinput要素のid属性と一致させ、紐付けます
-          -->
           <label for="quarter">QUARTER</label>
           
           <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT">
@@ -138,28 +96,16 @@
           <label for="il">iL</label>
         </div>
         
-        <!-- 
-          バリデーションメッセージ - エラー時に表示されるメッセージ
-          JavaScriptでvisibleクラスが追加されると表示されます
-        -->
         <div class="validation-message" id="store-validation">
-          <span>店舗を選択してください</span>
+          <span data-i18n="validation.store"></span>
         </div>
       </div>
       
-      <!-- 
-        総合評価（必須） - 星評価の質問
-        星の数（1〜5）で評価を選択するUI
-      -->
+      <!-- Q2. 総合評価（必須） -->
       <div class="question required" id="question2" data-section="rating">
-        <h3>Q2. 本日の総合満足度を星1～5でお聞かせください。</h3>
+        <h3 data-i18n="q2.title"></h3>
         
         <div class="star-rating-container">
-          <!-- 
-            星評価のUI - span要素でビジュアルな星を表示
-            data-value属性が評価値を保持しています
-            JavaScriptでクリックイベントが設定されます
-          -->
           <div class="stars-row" id="starsContainer">
             <span class="star" data-value="1">★</span>
             <span class="star" data-value="2">★</span>
@@ -168,19 +114,11 @@
             <span class="star" data-value="5">★</span>
           </div>
           
-          <!-- 選択された評価値を表示するエリア -->
           <div class="rating-score" id="ratingScore">
-            評価: <span id="scoreValue">0</span>/5
+            <span data-i18n="rating.prefix"></span> <span id="scoreValue">0</span>/5
           </div>
-          
-       
         </div>
         
-        <!-- 
-          非表示のラジオボタン - フォーム送信用の実際の入力要素
-          星UI（視覚的な部分）とフォームデータ（機能的な部分）を分離するテクニック
-          JavaScriptで星がクリックされると、対応するラジオボタンがチェックされます
-        -->
         <div class="star-rating-hidden">
           <input type="radio" id="star5" name="rating" value="5" required>
           <input type="radio" id="star4" name="rating" value="4">
@@ -189,319 +127,245 @@
           <input type="radio" id="star1" name="rating" value="1">
         </div>
 
-        <!-- バリデーションメッセージ - 評価が選択されていない場合に表示 -->
         <div class="validation-message" id="rating-validation">
-          <span>評価を選択してください</span>
+          <span data-i18n="validation.rating"></span>
         </div>
       </div>
       
-      <!-- 
-        任意質問セクション - 必須ではないがあれば参考になる質問群
-      -->
+      <!-- 任意質問セクション - 復元 -->
       <div class="optional-questions">
-        <!-- 任意であることを示す説明文 -->
-        <p class="optional-note">
-          以下の質問は任意です。ご回答いただけると大変参考になります。
-        </p>
+        <p class="optional-note" data-i18n="optional.note"></p>
         
-        <!-- 
-          お名前（任意） - テキスト入力質問
-          requiredクラスはなく、必須ではないことを示します
-        -->
+        <!-- Q3. お名前（任意） -->
         <div class="question" id="question3" data-section="info">
-          <h3>Q3. お名前をお聞かせください。（任意）</h3>
-          <!-- 
-            textarea要素 - 複数行のテキスト入力に対応
-            rows属性で表示する行数を指定（ここでは1行）
-            placeholderはユーザーへのヒントテキスト
-          -->
-          <textarea name="name" rows="1" placeholder="お名前またはニックネームをご記入ください"></textarea>
+          <h3 data-i18n="q3.title"></h3>
+          <textarea name="name" rows="1" data-i18n-placeholder="q3.placeholder"></textarea>
         </div>
         
-        <!-- 来店タイプ（任意） - ラジオボタンでの選択質問 -->
+        <!-- Q4. 来店タイプ（任意） -->
         <div class="question" id="question4" data-section="info">
-          <h3>Q4. 当店へのご来店は…（任意）</h3>
+          <h3 data-i18n="q4.title"></h3>
           <div class="options">
             <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
-            <label for="first-time">初めて（新規）</label>
+            <label for="first-time" data-i18n="q4.firstTime"></label>
             
             <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
-            <label for="repeat">2回目以降（リピーター）</label>
+            <label for="repeat" data-i18n="q4.repeat"></label>
           </div>
         </div>
         
-        <!-- 性別（任意） - ラジオボタンでの選択質問 -->
+        <!-- Q5. 性別（任意） -->
         <div class="question" id="question5" data-section="info">
-          <h3>Q5. お客様の性別をお聞かせください。（任意）</h3>
+          <h3 data-i18n="q5.title"></h3>
           <div class="options">
             <input type="radio" id="male" name="gender" value="男性">
-            <label for="male">男性</label>
+            <label for="male" data-i18n="q5.male"></label>
             
             <input type="radio" id="female" name="gender" value="女性">
-            <label for="female">女性</label>
+            <label for="female" data-i18n="q5.female"></label>
             
             <input type="radio" id="other" name="gender" value="その他">
-            <label for="other">その他</label>
+            <label for="other" data-i18n="q5.other"></label>
           </div>
         </div>
         
-        <!-- 年齢（任意） - ラジオボタンでの選択質問 -->
+        <!-- Q6. 年齢（任意） -->
         <div class="question" id="question6" data-section="info">
-          <h3>Q6. お客様のご年齢をお聞かせください。（任意）</h3>
+          <h3 data-i18n="q6.title"></h3>
           <div class="options">
             <input type="radio" id="age10s" name="age" value="10代">
-            <label for="age10s">10代</label>
+            <label for="age10s" data-i18n="q6.age10s"></label>
             
             <input type="radio" id="age20s" name="age" value="20代">
-            <label for="age20s">20代</label>
+            <label for="age20s" data-i18n="q6.age20s"></label>
             
             <input type="radio" id="age30s" name="age" value="30代">
-            <label for="age30s">30代</label>
+            <label for="age30s" data-i18n="q6.age30s"></label>
             
             <input type="radio" id="age40s" name="age" value="40代">
-            <label for="age40s">40代</label>
+            <label for="age40s" data-i18n="q6.age40s"></label>
             
             <input type="radio" id="age50s" name="age" value="50代">
-            <label for="age50s">50代</label>
+            <label for="age50s" data-i18n="q6.age50s"></label>
             
             <input type="radio" id="age60plus" name="age" value="60代以上">
-            <label for="age60plus">60代以上</label>
+            <label for="age60plus" data-i18n="q6.age60plus"></label>
           </div>
         </div>
         
-        <!-- 
-          利用サービス（複数選択可） - チェックボックスでの複数選択質問
-          type="checkbox"は複数選択が可能な入力要素を作成します
-        -->
+        <!-- Q7. 利用サービス（複数選択可） -->
         <div class="question" id="question7" data-section="service">
-          <h3>Q7. 本日ご利用いただいたメニューをお選びください。（複数選択可）</h3>
-            <!-- 
-              チェックボックス - 複数選択可能な入力要素
-              同じname属性を持つチェックボックスは、グループとして扱われますが
-              ラジオボタンと異なり複数選択可能です
-            -->
-           
-  <!-- 通常店舗用のメニュー（デフォルト表示） -->
-  <div class="options" id="standard-services">
-    <input type="checkbox" id="cut" name="services" value="カット">
-    <label for="cut">カット</label>
-    
-    <input type="checkbox" id="color" name="services" value="カラー">
-    <label for="color">カラー</label>
-    
-    <input type="checkbox" id="perm" name="services" value="パーマ">
-    <label for="perm">パーマ</label>
-    
-    <input type="checkbox" id="treatment" name="services" value="トリートメント">
-    <label for="treatment">トリートメント</label>
-    
-    <input type="checkbox" id="headspa" name="services" value="ヘッドスパ">
-    <label for="headspa">ヘッドスパ</label>
-    
-    <input type="checkbox" id="other-service" name="services" value="その他">
-    <label for="other-service">その他（ネイル・着付け 等）</label>
-  </div>
-  
-  <!-- iL店舗用のメニュー（初期状態では非表示） -->
-  <div class="options" id="il-services" style="display: none;">
-    <input type="checkbox" id="il-eyelash-ext" name="services" value="まつ毛エクステ">
-    <label for="il-eyelash-ext">まつ毛エクステ</label>
-    
-    <input type="checkbox" id="il-eyelash-perm" name="services" value="まつ毛パーマ">
-    <label for="il-eyelash-perm">まつ毛パーマ</label>
-    
-    <input type="checkbox" id="il-wax" name="services" value="WAXメニュー">
-    <label for="il-wax">WAXメニュー</label>
-    
-    <input type="checkbox" id="il-other" name="services" value="その他メニュー">
-    <label for="il-other">その他メニュー</label>
-  </div>
-</div>
+          <h3 data-i18n="q7.title"></h3>
+            
+          <!-- 通常店舗用のメニュー（デフォルト表示） -->
+          <div class="options" id="standard-services">
+            <input type="checkbox" id="cut" name="services" value="カット">
+            <label for="cut" data-i18n="q7.cut"></label>
+            
+            <input type="checkbox" id="color" name="services" value="カラー">
+            <label for="color" data-i18n="q7.color"></label>
+            
+            <input type="checkbox" id="perm" name="services" value="パーマ">
+            <label for="perm" data-i18n="q7.perm"></label>
+            
+            <input type="checkbox" id="treatment" name="services" value="トリートメント">
+            <label for="treatment" data-i18n="q7.treatment"></label>
+            
+            <input type="checkbox" id="headspa" name="services" value="ヘッドスパ">
+            <label for="headspa" data-i18n="q7.headspa"></label>
+            
+            <input type="checkbox" id="other-service" name="services" value="その他">
+            <label for="other-service" data-i18n="q7.other"></label>
+          </div>
           
+          <!-- iL店舗用のメニュー（初期状態では非表示） -->
+          <div class="options" id="il-services" style="display: none;">
+            <input type="checkbox" id="il-eyelash-ext" name="services" value="まつ毛エクステ">
+            <label for="il-eyelash-ext" data-i18n="q7.il.eyelashExt"></label>
+            
+            <input type="checkbox" id="il-eyelash-perm" name="services" value="まつ毛パーマ">
+            <label for="il-eyelash-perm" data-i18n="q7.il.eyelashPerm"></label>
+            
+            <input type="checkbox" id="il-wax" name="services" value="WAXメニュー">
+            <label for="il-wax" data-i18n="q7.il.wax"></label>
+            
+            <input type="checkbox" id="il-other" name="services" value="その他メニュー">
+            <label for="il-other" data-i18n="q7.il.other"></label>
+          </div>
         </div>
-        
-        <!-- サービス満足度 - ラジオボタンでの5段階評価質問 -->
+          
+        <!-- Q8. サービス満足度 -->
         <div class="question" id="question8" data-section="service">
-          <h3>Q8. 施術の技術や仕上がりに対する満足度をお聞かせください。</h3>
+          <h3 data-i18n="q8.title"></h3>
           <div class="options">
-            <!-- 5段階評価のラジオボタン - 最高評価から最低評価まで -->
             <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
-            <label for="service5">非常に満足</label>
+            <label for="service5" data-i18n="q8.veryGood"></label>
             
             <input type="radio" id="service4" name="serviceSatisfaction" value="満足">
-            <label for="service4">満足</label>
+            <label for="service4" data-i18n="q8.good"></label>
             
             <input type="radio" id="service3" name="serviceSatisfaction" value="普通">
-            <label for="service3">普通</label>
+            <label for="service3" data-i18n="q8.normal"></label>
             
             <input type="radio" id="service2" name="serviceSatisfaction" value="不満">
-            <label for="service2">不満</label>
+            <label for="service2" data-i18n="q8.bad"></label>
             
             <input type="radio" id="service1" name="serviceSatisfaction" value="非常に不満">
-            <label for="service1">非常に不満</label>
+            <label for="service1" data-i18n="q8.veryBad"></label>
           </div>
         </div>
         
-        <!-- スタッフ対応 - ラジオボタンでの5段階評価質問 -->
+        <!-- Q9. スタッフ対応 -->
         <div class="question" id="question9" data-section="service">
-          <h3>Q9. スタッフの接客対応はいかがでしたか？</h3>
+          <h3 data-i18n="q9.title"></h3>
           <div class="options">
             <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
-            <label for="staff5">非常に良い</label>
+            <label for="staff5" data-i18n="q9.veryGood"></label>
             
             <input type="radio" id="staff4" name="staffResponse" value="良い">
-            <label for="staff4">良い</label>
+            <label for="staff4" data-i18n="q9.good"></label>
             
             <input type="radio" id="staff3" name="staffResponse" value="普通">
-            <label for="staff3">普通</label>
+            <label for="staff3" data-i18n="q9.normal"></label>
             
             <input type="radio" id="staff2" name="staffResponse" value="悪い">
-            <label for="staff2">悪い</label>
+            <label for="staff2" data-i18n="q9.bad"></label>
             
             <input type="radio" id="staff1" name="staffResponse" value="非常に悪い">
-            <label for="staff1">非常に悪い</label>
+            <label for="staff1" data-i18n="q9.veryBad"></label>
           </div>
         </div>
         
-        <!-- 待ち時間 - ラジオボタンでの5段階評価質問 -->
+        <!-- Q10. 待ち時間 -->
         <div class="question" id="question10" data-section="service">
-          <h3>Q10. ご来店から施術開始までの時間についてのご感想をお聞かせください。。</h3>
+          <h3 data-i18n="q10.title"></h3>
           <div class="options">
             <input type="radio" id="wait5" name="waitTime" value="非常に満足">
-            <label for="wait5">非常に満足</label>
+            <label for="wait5" data-i18n="q10.veryGood"></label>
             
             <input type="radio" id="wait4" name="waitTime" value="満足">
-            <label for="wait4">満足</label>
+            <label for="wait4" data-i18n="q10.good"></label>
             
             <input type="radio" id="wait3" name="waitTime" value="普通">
-            <label for="wait3">普通</label>
+            <label for="wait3" data-i18n="q10.normal"></label>
             
             <input type="radio" id="wait2" name="waitTime" value="不満">
-            <label for="wait2">不満</label>
+            <label for="wait2" data-i18n="q10.bad"></label>
             
             <input type="radio" id="wait1" name="waitTime" value="非常に不満">
-            <label for="wait1">非常に不満</label>
+            <label for="wait1" data-i18n="q10.veryBad"></label>
           </div>
         </div>
         
-        <!-- 店内清潔感 - ラジオボタンでの5段階評価質問 -->
+        <!-- Q11. 店内清潔感 -->
         <div class="question" id="question11" data-section="service">
-          <h3>Q11. 店内の空間や清潔感についてのご印象をお聞かせください。</h3>
+          <h3 data-i18n="q11.title"></h3>
           <div class="options">
             <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
-            <label for="clean5">非常に清潔</label>
+            <label for="clean5" data-i18n="q11.veryGood"></label>
             
             <input type="radio" id="clean4" name="cleanliness" value="清潔">
-            <label for="clean4">清潔</label>
+            <label for="clean4" data-i18n="q11.good"></label>
             
             <input type="radio" id="clean3" name="cleanliness" value="普通">
-            <label for="clean3">普通</label>
+            <label for="clean3" data-i18n="q11.normal"></label>
             
             <input type="radio" id="clean2" name="cleanliness" value="不清潔">
-            <label for="clean2">不清潔</label>
+            <label for="clean2" data-i18n="q11.bad"></label>
             
             <input type="radio" id="clean1" name="cleanliness" value="非常に不清潔">
-            <label for="clean1">非常に不清潔</label>
+            <label for="clean1" data-i18n="q11.veryBad"></label>
           </div>
         </div>
         
-        <!-- 改善点・要望 - 自由記述のテキストエリア質問 -->
+        <!-- Q12. 改善点・要望 -->
         <div class="question" id="question12" data-section="feedback">
-          <h3>Q12. ご要望や改善点などがございましたら、ぜひお聞かせください。（任意）</h3>
-          <!-- 
-            複数行のテキストエリア - 自由回答用
-            rows属性で表示行数を3行に設定
-          -->
-          <textarea name="improvement" rows="3" placeholder="ご意見をご記入ください"></textarea>
+          <h3 data-i18n="q12.title"></h3>
+          <textarea name="improvement" rows="3" data-i18n-placeholder="q12.placeholder"></textarea>
         </div>
         
-        <!-- その他感想 - 自由記述のテキストエリア質問 -->
+        <!-- Q13. その他感想 -->
         <div class="question" id="question13" data-section="feedback">
-          <h3>Q13. その他、当店での体験についてのご感想やお気づきの点をお聞かせください。（任意）</h3>
-          <textarea name="otherComments" rows="3" placeholder="ご感想をご記入ください"></textarea>
+          <h3 data-i18n="q13.title"></h3>
+          <textarea name="otherComments" rows="3" data-i18n-placeholder="q13.placeholder"></textarea>
         </div>
       </div>
 
-      <!-- 
-        グローバルバリデーションメッセージ - すべての必須項目が未入力の場合に表示
-        インラインスタイルでテキスト中央揃えとマージン設定
-      -->
+      <!-- グローバルバリデーションメッセージ -->
       <div class="validation-message" id="global-validation" style="text-align: center; margin-bottom: var(--spacing-md);">
-        <span>必須項目をご入力ください</span>
+        <span data-i18n="validation.global"></span>
       </div>
       
-      <!-- 
-        送信ボタンコンテナ - フォーム送信ボタンを配置
-      -->
+      <!-- 送信ボタン -->
       <div class="submit-container">
-        <!-- 
-          送信ボタン - type="button"はデフォルトの送信動作を抑制し、JavaScriptで処理します
-          クリック時にJavaScriptの送信処理関数が呼び出されます
-        -->
-        <button type="button" id="submitButton" class="submit-button">送信する</button>
+        <button type="button" id="submitButton" class="submit-button" data-i18n="submit"></button>
       </div>
     </form>
 
-   <!-- 
-  星3以下用のメッセージ - 低評価の場合に表示する感謝メッセージ
-  hiddenクラスで初期状態は非表示、JavaScriptで表示制御されます
--->
-<div id="thankyou" class="question feedback-card hidden" data-section="feedback">
-  <h2>ご回答ありがとうございました。</h2>
-  <p>ご回答ありがとうございました。いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。</p>
-</div>
+    <!-- 星3以下用のメッセージ -->
+    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.title"></h2>
+      <p data-i18n="thankyou.low"></p>
+    </div>
 
-<!-- 星4以上用の口コミ促進メッセージ - 高評価の場合に表示するGoogleマップ誘導画面 -->
-<div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
-  <h2>高評価ありがとうございます！</h2>
-  <p>当店をご利用いただき、心より感謝申し上げます。</p>
-  <p>もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。</p>
-  <p>
-    ・下のボタンでコメントをコピー<br>
-    ・投稿ページが開いたらペーストするだけです
-  </p>
-  
-  <!-- 
-    コピー機能付きコンテナ - コメントをコピーしてGoogle口コミに誘導する機能
-  -->
-  <div class="copy-container">
-    <!-- 
-      読み取り専用テキストエリア - コピー用のテキストを表示
-      readonlyは編集を防止し、コピーのみを許可します
-      JavaScriptで事前に回答内容からテキストが生成されます
-    -->
-    <textarea id="comment-to-copy" readonly></textarea>
-    <p class="copy-hint">※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。</p>
-    <div>
-      <!-- 
-        コピーボタン - テキストをクリップボードにコピーする機能
-        onclick属性で直接JavaScriptの関数を呼び出しています
-      -->
-      <button id="copy-button" class="action-button" onclick="copyComment()">コメントをコピー</button>
-      <!-- 
-        リダイレクトボタン - Googleマップの口コミページに誘導する機能
-        onclick属性でJavaScript関数を呼び出し、指定URLに移動します
-      -->
-      <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()">Googleマップで口コミを投稿する</button>
+    <!-- 星4以上用の口コミ促進メッセージ -->
+    <div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.high"></h2>
+      <p data-i18n="thankyou.high.text1"></p>
+      <p data-i18n="thankyou.high.text2"></p>
+      <p data-i18n="thankyou.high.text3"></p>
+      
+      <div class="copy-container">
+        <textarea id="comment-to-copy" readonly></textarea>
+        <p class="copy-hint" data-i18n="thankyou.copy.hint"></p>
+        <div>
+          <button id="copy-button" class="action-button" onclick="copyComment()" data-i18n="thankyou.copy.button"></button>
+          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()" data-i18n="thankyou.redirect.button"></button>
+        </div>
+      </div>
+      
+      <p data-i18n="thankyou.high.text4"></p>
     </div>
   </div>
-  
-  <p>
-    今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>
-    引き続きQUARTERグループをよろしくお願いいたします。
-  </p>
-</div>
-  <!-- 
-    JavaScript読み込み - ページの機能を実装するためのスクリプト
-    本体HTMLの最後でJSファイルを読み込むことで、HTMLの解析が完了してから
-    JavaScriptが実行され、ページの読み込み速度が向上します
-  -->
-  <script src="js/config.js"></script><!-- 設定情報 -->
-  <script src="js/navigation.js"></script><!-- ナビゲーション機能 -->
-  <script src="js/scroll-monitor.js"></script><!-- スクロール監視機能 -->
-  <script src="js/star-rating.js"></script><!-- 星評価機能 -->
-  <script src="js/validation.js"></script><!-- フォーム検証機能 -->
-  <script src="js/dynamic-services.js"></script><!-- 動的メニュー機能 -->
-  <script src="js/main.js"></script><!-- メインの処理機能 -->
 </body>
 </html>

@@ -390,6 +390,16 @@ function submitFormData(dataObj) {
   }
 }
 
+window.updateValidationMessages = function () {
+  const set = (sel, key) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = i18next.t(key);
+  };
+  set('#store-validation span', 'validation.store');
+  set('#rating-validation span', 'validation.rating');
+  set('#global-validation span', 'validation.global');
+};
+
 // グローバルスコープに公開
 // HTMLのonclick属性や他のJSファイルからこの関数を呼び出せるようにする
 window.validateAndSubmit = validateAndSubmit;

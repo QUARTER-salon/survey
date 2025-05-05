@@ -693,3 +693,101 @@ header::after {
     font-size: 24px;
   }
 }
+
+/* ----------------------------------------
+   ヘッダーとロゴのスタイル（追加）
+   ---------------------------------------- */
+   .site-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: var(--spacing-lg);
+  }
+  
+  .logo-img {
+    width: 160px;
+    height: auto;
+    display: block;
+    margin: 0 auto var(--spacing-md);
+    flex-shrink: 0;
+  }
+  
+  /* 既存の lang-header クラスの代わりに site-header を使用するため、互換性のために維持 */
+  .lang-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  /* 言語セレクタのスタイル調整 */
+  #langSelector {
+    padding: 4px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    background-color: white;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: var(--spacing-sm);
+  }
+  /* ----------------------------------------
+   ヘッダーと言語セレクタのスタイル（右上配置）
+   ---------------------------------------- */
+.site-header-alt {
+  position: relative;
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 160px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.language-selector-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.lang-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 4px 8px;
+  transition: color 0.3s ease;
+}
+
+.lang-link:hover {
+  color: var(--primary-color);
+}
+
+.lang-link.active {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.separator {
+  color: var(--primary-color);
+  margin: 0 2px;
+}
+
+/* 既存の lang-header クラスの互換性のために維持 */
+.lang-header {
+  display: none;
+}

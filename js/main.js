@@ -147,8 +147,10 @@ window.handleFormAfterSubmission = function(rating, dataObj) {
       // タイトルを星の数に応じて変更
       const titleElement = reviewRedirect.querySelector('h2');
       if (titleElement) {
-        titleElement.textContent = `星${rating}評価ありがとうございます！`;
-      }
+      // 国際化対応：翻訳キーを使って動的に文言を生成
+      titleElement.setAttribute('data-i18n', 'thankyou.high');     // 翻訳キーを付与
+      titleElement.setAttribute('data-i18n-options', JSON.stringify({ rating })); // rating も渡す
+      titleElement.innerHTML = i18next.t('thankyou.high', { rating });      }
     } else {
       // 低評価（星3以下）の場合はお礼メッセージを表示
       thankYouMessage.classList.remove('hidden');

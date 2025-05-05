@@ -1,0 +1,95 @@
+{
+    "nav.store": "店铺",
+    "nav.rating": "评价",
+    "nav.info": "信息",
+    "nav.service": "服务",
+    "nav.feedback": "感想",
+  
+    "q1.title": "Q1. 今天您光顾了哪家店铺？",
+    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
+    "rating.prefix": "评分:",
+    
+    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
+    
+    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
+    "q3.placeholder": "请输入您的姓名或昵称",
+    
+    "q4.title": "Q4. 您对本店的光临是...（选填）",
+    "q4.firstTime": "初次光临（新顾客）",
+    "q4.repeat": "再次光临（回头客）",
+    
+    "q5.title": "Q5. 请告诉我们您的性别（选填）",
+    "q5.male": "男性",
+    "q5.female": "女性",
+    "q5.other": "其他",
+    
+    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
+    "q6.age10s": "10多岁",
+    "q6.age20s": "20多岁",
+    "q6.age30s": "30多岁",
+    "q6.age40s": "40多岁",
+    "q6.age50s": "50多岁",
+    "q6.age60plus": "60岁以上",
+    
+    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
+    "q7.cut": "剪发",
+    "q7.color": "染发",
+    "q7.perm": "烫发",
+    "q7.treatment": "护理",
+    "q7.headspa": "头皮护理",
+    "q7.other": "其他（美甲、和服穿戴等）",
+    "q7.il.eyelashExt": "睫毛嫁接",
+    "q7.il.eyelashPerm": "睫毛烫",
+    "q7.il.wax": "脱毛服务",
+    "q7.il.other": "其他服务",
+    
+    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
+    "q8.veryGood": "非常满意",
+    "q8.good": "满意",
+    "q8.normal": "一般",
+    "q8.bad": "不满意",
+    "q8.veryBad": "非常不满意",
+    
+    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
+    "q9.veryGood": "非常好",
+    "q9.good": "好",
+    "q9.normal": "一般",
+    "q9.bad": "差",
+    "q9.veryBad": "非常差",
+    
+    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
+    "q10.veryGood": "非常满意",
+    "q10.good": "满意",
+    "q10.normal": "一般",
+    "q10.bad": "不满意",
+    "q10.veryBad": "非常不满意",
+    
+    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
+    "q11.veryGood": "非常干净",
+    "q11.good": "干净",
+    "q11.normal": "一般",
+    "q11.bad": "不干净",
+    "q11.veryBad": "非常不干净",
+    
+    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
+    "q12.placeholder": "请在此输入您的建议",
+    
+    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
+    "q13.placeholder": "请在此输入您的感想",
+    
+    "validation.global": "请填写所有必填项",
+    "validation.store": "请选择店铺",
+    "validation.rating": "请选择评价",
+    "submit": "提交",
+    
+    "thankyou.title": "感谢您的回答。",
+    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
+    "thankyou.high": "感谢您的高度评价！",
+    "thankyou.high.text1": "非常感谢您光临本店。",
+    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
+    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
+    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
+    "thankyou.copy.button": "复制评论",
+    "thankyou.redirect.button": "在谷歌地图上发表评论",
+    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
+  }
