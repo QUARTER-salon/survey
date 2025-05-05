@@ -287,161 +287,6 @@
     line-height: 1.5;
   }
   
-  /* ============================================
-   QUARTERアンケート - おしゃれなアコーディオンスタイル
-   プルダウンの直感性と高級感を向上させるスタイル
-   ============================================ */
-/* ----------------------------------------
-   アコーディオン基本スタイル
-   高級感のあるプルダウンデザイン
-   ---------------------------------------- */
-.collapsible-group details {
-  border: 1px solid var(--border-color);
-  margin-bottom: var(--spacing-sm);
-  background: white;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  border-left: 3px solid var(--secondary-color);
-}
-/* ホバー効果の追加 */
-.collapsible-group details:hover {
-  box-shadow: 0 2px 8px rgba(195, 144, 0, 0.1);
-  transform: translateY(-1px);
-}
-/* サマリー（クリック可能な見出し部分）のスタイル改善 */
-.collapsible-group summary {
-  padding: 12px 16px;
-  font-weight: 500;
-  cursor: pointer;
-  list-style: none; /* デフォルトの三角形を非表示 */
-  position: relative;
-  background-color: white;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  letter-spacing: 0.5px;
-}
-/* Safariなどでリスト記号を非表示にするため */
-.collapsible-group summary::-webkit-details-marker {
-  display: none;
-}
-/* ----------------------------------------
-   プルダウン矢印の追加
-   直感的な操作感のための視覚的手がかり
-   ---------------------------------------- */
-/* カスタム矢印をサマリーの後に追加 */
-.collapsible-group summary::after {
-  content: ""; /* 疑似要素にコンテンツを追加 */
-  width: 12px;
-  height: 12px;
-  border-right: 2px solid var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
-  transform: rotate(45deg); /* 下向き矢印の形に回転 */
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  position: absolute;
-  right: 16px;
-  opacity: 0.7;
-}
-/* ホバー時の矢印スタイル */
-.collapsible-group summary:hover::after {
-  opacity: 1;
-  transform: rotate(45deg) scale(1.1);
-}
-/* 開いた状態の矢印を上向きに変更 */
-.collapsible-group details[open] summary::after {
-  transform: rotate(-135deg); /* 上向き矢印に変更 */
-}
-/* ----------------------------------------
-   開閉時のアニメーション効果
-   エレガントな動きによる高級感の演出
-   ---------------------------------------- */
-/* 開閉時のサマリースタイル変更 */
-.collapsible-group details[open] summary {
-  background: linear-gradient(to right, rgba(230, 216, 179, 0.15), white);
-  border-bottom: 1px solid var(--border-color);
-  color: var(--primary-color);
-}
-/* 開いた時のサマリーのホバー効果 */
-.collapsible-group details[open]:hover {
-  box-shadow: 0 3px 10px rgba(195, 144, 0, 0.12);
-}
-/* オプションコンテナのアニメーション設定 */
-.collapsible-group .options {
-  padding: 16px;
-  animation: fadeSlideDown 0.3s ease-out;
-  border-top: none;
-}
-/* フェードイン＋スライドダウンアニメーション */
-@keyframes fadeSlideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-/* 強調表示（開いた時の左ボーダー変更） */
-.collapsible-group details[open] {
-  border-left: 3px solid var(--primary-color);
-}
-/* ----------------------------------------
-   サマリーテキストの強調
-   カテゴリーの視認性向上
-   ---------------------------------------- */
-.collapsible-group summary {
-  color: var(--text-color);
-  font-size: 15px;
-  font-weight: 500;
-}
-/* エレガントなアクセント装飾 - 左側の小さなドット */
-.collapsible-group summary::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background-color: var(--primary-color);
-  border-radius: 50%;
-  margin-right: 8px;
-  opacity: 0.7;
-  vertical-align: middle;
-}
-/* 開いた時のドット強調 */
-.collapsible-group details[open] summary::before {
-  opacity: 1;
-  background-color: var(--primary-color);
-}
-/* ----------------------------------------
-   モバイル対応の調整
-   小さな画面でも使いやすいデザイン
-   ---------------------------------------- */
-@media (max-width: 480px) {
-  .collapsible-group summary {
-    padding: 10px 14px;
-    font-size: 14px;
-  }
-  
-  .collapsible-group summary::after {
-    width: 10px;
-    height: 10px;
-    right: 14px;
-  }
-  
-  .collapsible-group .options {
-    padding: 12px;
-  }
-}
-/* タッチデバイス向けの調整 */
-@media (hover: none) {
-  /* タッチデバイスでのタップフィードバック */
-  .collapsible-group summary:active {
-    background-color: rgba(230, 216, 179, 0.2);
-  }
-}
-  
   /* ----------------------------------------
      星評価
      インタラクティブな星評価コンポーネント
@@ -603,13 +448,10 @@
     display: none; /* 要素を非表示 */
   }
   
-  
-  
   /* ----------------------------------------
      サンクスページと口コミリダイレクト
      完了と後続画面のスタイリング
      ---------------------------------------- */
-  
   
   /* フィードバック画面のテキストエリア幅を調整 */
   #review-redirect .copy-container,
@@ -805,8 +647,6 @@
     background-color: var(--border-color);
     margin: 0 auto var(--spacing-md);
   }
-  
-  
   
   /* コンテナの背景と枠線設定 */
   .container {
