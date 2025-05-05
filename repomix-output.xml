@@ -119,261 +119,6 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 </file>
 
-<file path="css/style-fix.css">
-/* 
-   QUARTERアンケート - 幅修正CSS
-   フォームと完了画面のレイアウト幅を完全に統一するためのシンプルな修正
-*/
-
-/* コンテナ設定 - 基本の白背景 */
-.container {
-  background-color: white;
-}
-
-/* 質問カード - 基本のレイアウト定義 */
-.question {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  box-sizing: border-box;
-}
-
-/* フィードバックカードを質問カードと完全に同じ幅に設定 */
-#thankyou,
-#review-redirect {
-  display: block;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  box-sizing: border-box;
-  background-color: white;
-}
-
-/* 非表示設定 */
-.hidden {
-  display: none !important;
-}
-
-/* コピーコンテナの幅設定 */
-.copy-container,
-#comment-to-copy {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* モバイル向けの調整 - 同じ幅と余白を維持 */
-@media (max-width: 480px) {
-  .question,
-  #thankyou,
-  #review-redirect {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-  }
-}
-</file>
-
-<file path="js/dynamic-services.js">
-/**
- * 動的サービスメニュー制御
- * 選択された店舗に基づいて施術メニューを切り替えます
- * 
- * このファイルは店舗選択ラジオボタンの変更を監視し、
- * iL店舗が選択された場合にのみ特別なメニュー選択肢を表示します。
- */
-
-// DOM読み込み完了後に初期化
-document.addEventListener('DOMContentLoaded', function() {
-  initDynamicServices();
-});
-
-/**
- * 動的サービスメニュー切り替え機能の初期化
- */
-function initDynamicServices() {
-  console.log('動的サービスメニュー機能を初期化');
-  
-  // 店舗選択ラジオボタンに変更イベントリスナーを設定
-  const storeRadios = document.querySelectorAll('input[name="store"]');
-  
-  storeRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
-      console.log('店舗選択変更: ' + this.value);
-      updateServiceOptions();
-    });
-  });
-  
-  // 初期状態のチェック（ページ読み込み時や戻る操作など、既に選択がある場合に対応）
-  updateServiceOptions();
-}
-
-/**
- * 選択された店舗に応じてサービスメニューを更新
- */
-function updateServiceOptions() {
-  // 選択されている店舗を取得
-  const selectedStore = document.querySelector('input[name="store"]:checked');
-  
-  // サービスメニューのコンテナ
-  const standardServices = document.getElementById('standard-services');
-  const ilServices = document.getElementById('il-services');
-  
-  if (!standardServices || !ilServices) {
-    console.warn('サービスメニューコンテナが見つかりません');
-    return;
-  }
-  
-  // 選択に応じて表示を切り替え
-  if (selectedStore && selectedStore.value === 'iL') {
-    // iLが選択された場合
-    console.log('iL用メニューを表示');
-    standardServices.style.display = 'none';
-    ilServices.style.display = 'block';
-    
-    // 標準メニューのチェックを解除
-    uncheckAll(standardServices);
-  } else {
-    // iL以外が選択された場合または未選択の場合
-    console.log('標準メニューを表示');
-    standardServices.style.display = 'block';
-    ilServices.style.display = 'none';
-    
-    // iLメニューのチェックを解除
-    uncheckAll(ilServices);
-  }
-}
-
-/**
- * 指定されたコンテナ内のすべてのチェックボックスのチェックを解除
- * メニュー切替時に選択状態をクリアするため
- * 
- * @param {HTMLElement} container - チェックボックスを含むコンテナ要素
- */
-function uncheckAll(container) {
-  if (!container) return;
-  
-  const checkboxes = container.querySelectorAll('input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-    checkbox.checked = false;
-  });
-}
-
-// グローバルスコープに公開
-window.initDynamicServices = initDynamicServices;
-</file>
-
-<file path="js/i18n.js">
-(function () {
-    // 1. i18next 初期化
-    i18next
-      .use(i18nextBrowserLanguageDetector)
-      .init({
-        fallbackLng: 'ja',
-        debug: true,
-        detection: {               // ←?lang=en でも拾えるよう追加
-                  lookupQuerystring: 'lng',
-                  // 既定の 'lng' も並行して効く
-                },
-        resources: {} // 後でロード
-      })
-      .then(loadResourcesAndRender);
-  
-    // 2. 翻訳 JSON をフェッチ
-    async function loadResourcesAndRender() {
-      const lngs = ['ja', 'en', 'zh'];
-      await Promise.all(
-        lngs.map(async lng => {
-          const res = await fetch(`locales/${lng}/translation.json`);
-          const json = await res.json();
-          i18next.addResources(lng, 'translation', json);
-        })
-      );
-      renderContent();
-    }
-  
-    // 3. DOM 反映
-    function renderContent() {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
-        el.innerHTML = i18next.t(key, opts);
-      });
-      
-      // input要素のplaceholder属性などにも対応
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        el.setAttribute('placeholder', i18next.t(key));
-      });
-      
-      // バリデーションメッセージなど JS 生成文字列も更新
-      if (window.updateValidationMessages) window.updateValidationMessages();
-    }
-  
-    // 言語リンクの状態を更新する関数
-    function updateLanguageLinks(selectedLang) {
-      document.querySelectorAll('.lang-link').forEach(link => {
-        if (link.getAttribute('data-lang') === selectedLang) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
-  
-    // 4. 言語変更ハンドラ（セレクタ用）
-    window.changeLang = function (lng) {
-      i18next.changeLanguage(lng).then(() => {
-        renderContent();
-        updateLanguageLinks(lng);
-      });
-      localStorage.setItem('lang', lng);
-    };
-    
-    // 5. ページ読み込み時に言語セレクタの値を設定
-    document.addEventListener('DOMContentLoaded', () => {
-      // 言語セレクタがあれば現在の言語を設定
-      const sel = document.getElementById('langSelector');
-      if (sel) {
-        const cur = i18next.language || 'ja';
-        sel.value = cur;
-      }
-      
-      // 言語リンクがあれば現在の言語に合わせてハイライト
-      const currentLang = i18next.language || 'ja';
-      updateLanguageLinks(currentLang);
-    });
-  })();
-</file>
-
-<file path="js/mock-api.js">
-// js/mock-api.js
-if (window.CONFIG && window.CONFIG.IS_DEV) {
-    // 元の関数を保存
-    window.originalSubmitFormData = window.submitFormData;
-    
-    // モック関数で置き換え
-    window.submitFormData = function(dataObj) {
-      console.log('開発モード - 送信データ:', dataObj);
-      
-      // モックレスポンスを返す
-      setTimeout(() => {
-        // 成功レスポンスをシミュレート
-        const mockResponse = {success: true};
-        console.log('開発モード - 応答:', mockResponse);
-        
-        // フォーム送信後の処理を呼び出し
-        const rating = parseInt(dataObj.rating) || 3;
-        if (typeof window.handleFormAfterSubmission === 'function') {
-          window.handleFormAfterSubmission(rating, dataObj);
-        }
-      }, 500); // リアルな遅延をシミュレート
-      
-      return false; // 実際の送信を防止
-    };
-  }
-</file>
-
 <file path="js/navigation.js">
 /**
  * QUARTERアンケート - デスクトップ対応ナビゲーション機能
@@ -700,6 +445,261 @@ if (window.CONFIG && window.CONFIG.IS_DEV) {
     }
   }
 })(); // 即時実行関数の終了と実行
+</file>
+
+<file path="css/style-fix.css">
+/* 
+   QUARTERアンケート - 幅修正CSS
+   フォームと完了画面のレイアウト幅を完全に統一するためのシンプルな修正
+*/
+
+/* コンテナ設定 - 基本の白背景 */
+.container {
+  background-color: white;
+}
+
+/* 質問カード - 基本のレイアウト定義 */
+.question {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  box-sizing: border-box;
+}
+
+/* フィードバックカードを質問カードと完全に同じ幅に設定 */
+#thankyou,
+#review-redirect {
+  display: block;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+/* 非表示設定 */
+.hidden {
+  display: none !important;
+}
+
+/* コピーコンテナの幅設定 */
+.copy-container,
+#comment-to-copy {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* モバイル向けの調整 - 同じ幅と余白を維持 */
+@media (max-width: 480px) {
+  .question,
+  #thankyou,
+  #review-redirect {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+</file>
+
+<file path="js/dynamic-services.js">
+/**
+ * 動的サービスメニュー制御
+ * 選択された店舗に基づいて施術メニューを切り替えます
+ * 
+ * このファイルは店舗選択ラジオボタンの変更を監視し、
+ * iL店舗が選択された場合にのみ特別なメニュー選択肢を表示します。
+ */
+
+// DOM読み込み完了後に初期化
+document.addEventListener('DOMContentLoaded', function() {
+  initDynamicServices();
+});
+
+/**
+ * 動的サービスメニュー切り替え機能の初期化
+ */
+function initDynamicServices() {
+  console.log('動的サービスメニュー機能を初期化');
+  
+  // 店舗選択ラジオボタンに変更イベントリスナーを設定
+  const storeRadios = document.querySelectorAll('input[name="store"]');
+  
+  storeRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      console.log('店舗選択変更: ' + this.value);
+      updateServiceOptions();
+    });
+  });
+  
+  // 初期状態のチェック（ページ読み込み時や戻る操作など、既に選択がある場合に対応）
+  updateServiceOptions();
+}
+
+/**
+ * 選択された店舗に応じてサービスメニューを更新
+ */
+function updateServiceOptions() {
+  // 選択されている店舗を取得
+  const selectedStore = document.querySelector('input[name="store"]:checked');
+  
+  // サービスメニューのコンテナ
+  const standardServices = document.getElementById('standard-services');
+  const ilServices = document.getElementById('il-services');
+  
+  if (!standardServices || !ilServices) {
+    console.warn('サービスメニューコンテナが見つかりません');
+    return;
+  }
+  
+  // 選択に応じて表示を切り替え
+  if (selectedStore && selectedStore.value === 'iL') {
+    // iLが選択された場合
+    console.log('iL用メニューを表示');
+    standardServices.style.display = 'none';
+    ilServices.style.display = 'block';
+    
+    // 標準メニューのチェックを解除
+    uncheckAll(standardServices);
+  } else {
+    // iL以外が選択された場合または未選択の場合
+    console.log('標準メニューを表示');
+    standardServices.style.display = 'block';
+    ilServices.style.display = 'none';
+    
+    // iLメニューのチェックを解除
+    uncheckAll(ilServices);
+  }
+}
+
+/**
+ * 指定されたコンテナ内のすべてのチェックボックスのチェックを解除
+ * メニュー切替時に選択状態をクリアするため
+ * 
+ * @param {HTMLElement} container - チェックボックスを含むコンテナ要素
+ */
+function uncheckAll(container) {
+  if (!container) return;
+  
+  const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+}
+
+// グローバルスコープに公開
+window.initDynamicServices = initDynamicServices;
+</file>
+
+<file path="js/i18n.js">
+(function () {
+    // 1. i18next 初期化
+    i18next
+      .use(i18nextBrowserLanguageDetector)
+      .init({
+        fallbackLng: 'ja',
+        debug: true,
+        detection: {               // ←?lang=en でも拾えるよう追加
+                  lookupQuerystring: 'lng',
+                  // 既定の 'lng' も並行して効く
+                },
+        resources: {} // 後でロード
+      })
+      .then(loadResourcesAndRender);
+  
+    // 2. 翻訳 JSON をフェッチ
+    async function loadResourcesAndRender() {
+      const lngs = ['ja', 'en', 'zh'];
+      await Promise.all(
+        lngs.map(async lng => {
+          const res = await fetch(`locales/${lng}/translation.json`);
+          const json = await res.json();
+          i18next.addResources(lng, 'translation', json);
+        })
+      );
+      renderContent();
+    }
+  
+    // 3. DOM 反映
+    function renderContent() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
+        el.innerHTML = i18next.t(key, opts);
+      });
+      
+      // input要素のplaceholder属性などにも対応
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.setAttribute('placeholder', i18next.t(key));
+      });
+      
+      // バリデーションメッセージなど JS 生成文字列も更新
+      if (window.updateValidationMessages) window.updateValidationMessages();
+    }
+  
+    // 言語リンクの状態を更新する関数
+    function updateLanguageLinks(selectedLang) {
+      document.querySelectorAll('.lang-link').forEach(link => {
+        if (link.getAttribute('data-lang') === selectedLang) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+  
+    // 4. 言語変更ハンドラ（セレクタ用）
+    window.changeLang = function (lng) {
+      i18next.changeLanguage(lng).then(() => {
+        renderContent();
+        updateLanguageLinks(lng);
+      });
+      localStorage.setItem('lang', lng);
+    };
+    
+    // 5. ページ読み込み時に言語セレクタの値を設定
+    document.addEventListener('DOMContentLoaded', () => {
+      // 言語セレクタがあれば現在の言語を設定
+      const sel = document.getElementById('langSelector');
+      if (sel) {
+        const cur = i18next.language || 'ja';
+        sel.value = cur;
+      }
+      
+      // 言語リンクがあれば現在の言語に合わせてハイライト
+      const currentLang = i18next.language || 'ja';
+      updateLanguageLinks(currentLang);
+    });
+  })();
+</file>
+
+<file path="js/mock-api.js">
+// js/mock-api.js
+if (window.CONFIG && window.CONFIG.IS_DEV) {
+    // 元の関数を保存
+    window.originalSubmitFormData = window.submitFormData;
+    
+    // モック関数で置き換え
+    window.submitFormData = function(dataObj) {
+      console.log('開発モード - 送信データ:', dataObj);
+      
+      // モックレスポンスを返す
+      setTimeout(() => {
+        // 成功レスポンスをシミュレート
+        const mockResponse = {success: true};
+        console.log('開発モード - 応答:', mockResponse);
+        
+        // フォーム送信後の処理を呼び出し
+        const rating = parseInt(dataObj.rating) || 3;
+        if (typeof window.handleFormAfterSubmission === 'function') {
+          window.handleFormAfterSubmission(rating, dataObj);
+        }
+      }, 500); // リアルな遅延をシミュレート
+      
+      return false; // 実際の送信を防止
+    };
+  }
 </file>
 
 <file path="js/star-rating.js">
@@ -3819,9 +3819,6 @@ body {
   /* その他の共通スタイル */
 }
 
-
-
-
 /* テキストエリアとボタン配置の調整 */
 #review-redirect .copy-container {
   width: 100%;
@@ -3844,19 +3841,57 @@ body {
 }
 
 /* ----------------------------------------
+   ヘッダーと言語セレクタのスタイル調整
+   全画面サイズでの言語セレクタとロゴの重なりを防止
+   ---------------------------------------- */
+
+/* デスクトップサイズでの基本設定 */
+.site-header-alt {
+  position: relative;
+}
+
+.language-selector-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10; /* 他の要素より前面に表示 */
+}
+
+/* ----------------------------------------
    モバイル端末（480px以下）
    スマートフォンなどの小さな画面向けの調整
    ---------------------------------------- */
 @media (max-width: 480px) {
+  /* 言語セレクタをロゴの上部中央に配置して重なりを防止 */
+  .site-header-alt {
+    padding-top: 50px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 10px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 5px; /* ロゴの上部マージンを調整 */
+  }
 
-   .feedback-card {
+  /* 非常に小さな画面ではロゴを少し小さくする */
+  .text-logo {
+    max-width: 160px;
+  }
+
+  .feedback-card {
     /* スマホでの余白調整 - 質問カードと同様に */
     margin-left: 5%;
     margin-right: 5%;
     padding: var(--spacing-md);
   }
-}
-
 
   /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
   .container {
@@ -3948,6 +3983,25 @@ body {
    中間サイズのデバイス向けの微調整
    ---------------------------------------- */
 @media (min-width: 481px) and (max-width: 768px) {
+  /* タブレットでも言語セレクタの位置調整 */
+  .site-header-alt {
+    padding-top: 55px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 12px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 8px; /* ロゴの上部マージンを調整 */
+  }
+
   /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
   .container {
     padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */

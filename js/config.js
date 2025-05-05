@@ -24,8 +24,6 @@ window.CONFIG = {
     'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',         // QUARTERメイン店
     'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',   // QUARTERリゾート店
     'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',  // QUARTER SEASONS店
-    
-    // 関連ブランドの店舗
     'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',            // LINK店
     'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'               // iL店
   }

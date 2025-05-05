@@ -4,7 +4,7 @@
       .use(i18nextBrowserLanguageDetector)
       .init({
         fallbackLng: 'ja',
-        debug: true,
+        debug: false,
         detection: {               // ←?lang=en でも拾えるよう追加
                   lookupQuerystring: 'lng',
                   // 既定の 'lng' も並行して効く
