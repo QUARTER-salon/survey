@@ -791,3 +791,23 @@ header::after {
 .lang-header {
   display: none;
 }
+
+/* アコーディオンの見た目調整 */
+.collapsible-group details {
+  border: 1px solid var(--border-color, #e6d8b3);
+  border-radius: 4px;
+  margin-bottom: var(--spacing-sm, 8px);
+  background: #fff;
+}
+.collapsible-group summary {
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;           /* Safari矢印非表示 */
+}
+.collapsible-group details[open] summary {
+  background: var(--accent-light, #f7f3e8);
+}
+.collapsible-group .options {
+  padding: 8px 16px 12px;
+}
