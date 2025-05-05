@@ -1,0 +1,68 @@
+/* ============================================
+   QUARTERアンケート - 構造化メニュースタイル
+   JavaScriptで分離されたメニュー項目のスタイル定義
+   ============================================ */
+
+/* ----------------------------------------
+   構造化メニュー項目のスタイル
+   ---------------------------------------- */
+
+/* メニュータイトルのスタイル */
+.menu-title {
+  display: block;
+  font-weight: 500;
+  color: var(--text-color);
+  font-size: 15px;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* メニュー説明のスタイル */
+.menu-description {
+  display: block;
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+/* 選択状態のスタイル強化 */
+.options input[type="radio"]:checked + label .menu-title,
+.options input[type="checkbox"]:checked + label .menu-title {
+  color: var(--primary-color);
+}
+
+/* ホバー時のスタイル */
+.options label:hover .menu-title {
+  color: var(--primary-color);
+}
+
+/* アコーディオン内のメニュースタイル微調整 */
+.collapsible-group .options label .menu-title {
+  font-size: 14px;
+}
+
+.collapsible-group .options label .menu-description {
+  font-size: 12px;
+}
+
+/* ----------------------------------------
+   モバイル対応
+   ---------------------------------------- */
+@media (max-width: 480px) {
+  .menu-title {
+    font-size: 14px;
+  }
+  
+  .menu-description {
+    font-size: 12px;
+  }
+  
+  .collapsible-group .options label .menu-title {
+    font-size: 13px;
+  }
+  
+  .collapsible-group .options label .menu-description {
+    font-size: 11px;
+  }
+}
