@@ -119,182 +119,6 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 </file>
 
-<file path="js/i18n.js">
-(function () {
-    // 1. i18next 初期化
-    i18next
-      .use(i18nextBrowserLanguageDetector)
-      .init({
-        fallbackLng: 'ja',
-        debug: true,
-        detection: {               // ←?lang=en でも拾えるよう追加
-                  lookupQuerystring: 'lng',
-                  // 既定の 'lng' も並行して効く
-                },
-        resources: {} // 後でロード
-      })
-      .then(loadResourcesAndRender);
-  
-    // 2. 翻訳 JSON をフェッチ
-    async function loadResourcesAndRender() {
-      const lngs = ['ja', 'en', 'zh'];
-      await Promise.all(
-        lngs.map(async lng => {
-          const res = await fetch(`locales/${lng}/translation.json`);
-          const json = await res.json();
-          i18next.addResources(lng, 'translation', json);
-        })
-      );
-      renderContent();
-    }
-  
-    // 3. DOM 反映
-    function renderContent() {
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
-        el.innerHTML = i18next.t(key, opts);
-      });
-      
-      // input要素のplaceholder属性などにも対応
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        el.setAttribute('placeholder', i18next.t(key));
-      });
-      
-      // バリデーションメッセージなど JS 生成文字列も更新
-      if (window.updateValidationMessages) window.updateValidationMessages();
-    }
-  
-    // 言語リンクの状態を更新する関数
-    function updateLanguageLinks(selectedLang) {
-      document.querySelectorAll('.lang-link').forEach(link => {
-        if (link.getAttribute('data-lang') === selectedLang) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
-  
-    // 4. 言語変更ハンドラ（セレクタ用）
-    window.changeLang = function (lng) {
-      i18next.changeLanguage(lng).then(() => {
-        renderContent();
-        updateLanguageLinks(lng);
-      });
-      localStorage.setItem('lang', lng);
-    };
-    
-    // 5. ページ読み込み時に言語セレクタの値を設定
-    document.addEventListener('DOMContentLoaded', () => {
-      // 言語セレクタがあれば現在の言語を設定
-      const sel = document.getElementById('langSelector');
-      if (sel) {
-        const cur = i18next.language || 'ja';
-        sel.value = cur;
-      }
-      
-      // 言語リンクがあれば現在の言語に合わせてハイライト
-      const currentLang = i18next.language || 'ja';
-      updateLanguageLinks(currentLang);
-    });
-  })();
-</file>
-
-<file path="js/mock-api.js">
-// js/mock-api.js
-if (window.CONFIG && window.CONFIG.IS_DEV) {
-    // 元の関数を保存
-    window.originalSubmitFormData = window.submitFormData;
-    
-    // モック関数で置き換え
-    window.submitFormData = function(dataObj) {
-      console.log('開発モード - 送信データ:', dataObj);
-      
-      // モックレスポンスを返す
-      setTimeout(() => {
-        // 成功レスポンスをシミュレート
-        const mockResponse = {success: true};
-        console.log('開発モード - 応答:', mockResponse);
-        
-        // フォーム送信後の処理を呼び出し
-        const rating = parseInt(dataObj.rating) || 3;
-        if (typeof window.handleFormAfterSubmission === 'function') {
-          window.handleFormAfterSubmission(rating, dataObj);
-        }
-      }, 500); // リアルな遅延をシミュレート
-      
-      return false; // 実際の送信を防止
-    };
-  }
-</file>
-
-<file path="locales/en/translation.json">
-{
-    "nav.store": "Store",
-    "nav.rating": "Rating",
-    "nav.info": "Information",
-    "nav.service": "Service",
-    "nav.feedback": "Feedback",
-  
-    "q1.title": "Q1. Which store did you visit today?",
-    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
-    "validation.global": "Please fill in all required fields",
-    "validation.store": "Please select a store",
-    "validation.rating": "Please select a rating",
-    "submit": "Submit",
-  
-    "thankyou.low": "Thank you for your response.",
-    "thankyou.high": "Thank you for your {{rating}}‑star rating!"
-  }
-</file>
-
-<file path="locales/ja/translation.json">
-{
-    "nav.store": "店舗",
-    "nav.rating": "評価",
-    "nav.info": "情報",
-    "nav.service": "サービス",
-    "nav.feedback": "感想",
-  
-    "q1.title": "Q1. 本日はどちらの店舗をご利用いただきましたか？",
-    "q2.title": "Q2. 本日の総合満足度を星1～5でお聞かせください。",
-    "validation.global": "必須項目をご入力ください",
-    "validation.store": "店舗を選択してください",
-    "validation.rating": "評価を選択してください",
-    "submit": "送信する",
-  
-    "thankyou.low": "ご回答ありがとうございました。",
-    "thankyou.high": "星{{rating}}評価ありがとうございます！"
-  }
-</file>
-
-<file path="locales/zh/translation.json">
-{
-    "nav.store": "店铺",
-    "nav.rating": "评价",
-    "nav.info": "信息",
-    "nav.service": "服务",
-    "nav.feedback": "感想",
-  
-    "q1.title": "Q1. 今天您光顾了哪家店铺？",
-    "q2.title": "Q2. 总体满意度（1–5 星）",
-    "validation.global": "请填写所有必填项",
-    "validation.store": "请选择店铺",
-    "validation.rating": "请选择评价",
-    "submit": "提交",
-  
-    "thankyou.low": "感谢您的回答。",
-    "thankyou.high": "感谢您给出 {{rating}} 星的评价！"
-  }
-</file>
-
-<file path=".gitignore">
-# 開発用設定ファイル
-js/config-dev.js
-</file>
-
 <file path="css/style-fix.css">
 /* 
    QUARTERアンケート - 幅修正CSS
@@ -437,6 +261,117 @@ function uncheckAll(container) {
 
 // グローバルスコープに公開
 window.initDynamicServices = initDynamicServices;
+</file>
+
+<file path="js/i18n.js">
+(function () {
+    // 1. i18next 初期化
+    i18next
+      .use(i18nextBrowserLanguageDetector)
+      .init({
+        fallbackLng: 'ja',
+        debug: true,
+        detection: {               // ←?lang=en でも拾えるよう追加
+                  lookupQuerystring: 'lng',
+                  // 既定の 'lng' も並行して効く
+                },
+        resources: {} // 後でロード
+      })
+      .then(loadResourcesAndRender);
+  
+    // 2. 翻訳 JSON をフェッチ
+    async function loadResourcesAndRender() {
+      const lngs = ['ja', 'en', 'zh'];
+      await Promise.all(
+        lngs.map(async lng => {
+          const res = await fetch(`locales/${lng}/translation.json`);
+          const json = await res.json();
+          i18next.addResources(lng, 'translation', json);
+        })
+      );
+      renderContent();
+    }
+  
+    // 3. DOM 反映
+    function renderContent() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
+        el.innerHTML = i18next.t(key, opts);
+      });
+      
+      // input要素のplaceholder属性などにも対応
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        el.setAttribute('placeholder', i18next.t(key));
+      });
+      
+      // バリデーションメッセージなど JS 生成文字列も更新
+      if (window.updateValidationMessages) window.updateValidationMessages();
+    }
+  
+    // 言語リンクの状態を更新する関数
+    function updateLanguageLinks(selectedLang) {
+      document.querySelectorAll('.lang-link').forEach(link => {
+        if (link.getAttribute('data-lang') === selectedLang) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+  
+    // 4. 言語変更ハンドラ（セレクタ用）
+    window.changeLang = function (lng) {
+      i18next.changeLanguage(lng).then(() => {
+        renderContent();
+        updateLanguageLinks(lng);
+      });
+      localStorage.setItem('lang', lng);
+    };
+    
+    // 5. ページ読み込み時に言語セレクタの値を設定
+    document.addEventListener('DOMContentLoaded', () => {
+      // 言語セレクタがあれば現在の言語を設定
+      const sel = document.getElementById('langSelector');
+      if (sel) {
+        const cur = i18next.language || 'ja';
+        sel.value = cur;
+      }
+      
+      // 言語リンクがあれば現在の言語に合わせてハイライト
+      const currentLang = i18next.language || 'ja';
+      updateLanguageLinks(currentLang);
+    });
+  })();
+</file>
+
+<file path="js/mock-api.js">
+// js/mock-api.js
+if (window.CONFIG && window.CONFIG.IS_DEV) {
+    // 元の関数を保存
+    window.originalSubmitFormData = window.submitFormData;
+    
+    // モック関数で置き換え
+    window.submitFormData = function(dataObj) {
+      console.log('開発モード - 送信データ:', dataObj);
+      
+      // モックレスポンスを返す
+      setTimeout(() => {
+        // 成功レスポンスをシミュレート
+        const mockResponse = {success: true};
+        console.log('開発モード - 応答:', mockResponse);
+        
+        // フォーム送信後の処理を呼び出し
+        const rating = parseInt(dataObj.rating) || 3;
+        if (typeof window.handleFormAfterSubmission === 'function') {
+          window.handleFormAfterSubmission(rating, dataObj);
+        }
+      }, 500); // リアルな遅延をシミュレート
+      
+      return false; // 実際の送信を防止
+    };
+  }
 </file>
 
 <file path="js/navigation.js">
@@ -934,6 +869,305 @@ function initStarRating() {
 // グローバルスコープに公開
 // 他のJSファイルからもこの関数を呼び出せるようにする
 window.initStarRating = initStarRating;
+</file>
+
+<file path="locales/en/translation.json">
+{
+    "nav.store": "Store",
+    "nav.rating": "Rating",
+    "nav.info": "Information",
+    "nav.service": "Service",
+    "nav.feedback": "Feedback",
+  
+    "q1.title": "Q1. Which store did you visit today?",
+    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
+    "rating.prefix": "Rating:",
+    
+    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
+    
+    "q3.title": "Q3. Please tell us your name (optional)",
+    "q3.placeholder": "Enter your name or nickname",
+    
+    "q4.title": "Q4. Your visit to our store was... (optional)",
+    "q4.firstTime": "First time (New customer)",
+    "q4.repeat": "Repeat visit (Regular customer)",
+    
+    "q5.title": "Q5. Please tell us your gender (optional)",
+    "q5.male": "Male",
+    "q5.female": "Female",
+    "q5.other": "Other",
+    
+    "q6.title": "Q6. Please tell us your age range (optional)",
+    "q6.age10s": "10s",
+    "q6.age20s": "20s",
+    "q6.age30s": "30s",
+    "q6.age40s": "40s",
+    "q6.age50s": "50s",
+    "q6.age60plus": "60s or above",
+    
+    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
+    "q7.cut": "Haircut",
+    "q7.color": "Hair coloring",
+    "q7.perm": "Perm",
+    "q7.treatment": "Treatment",
+    "q7.headspa": "Head spa",
+    "q7.other": "Other (Nail, Kimono dressing, etc.)",
+    "q7.il.eyelashExt": "Eyelash extensions",
+    "q7.il.eyelashPerm": "Eyelash perm",
+    "q7.il.wax": "Waxing services",
+    "q7.il.other": "Other services",
+    
+    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
+    "q8.veryGood": "Very satisfied",
+    "q8.good": "Satisfied",
+    "q8.normal": "Neutral",
+    "q8.bad": "Dissatisfied",
+    "q8.veryBad": "Very dissatisfied",
+    
+    "q9.title": "Q9. How was our staff's customer service?",
+    "q9.veryGood": "Very good",
+    "q9.good": "Good",
+    "q9.normal": "Neutral",
+    "q9.bad": "Poor",
+    "q9.veryBad": "Very poor",
+    
+    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
+    "q10.veryGood": "Very satisfied",
+    "q10.good": "Satisfied",
+    "q10.normal": "Neutral",
+    "q10.bad": "Dissatisfied",
+    "q10.veryBad": "Very dissatisfied",
+    
+    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
+    "q11.veryGood": "Very clean",
+    "q11.good": "Clean",
+    "q11.normal": "Neutral",
+    "q11.bad": "Unclean",
+    "q11.veryBad": "Very unclean",
+    
+    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
+    "q12.placeholder": "Enter your suggestions here",
+    
+    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
+    "q13.placeholder": "Enter your feedback here",
+    
+    "validation.global": "Please fill in all required fields",
+    "validation.store": "Please select a store",
+    "validation.rating": "Please select a rating",
+    "submit": "Submit",
+    
+    "thankyou.title": "Thank you for your response.",
+    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
+    "thankyou.high": "Thank you for your high rating!",
+    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
+    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
+    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
+    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
+    "thankyou.copy.button": "Copy Comment",
+    "thankyou.redirect.button": "Post a Review on Google Maps",
+    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
+  }
+</file>
+
+<file path="locales/ja/translation.json">
+{
+    "nav.store": "店舗",
+    "nav.rating": "評価",
+    "nav.info": "情報",
+    "nav.service": "サービス",
+    "nav.feedback": "感想",
+  
+    "q1.title": "Q1. 本日はどちらの店舗をご利用いただきましたか？",
+    "q2.title": "Q2. 本日の総合満足度を星1～5でお聞かせください。",
+    "rating.prefix": "評価:",
+    
+    "optional.note": "以下の質問は任意です。ご回答いただけると大変参考になります。",
+    
+    "q3.title": "Q3. お名前をお聞かせください。（任意）",
+    "q3.placeholder": "お名前またはニックネームをご記入ください",
+    
+    "q4.title": "Q4. 当店へのご来店は…（任意）",
+    "q4.firstTime": "初めて（新規）",
+    "q4.repeat": "2回目以降（リピーター）",
+    
+    "q5.title": "Q5. お客様の性別をお聞かせください。（任意）",
+    "q5.male": "男性",
+    "q5.female": "女性",
+    "q5.other": "その他",
+    
+    "q6.title": "Q6. お客様のご年齢をお聞かせください。（任意）",
+    "q6.age10s": "10代",
+    "q6.age20s": "20代",
+    "q6.age30s": "30代",
+    "q6.age40s": "40代",
+    "q6.age50s": "50代",
+    "q6.age60plus": "60代以上",
+    
+    "q7.title": "Q7. 本日ご利用いただいたメニューをお選びください。（複数選択可）",
+    "q7.cut": "カット",
+    "q7.color": "カラー",
+    "q7.perm": "パーマ",
+    "q7.treatment": "トリートメント",
+    "q7.headspa": "ヘッドスパ",
+    "q7.other": "その他（ネイル・着付け 等）",
+    "q7.il.eyelashExt": "まつ毛エクステ",
+    "q7.il.eyelashPerm": "まつ毛パーマ",
+    "q7.il.wax": "WAXメニュー",
+    "q7.il.other": "その他メニュー",
+    
+    "q8.title": "Q8. 施術の技術や仕上がりに対する満足度をお聞かせください。",
+    "q8.veryGood": "非常に満足",
+    "q8.good": "満足",
+    "q8.normal": "普通",
+    "q8.bad": "不満",
+    "q8.veryBad": "非常に不満",
+    
+    "q9.title": "Q9. スタッフの接客対応はいかがでしたか？",
+    "q9.veryGood": "非常に良い",
+    "q9.good": "良い",
+    "q9.normal": "普通",
+    "q9.bad": "悪い",
+    "q9.veryBad": "非常に悪い",
+    
+    "q10.title": "Q10. ご来店から施術開始までの時間についてのご感想をお聞かせください。",
+    "q10.veryGood": "非常に満足",
+    "q10.good": "満足",
+    "q10.normal": "普通",
+    "q10.bad": "不満",
+    "q10.veryBad": "非常に不満",
+    
+    "q11.title": "Q11. 店内の空間や清潔感についてのご印象をお聞かせください。",
+    "q11.veryGood": "非常に清潔",
+    "q11.good": "清潔",
+    "q11.normal": "普通",
+    "q11.bad": "不清潔",
+    "q11.veryBad": "非常に不清潔",
+    
+    "q12.title": "Q12. ご要望や改善点などがございましたら、ぜひお聞かせください。（任意）",
+    "q12.placeholder": "ご意見をご記入ください",
+    
+    "q13.title": "Q13. その他、当店での体験についてのご感想やお気づきの点をお聞かせください。（任意）",
+    "q13.placeholder": "ご感想をご記入ください",
+    
+    "validation.global": "必須項目をご入力ください",
+    "validation.store": "店舗を選択してください",
+    "validation.rating": "評価を選択してください",
+    "submit": "送信する",
+    
+    "thankyou.title": "ご回答ありがとうございました。",
+    "thankyou.low": "いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。",
+    "thankyou.high": "高評価ありがとうございます！",
+    "thankyou.high.text1": "当店をご利用いただき、心より感謝申し上げます。",
+    "thankyou.high.text2": "もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。",
+    "thankyou.high.text3": "・下のボタンでコメントをコピー<br>・投稿ページが開いたらペーストするだけです",
+    "thankyou.copy.hint": "※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。",
+    "thankyou.copy.button": "コメントをコピー",
+    "thankyou.redirect.button": "Googleマップで口コミを投稿する",
+    "thankyou.high.text4": "今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>引き続きQUARTERグループをよろしくお願いいたします。"
+  }
+</file>
+
+<file path="locales/zh/translation.json">
+{
+    "nav.store": "店铺",
+    "nav.rating": "评价",
+    "nav.info": "信息",
+    "nav.service": "服务",
+    "nav.feedback": "感想",
+  
+    "q1.title": "Q1. 今天您光顾了哪家店铺？",
+    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
+    "rating.prefix": "评分:",
+    
+    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
+    
+    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
+    "q3.placeholder": "请输入您的姓名或昵称",
+    
+    "q4.title": "Q4. 您对本店的光临是...（选填）",
+    "q4.firstTime": "初次光临（新顾客）",
+    "q4.repeat": "再次光临（回头客）",
+    
+    "q5.title": "Q5. 请告诉我们您的性别（选填）",
+    "q5.male": "男性",
+    "q5.female": "女性",
+    "q5.other": "其他",
+    
+    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
+    "q6.age10s": "10多岁",
+    "q6.age20s": "20多岁",
+    "q6.age30s": "30多岁",
+    "q6.age40s": "40多岁",
+    "q6.age50s": "50多岁",
+    "q6.age60plus": "60岁以上",
+    
+    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
+    "q7.cut": "剪发",
+    "q7.color": "染发",
+    "q7.perm": "烫发",
+    "q7.treatment": "护理",
+    "q7.headspa": "头皮护理",
+    "q7.other": "其他（美甲、和服穿戴等）",
+    "q7.il.eyelashExt": "睫毛嫁接",
+    "q7.il.eyelashPerm": "睫毛烫",
+    "q7.il.wax": "脱毛服务",
+    "q7.il.other": "其他服务",
+    
+    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
+    "q8.veryGood": "非常满意",
+    "q8.good": "满意",
+    "q8.normal": "一般",
+    "q8.bad": "不满意",
+    "q8.veryBad": "非常不满意",
+    
+    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
+    "q9.veryGood": "非常好",
+    "q9.good": "好",
+    "q9.normal": "一般",
+    "q9.bad": "差",
+    "q9.veryBad": "非常差",
+    
+    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
+    "q10.veryGood": "非常满意",
+    "q10.good": "满意",
+    "q10.normal": "一般",
+    "q10.bad": "不满意",
+    "q10.veryBad": "非常不满意",
+    
+    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
+    "q11.veryGood": "非常干净",
+    "q11.good": "干净",
+    "q11.normal": "一般",
+    "q11.bad": "不干净",
+    "q11.veryBad": "非常不干净",
+    
+    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
+    "q12.placeholder": "请在此输入您的建议",
+    
+    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
+    "q13.placeholder": "请在此输入您的感想",
+    
+    "validation.global": "请填写所有必填项",
+    "validation.store": "请选择店铺",
+    "validation.rating": "请选择评价",
+    "submit": "提交",
+    
+    "thankyou.title": "感谢您的回答。",
+    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
+    "thankyou.high": "感谢您的高度评价！",
+    "thankyou.high.text1": "非常感谢您光临本店。",
+    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
+    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
+    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
+    "thankyou.copy.button": "复制评论",
+    "thankyou.redirect.button": "在谷歌地图上发表评论",
+    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
+  }
+</file>
+
+<file path=".gitignore">
+# 開発用設定ファイル
+js/config-dev.js
 </file>
 
 <file path="README.md">
@@ -1763,6 +1997,213 @@ window.redirectToGoogleMaps = function() {
 };
 </file>
 
+<file path="css/layout-fix.css">
+/* 
+   QUARTERアンケート - レイアウト統一CSS
+   
+   このCSSは質問カードとフィードバック画面の一貫したスタイリングを確立し、
+   モバイルとデスクトップの両方で統一されたデザインを提供します。
+*/
+
+/* ===== 基本コンテナの統一 ===== */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== カードコンポーネントの統一 ===== */
+/* 質問カードとフィードバックカードの共通スタイル */
+.question, 
+#thankyou, 
+#review-redirect {
+  /* 一貫したマージンと幅 */
+  margin: 0 5% var(--spacing-xl);
+  width: 90%;
+  box-sizing: border-box;
+  
+  /* 一貫した視覚的スタイリング */
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+  padding: var(--spacing-lg);
+  position: relative;
+}
+
+/* アクティブな質問のハイライト */
+.question.current {
+  border-left: 3px solid var(--primary-color);
+  transform: translateY(-3px);
+}
+
+/* 完了した質問のスタイリング */
+.question.completed {
+  border-left: 3px solid var(--secondary-color);
+}
+
+/* フィードバックカード特有のスタイル */
+.feedback-card {
+  /* display: blockを明示的に設定（hidden解除時に適切に表示されるため） */
+  display: block;
+  /* 幅と余白を明示的に再設定（詳細度を高めるため） */
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+}
+
+/* hidden要素の統一 */
+.hidden {
+  display: none !important; /* 確実に非表示にするため */
+}
+
+/* フィードバックカードのテキスト配置 */
+#thankyou, 
+#review-redirect {
+  text-align: center;
+}
+
+/* フィードバックカードの明示的な幅設定（詳細度を高めるため） */
+.container #thankyou,
+.container #review-redirect {
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+/* フィードバックカード表示時の幅確保（hiddenクラスが削除された後） */
+#thankyou:not(.hidden), 
+#review-redirect:not(.hidden) {
+  display: block;
+  width: 90% !important;
+  margin-left: 5% !important;
+  margin-right: 5% !important;
+  box-sizing: border-box;
+  background-color: white;
+  padding: var(--spacing-lg);
+}
+
+/* ===== コピーコンテナとボタンの調整 ===== */
+/* コピーコンテナのスタイリング */
+.copy-container {
+  width: 100%;
+  margin: var(--spacing-lg) 0;
+}
+
+#comment-to-copy {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-md);
+  background-color: white;
+  min-height: 100px;
+}
+
+/* コピーヒントのスタイリング */
+.copy-hint {
+  color: var(--gray-700);
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+/* ボタンコンテナのレイアウト */
+.copy-container div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* ===== 送信ボタンのサイズ調整 ===== */
+.submit-button {
+  /* おしゃれなサイズ設定 */
+  width: auto;
+  min-width: 180px;
+  max-width: 280px;
+  padding: 12px 40px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.action-button {
+  /* アクションボタンのサイズ調整 */
+  width: auto;
+  min-width: 160px;
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+/* ===== モバイル向け調整 ===== */
+@media (max-width: 480px) {
+  /* 星の間隔を狭く調整 */
+  .star {
+    padding: 0 2px; /* より狭い間隔に調整 */
+    font-size: 36px; /* サイズも小さく調整 */
+  }
+  
+  /* カードの余白調整 */
+  .question, 
+  #thankyou, 
+  #review-redirect {
+    margin-left: 5% !important; /* 左右マージンを統一 */
+    margin-right: 5% !important;
+    width: 90% !important; /* 幅を統一 */
+    padding: var(--spacing-md); /* 内側パディングは小さく */
+  }
+  
+  /* ボタンのモバイル調整 */
+  .submit-button {
+    width: 80%;
+    max-width: 280px;
+    margin: 0 auto var(--spacing-md);
+  }
+  
+  /* コピーボタンコンテナの調整 */
+  #review-redirect .copy-container div {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* コピーボタンとリダイレクトボタンの調整 */
+  #review-redirect .action-button {
+    width: 100%;
+    max-width: 240px;
+    margin: var(--spacing-xs) 0;
+  }
+}
+
+/* ===== タブレット向け調整 ===== */
+@media (min-width: 481px) and (max-width: 768px) {
+  /* カードの余白調整 */
+  .question, 
+  #thankyou, 
+  #review-redirect {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  /* ボタンのタブレット調整 */
+  .submit-button {
+    width: auto;
+    min-width: 200px;
+  }
+}
+
+/* ===== 全背景色を白に統一 ===== */
+body, .container, #thankyou, #review-redirect, .question {
+  background-color: white;
+}
+
+/* テキストエリアの背景色も統一 */
+#comment-to-copy {
+  background-color: white;
+}
+</file>
+
 <file path="js/validation.js">
 /**
  * フォームバリデーションと送信処理
@@ -2171,233 +2612,27 @@ window.updateValidationMessages = function () {
 window.validateAndSubmit = validateAndSubmit;
 </file>
 
-<file path="css/layout-fix.css">
-/* 
-   QUARTERアンケート - レイアウト統一CSS
-   
-   このCSSは質問カードとフィードバック画面の一貫したスタイリングを確立し、
-   モバイルとデスクトップの両方で統一されたデザインを提供します。
-*/
-
-/* ===== 基本コンテナの統一 ===== */
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-xl);
-  background-color: white;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-}
-
-/* ===== カードコンポーネントの統一 ===== */
-/* 質問カードとフィードバックカードの共通スタイル */
-.question, 
-#thankyou, 
-#review-redirect {
-  /* 一貫したマージンと幅 */
-  margin: 0 5% var(--spacing-xl);
-  width: 90%;
-  box-sizing: border-box;
-  
-  /* 一貫した視覚的スタイリング */
-  background-color: white;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-  border-top: 1px solid var(--border-color);
-  border-left: 3px solid var(--primary-color);
-  padding: var(--spacing-lg);
-  position: relative;
-}
-
-/* アクティブな質問のハイライト */
-.question.current {
-  border-left: 3px solid var(--primary-color);
-  transform: translateY(-3px);
-}
-
-/* 完了した質問のスタイリング */
-.question.completed {
-  border-left: 3px solid var(--secondary-color);
-}
-
-/* フィードバックカード特有のスタイル */
-.feedback-card {
-  /* display: blockを明示的に設定（hidden解除時に適切に表示されるため） */
-  display: block;
-  /* 幅と余白を明示的に再設定（詳細度を高めるため） */
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
-}
-
-/* hidden要素の統一 */
-.hidden {
-  display: none !important; /* 確実に非表示にするため */
-}
-
-/* フィードバックカードのテキスト配置 */
-#thankyou, 
-#review-redirect {
-  text-align: center;
-}
-
-/* フィードバックカードの明示的な幅設定（詳細度を高めるため） */
-.container #thankyou,
-.container #review-redirect {
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
-  box-sizing: border-box;
-  background-color: white;
-}
-
-/* フィードバックカード表示時の幅確保（hiddenクラスが削除された後） */
-#thankyou:not(.hidden), 
-#review-redirect:not(.hidden) {
-  display: block;
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
-  box-sizing: border-box;
-  background-color: white;
-  padding: var(--spacing-lg);
-}
-
-/* ===== コピーコンテナとボタンの調整 ===== */
-/* コピーコンテナのスタイリング */
-.copy-container {
-  width: 100%;
-  margin: var(--spacing-lg) 0;
-}
-
-#comment-to-copy {
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: var(--spacing-md);
-  background-color: white;
-  min-height: 100px;
-}
-
-/* コピーヒントのスタイリング */
-.copy-hint {
-  color: var(--gray-700);
-  font-size: 12px;
-  margin-top: 4px;
-  margin-bottom: 12px;
-  text-align: left;
-}
-
-/* ボタンコンテナのレイアウト */
-.copy-container div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-md);
-}
-
-/* ===== 送信ボタンのサイズ調整 ===== */
-.submit-button {
-  /* おしゃれなサイズ設定 */
-  width: auto;
-  min-width: 180px;
-  max-width: 280px;
-  padding: 12px 40px;
-  font-size: 14px;
-  letter-spacing: 1px;
-}
-
-.action-button {
-  /* アクションボタンのサイズ調整 */
-  width: auto;
-  min-width: 160px;
-  padding: var(--spacing-md) var(--spacing-lg);
-}
-
-/* ===== モバイル向け調整 ===== */
-@media (max-width: 480px) {
-  /* 星の間隔を狭く調整 */
-  .star {
-    padding: 0 2px; /* より狭い間隔に調整 */
-    font-size: 36px; /* サイズも小さく調整 */
-  }
-  
-  /* カードの余白調整 */
-  .question, 
-  #thankyou, 
-  #review-redirect {
-    margin-left: 5% !important; /* 左右マージンを統一 */
-    margin-right: 5% !important;
-    width: 90% !important; /* 幅を統一 */
-    padding: var(--spacing-md); /* 内側パディングは小さく */
-  }
-  
-  /* ボタンのモバイル調整 */
-  .submit-button {
-    width: 80%;
-    max-width: 280px;
-    margin: 0 auto var(--spacing-md);
-  }
-  
-  /* コピーボタンコンテナの調整 */
-  #review-redirect .copy-container div {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* コピーボタンとリダイレクトボタンの調整 */
-  #review-redirect .action-button {
-    width: 100%;
-    max-width: 240px;
-    margin: var(--spacing-xs) 0;
-  }
-}
-
-/* ===== タブレット向け調整 ===== */
-@media (min-width: 481px) and (max-width: 768px) {
-  /* カードの余白調整 */
-  .question, 
-  #thankyou, 
-  #review-redirect {
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
-  
-  /* ボタンのタブレット調整 */
-  .submit-button {
-    width: auto;
-    min-width: 200px;
-  }
-}
-
-/* ===== 全背景色を白に統一 ===== */
-body, .container, #thankyou, #review-redirect, .question {
-  background-color: white;
-}
-
-/* テキストエリアの背景色も統一 */
-#comment-to-copy {
-  background-color: white;
-}
-</file>
-
 <file path="index.html">
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QUARTER アンケート</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QUARTERアンケート</title>
+  
+  <!-- Google Fonts - 原版から復元 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  
   <!-- 既存 CSS -->
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
-  <link rel="stylesheet" href="css/layout-fix.css" />
-  <link rel="stylesheet" href="css/style-fix.css" />
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/layout-fix.css">
+  <link rel="stylesheet" href="css/style-fix.css">
 
   <!-- i18next 本体 -->
   <script src="https://cdn.jsdelivr.net/npm/i18next@latest/dist/umd/i18next.min.js"></script>
-
-
   <!-- ブラウザ言語自動判定プラグイン -->
-<script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.1.0/i18nextBrowserLanguageDetector.min.js"></script>
 
   <!-- ★ i18n 初期化 -->
   <script defer src="js/i18n.js"></script>
@@ -2412,124 +2647,341 @@ body, .container, #thankyou, #review-redirect, .question {
   <script defer src="js/main.js"></script>
 </head>
 <body>
-  <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
-<header class="site-header-alt">
-  <div class="language-selector-top-right">
-    <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
-    <span class="separator">|</span>
-    <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
-    <span class="separator">|</span>
-    <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
-  </div>
-  
-  <div class="logo-container">
-    <img src="images/quarter-logo.png" alt="QUARTER logo" class="logo-img" />
-  </div>
-</header>
-
-  <!-- ========= ナビゲーション ========= -->
-  <nav class="nav">
-    <div class="nav-item" data-section="store">
-      <span class="nav-text" data-i18n="nav.store"></span>
-      <div class="nav-indicator"></div>
-    </div>
-    <div class="nav-item" data-section="rating">
-      <span class="nav-text" data-i18n="nav.rating"></span>
-      <div class="nav-indicator"></div>
-    </div>
-    <div class="nav-item" data-section="info">
-      <span class="nav-text" data-i18n="nav.info"></span>
-      <div class="nav-indicator"></div>
-    </div>
-    <div class="nav-item" data-section="service">
-      <span class="nav-text" data-i18n="nav.service"></span>
-      <div class="nav-indicator"></div>
-    </div>
-    <div class="nav-item" data-section="feedback">
-      <span class="nav-text" data-i18n="nav.feedback"></span>
-      <div class="nav-indicator"></div>
-    </div>
-  </nav>
-
-  <form id="surveyForm" class="container">
-    <!-- ========= Q1 店舗 ========= -->
-    <div class="question required current" id="question1" data-section="store">
-      <h3 data-i18n="q1.title"></h3>
-
-      <div class="options store-options">
-        <input type="radio" id="quarter" name="store" value="QUARTER" />
-        <label for="quarter">QUARTER</label>
-
-        <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT" />
-        <label for="quarter-resort">QUARTER RESORT</label>
-
-        <input type="radio" id="quarter-seasons" name="store" value="QUARTER SEASONS" />
-        <label for="quarter-seasons">QUARTER SEASONS</label>
-
-        <input type="radio" id="link" name="store" value="LINK" />
-        <label for="link">LINK</label>
-
-        <input type="radio" id="il" name="store" value="iL" />
-        <label for="il">iL</label>
+  <div class="container">
+    <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
+    <header class="site-header-alt">
+      <div class="language-selector-top-right">
+        <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
       </div>
-
-      <div class="validation-message" id="store-validation">
-        <span data-i18n="validation.store"></span>
+      
+      <div class="logo-container">
+        <img class="text-logo" src="./images/quarter-logo.png" alt="QUARTERロゴ" style="max-width: 200px; height: auto;">
       </div>
-    </div>
+    </header>
 
-    <!-- ========= Q2 星評価 ========= -->
-    <div class="question required" id="question2" data-section="rating">
-      <h3 data-i18n="q2.title"></h3>
-
-      <div class="star-rating-container">
-        <div class="stars-row" id="starsContainer">
-          <span class="star" data-value="1">★</span>
-          <span class="star" data-value="2">★</span>
-          <span class="star" data-value="3">★</span>
-          <span class="star" data-value="4">★</span>
-          <span class="star" data-value="5">★</span>
+    <!-- ナビゲーションバー - 原版の構造を復元 -->
+    <div class="nav-container">
+      <div class="progress-nav">
+        <div class="nav-item active" data-section="store">
+          <span class="nav-text" data-i18n="nav.store"></span>
+          <div class="nav-indicator"></div>
         </div>
-
-        <div class="rating-score" id="ratingScore">
-          <span id="scoreValue">0</span>/5
+        <div class="nav-item" data-section="rating">
+          <span class="nav-text" data-i18n="nav.rating"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="info">
+          <span class="nav-text" data-i18n="nav.info"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="service">
+          <span class="nav-text" data-i18n="nav.service"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="feedback">
+          <span class="nav-text" data-i18n="nav.feedback"></span>
+          <div class="nav-indicator"></div>
         </div>
       </div>
-
-      <div class="star-rating-hidden">
-        <input type="radio" id="star5" name="rating" value="5" required />
-        <input type="radio" id="star4" name="rating" value="4" />
-        <input type="radio" id="star3" name="rating" value="3" />
-        <input type="radio" id="star2" name="rating" value="2" />
-        <input type="radio" id="star1" name="rating" value="1" />
-      </div>
-
-      <div class="validation-message" id="rating-validation">
-        <span data-i18n="validation.rating"></span>
-      </div>
     </div>
 
-    <!-- 省略：任意質問セクションは既存のまま -->
+    <!-- アンケートフォーム -->
+    <form id="surveyForm" novalidate>
+      <!-- Q1. 店舗選択（必須） -->
+      <div class="question required current" id="question1" data-section="store">
+        <h3 data-i18n="q1.title"></h3>
+        <div class="options">
+          <input type="radio" id="quarter" name="store" value="QUARTER" required>
+          <label for="quarter">QUARTER</label>
+          
+          <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT">
+          <label for="quarter-resort">QUARTER RESORT</label>
+          
+          <input type="radio" id="quarter-seasons" name="store" value="QUARTER SEASONS">
+          <label for="quarter-seasons">QUARTER SEASONS</label>
+          
+          <input type="radio" id="link" name="store" value="LINK">
+          <label for="link">LINK</label>
+          
+          <input type="radio" id="il" name="store" value="iL">
+          <label for="il">iL</label>
+        </div>
+        
+        <div class="validation-message" id="store-validation">
+          <span data-i18n="validation.store"></span>
+        </div>
+      </div>
+      
+      <!-- Q2. 総合評価（必須） -->
+      <div class="question required" id="question2" data-section="rating">
+        <h3 data-i18n="q2.title"></h3>
+        
+        <div class="star-rating-container">
+          <div class="stars-row" id="starsContainer">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          
+          <div class="rating-score" id="ratingScore">
+            <span data-i18n="rating.prefix"></span> <span id="scoreValue">0</span>/5
+          </div>
+        </div>
+        
+        <div class="star-rating-hidden">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <input type="radio" id="star4" name="rating" value="4">
+          <input type="radio" id="star3" name="rating" value="3">
+          <input type="radio" id="star2" name="rating" value="2">
+          <input type="radio" id="star1" name="rating" value="1">
+        </div>
 
-    <!-- ========= 送信ボタン ========= -->
-    <div class="submit-container">
-      <button id="submitButton" type="button" data-i18n="submit"></button>
-      <div class="validation-message global" id="global-validation">
+        <div class="validation-message" id="rating-validation">
+          <span data-i18n="validation.rating"></span>
+        </div>
+      </div>
+      
+      <!-- 任意質問セクション - 復元 -->
+      <div class="optional-questions">
+        <p class="optional-note" data-i18n="optional.note"></p>
+        
+        <!-- Q3. お名前（任意） -->
+        <div class="question" id="question3" data-section="info">
+          <h3 data-i18n="q3.title"></h3>
+          <textarea name="name" rows="1" data-i18n-placeholder="q3.placeholder"></textarea>
+        </div>
+        
+        <!-- Q4. 来店タイプ（任意） -->
+        <div class="question" id="question4" data-section="info">
+          <h3 data-i18n="q4.title"></h3>
+          <div class="options">
+            <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
+            <label for="first-time" data-i18n="q4.firstTime"></label>
+            
+            <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
+            <label for="repeat" data-i18n="q4.repeat"></label>
+          </div>
+        </div>
+        
+        <!-- Q5. 性別（任意） -->
+        <div class="question" id="question5" data-section="info">
+          <h3 data-i18n="q5.title"></h3>
+          <div class="options">
+            <input type="radio" id="male" name="gender" value="男性">
+            <label for="male" data-i18n="q5.male"></label>
+            
+            <input type="radio" id="female" name="gender" value="女性">
+            <label for="female" data-i18n="q5.female"></label>
+            
+            <input type="radio" id="other" name="gender" value="その他">
+            <label for="other" data-i18n="q5.other"></label>
+          </div>
+        </div>
+        
+        <!-- Q6. 年齢（任意） -->
+        <div class="question" id="question6" data-section="info">
+          <h3 data-i18n="q6.title"></h3>
+          <div class="options">
+            <input type="radio" id="age10s" name="age" value="10代">
+            <label for="age10s" data-i18n="q6.age10s"></label>
+            
+            <input type="radio" id="age20s" name="age" value="20代">
+            <label for="age20s" data-i18n="q6.age20s"></label>
+            
+            <input type="radio" id="age30s" name="age" value="30代">
+            <label for="age30s" data-i18n="q6.age30s"></label>
+            
+            <input type="radio" id="age40s" name="age" value="40代">
+            <label for="age40s" data-i18n="q6.age40s"></label>
+            
+            <input type="radio" id="age50s" name="age" value="50代">
+            <label for="age50s" data-i18n="q6.age50s"></label>
+            
+            <input type="radio" id="age60plus" name="age" value="60代以上">
+            <label for="age60plus" data-i18n="q6.age60plus"></label>
+          </div>
+        </div>
+        
+        <!-- Q7. 利用サービス（複数選択可） -->
+        <div class="question" id="question7" data-section="service">
+          <h3 data-i18n="q7.title"></h3>
+            
+          <!-- 通常店舗用のメニュー（デフォルト表示） -->
+          <div class="options" id="standard-services">
+            <input type="checkbox" id="cut" name="services" value="カット">
+            <label for="cut" data-i18n="q7.cut"></label>
+            
+            <input type="checkbox" id="color" name="services" value="カラー">
+            <label for="color" data-i18n="q7.color"></label>
+            
+            <input type="checkbox" id="perm" name="services" value="パーマ">
+            <label for="perm" data-i18n="q7.perm"></label>
+            
+            <input type="checkbox" id="treatment" name="services" value="トリートメント">
+            <label for="treatment" data-i18n="q7.treatment"></label>
+            
+            <input type="checkbox" id="headspa" name="services" value="ヘッドスパ">
+            <label for="headspa" data-i18n="q7.headspa"></label>
+            
+            <input type="checkbox" id="other-service" name="services" value="その他">
+            <label for="other-service" data-i18n="q7.other"></label>
+          </div>
+          
+          <!-- iL店舗用のメニュー（初期状態では非表示） -->
+          <div class="options" id="il-services" style="display: none;">
+            <input type="checkbox" id="il-eyelash-ext" name="services" value="まつ毛エクステ">
+            <label for="il-eyelash-ext" data-i18n="q7.il.eyelashExt"></label>
+            
+            <input type="checkbox" id="il-eyelash-perm" name="services" value="まつ毛パーマ">
+            <label for="il-eyelash-perm" data-i18n="q7.il.eyelashPerm"></label>
+            
+            <input type="checkbox" id="il-wax" name="services" value="WAXメニュー">
+            <label for="il-wax" data-i18n="q7.il.wax"></label>
+            
+            <input type="checkbox" id="il-other" name="services" value="その他メニュー">
+            <label for="il-other" data-i18n="q7.il.other"></label>
+          </div>
+        </div>
+          
+        <!-- Q8. サービス満足度 -->
+        <div class="question" id="question8" data-section="service">
+          <h3 data-i18n="q8.title"></h3>
+          <div class="options">
+            <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
+            <label for="service5" data-i18n="q8.veryGood"></label>
+            
+            <input type="radio" id="service4" name="serviceSatisfaction" value="満足">
+            <label for="service4" data-i18n="q8.good"></label>
+            
+            <input type="radio" id="service3" name="serviceSatisfaction" value="普通">
+            <label for="service3" data-i18n="q8.normal"></label>
+            
+            <input type="radio" id="service2" name="serviceSatisfaction" value="不満">
+            <label for="service2" data-i18n="q8.bad"></label>
+            
+            <input type="radio" id="service1" name="serviceSatisfaction" value="非常に不満">
+            <label for="service1" data-i18n="q8.veryBad"></label>
+          </div>
+        </div>
+        
+        <!-- Q9. スタッフ対応 -->
+        <div class="question" id="question9" data-section="service">
+          <h3 data-i18n="q9.title"></h3>
+          <div class="options">
+            <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
+            <label for="staff5" data-i18n="q9.veryGood"></label>
+            
+            <input type="radio" id="staff4" name="staffResponse" value="良い">
+            <label for="staff4" data-i18n="q9.good"></label>
+            
+            <input type="radio" id="staff3" name="staffResponse" value="普通">
+            <label for="staff3" data-i18n="q9.normal"></label>
+            
+            <input type="radio" id="staff2" name="staffResponse" value="悪い">
+            <label for="staff2" data-i18n="q9.bad"></label>
+            
+            <input type="radio" id="staff1" name="staffResponse" value="非常に悪い">
+            <label for="staff1" data-i18n="q9.veryBad"></label>
+          </div>
+        </div>
+        
+        <!-- Q10. 待ち時間 -->
+        <div class="question" id="question10" data-section="service">
+          <h3 data-i18n="q10.title"></h3>
+          <div class="options">
+            <input type="radio" id="wait5" name="waitTime" value="非常に満足">
+            <label for="wait5" data-i18n="q10.veryGood"></label>
+            
+            <input type="radio" id="wait4" name="waitTime" value="満足">
+            <label for="wait4" data-i18n="q10.good"></label>
+            
+            <input type="radio" id="wait3" name="waitTime" value="普通">
+            <label for="wait3" data-i18n="q10.normal"></label>
+            
+            <input type="radio" id="wait2" name="waitTime" value="不満">
+            <label for="wait2" data-i18n="q10.bad"></label>
+            
+            <input type="radio" id="wait1" name="waitTime" value="非常に不満">
+            <label for="wait1" data-i18n="q10.veryBad"></label>
+          </div>
+        </div>
+        
+        <!-- Q11. 店内清潔感 -->
+        <div class="question" id="question11" data-section="service">
+          <h3 data-i18n="q11.title"></h3>
+          <div class="options">
+            <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
+            <label for="clean5" data-i18n="q11.veryGood"></label>
+            
+            <input type="radio" id="clean4" name="cleanliness" value="清潔">
+            <label for="clean4" data-i18n="q11.good"></label>
+            
+            <input type="radio" id="clean3" name="cleanliness" value="普通">
+            <label for="clean3" data-i18n="q11.normal"></label>
+            
+            <input type="radio" id="clean2" name="cleanliness" value="不清潔">
+            <label for="clean2" data-i18n="q11.bad"></label>
+            
+            <input type="radio" id="clean1" name="cleanliness" value="非常に不清潔">
+            <label for="clean1" data-i18n="q11.veryBad"></label>
+          </div>
+        </div>
+        
+        <!-- Q12. 改善点・要望 -->
+        <div class="question" id="question12" data-section="feedback">
+          <h3 data-i18n="q12.title"></h3>
+          <textarea name="improvement" rows="3" data-i18n-placeholder="q12.placeholder"></textarea>
+        </div>
+        
+        <!-- Q13. その他感想 -->
+        <div class="question" id="question13" data-section="feedback">
+          <h3 data-i18n="q13.title"></h3>
+          <textarea name="otherComments" rows="3" data-i18n-placeholder="q13.placeholder"></textarea>
+        </div>
+      </div>
+
+      <!-- グローバルバリデーションメッセージ -->
+      <div class="validation-message" id="global-validation" style="text-align: center; margin-bottom: var(--spacing-md);">
         <span data-i18n="validation.global"></span>
       </div>
+      
+      <!-- 送信ボタン -->
+      <div class="submit-container">
+        <button type="button" id="submitButton" class="submit-button" data-i18n="submit"></button>
+      </div>
+    </form>
+
+    <!-- 星3以下用のメッセージ -->
+    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.title"></h2>
+      <p data-i18n="thankyou.low"></p>
     </div>
-  </form>
 
-  <!-- ========= 低評価お礼 ========= -->
-  <section id="thankyou" class="hidden">
-    <p data-i18n="thankyou.low"></p>
-  </section>
-
-  <!-- ========= 高評価口コミ誘導 ========= -->
-  <section id="review-redirect" class="hidden">
-    <h2 data-i18n="thankyou.high"></h2>
-    <!-- 既存コピーUIなど -->
-  </section>
+    <!-- 星4以上用の口コミ促進メッセージ -->
+    <div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.high"></h2>
+      <p data-i18n="thankyou.high.text1"></p>
+      <p data-i18n="thankyou.high.text2"></p>
+      <p data-i18n="thankyou.high.text3"></p>
+      
+      <div class="copy-container">
+        <textarea id="comment-to-copy" readonly></textarea>
+        <p class="copy-hint" data-i18n="thankyou.copy.hint"></p>
+        <div>
+          <button id="copy-button" class="action-button" onclick="copyComment()" data-i18n="thankyou.copy.button"></button>
+          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()" data-i18n="thankyou.redirect.button"></button>
+        </div>
+      </div>
+      
+      <p data-i18n="thankyou.high.text4"></p>
+    </div>
+  </div>
 </body>
 </html>
 </file>
