@@ -26,12 +26,19 @@
       renderContent();
     }
   
-    // 3. DOM 反映
+    // 3. DOM 反映（修正版）
     function renderContent() {
+      // 通常要素の翻訳
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
-        el.innerHTML = i18next.t(key, opts);
+        
+        // summary要素には特別な処理を適用
+        if (el.tagName.toLowerCase() === 'summary') {
+          el.textContent = i18next.t(key, opts);
+        } else {
+          el.innerHTML = i18next.t(key, opts);
+        }
       });
       
       // input要素のplaceholder属性などにも対応
@@ -77,4 +84,4 @@
       const currentLang = i18next.language || 'ja';
       updateLanguageLinks(currentLang);
     });
-  })();
+})();
