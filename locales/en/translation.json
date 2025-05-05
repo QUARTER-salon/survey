@@ -76,6 +76,43 @@
     
     "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
     "q13.placeholder": "Enter your feedback here",
+
+    
+    "q14.title": "Q14. What additional services would you like us to offer? (Multiple selections possible)",
+
+    "q14.grp.haircare": "Specialized Hair Care Menu",
+    "q14.treat": "Hair Quality Improvement Treatment (Damage repair, frizz control, etc.)",
+    "q14.organicColor": "Organic/Plant-based Hair Color (For sensitive scalp and skin care)",
+    "q14.scalp": "Expanded Scalp Care Menu (Improving scalp environment for healthier hair)",
+
+    "q14.grp.trend": "Trending Hair Styling Techniques",
+    "q14.innerColor": "Inner Color (Natural surface with playful colors underneath)",
+    "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
+    "q14.extension": "Hair Extensions (Temporary added length or volume)",
+    "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
+
+    "q14.grp.beauty": "Esthetic & Beauty Services",
+    "q14.lashPerm": "Eyelash Perm/Extensions",
+    "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
+    "q14.facial": "Facial Treatments (Face massage and mask therapy)",
+
+    "q14.grp.men": "Men's Specialized Menu",
+    "q14.mensShave": "Men's Beard Care/Shaving",
+    "q14.mensScalp": "Men's Scalp & Eyebrow Design",
+    "q14.mensMake": "Men's Makeup",
+    "q14.mensFacial": "Men's Facial Care",
+    "q14.mensLesson": "Business Hairstyling Workshop (Learn to style your own hair)",
+
+    "q14.grp.package": "Special Packages & Membership",
+    "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
+    "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
+    "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
+    "q14.subscription": "Monthly Subscription Hair Care (Fixed-price monthly maintenance)",
+
+    "q14.grp.digital": "Digital Services",
+    "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
+    "q14.onlineConsult": "Online Hair Consultation (Video consultation before visit)",
+    "q14.app": "Hair Care App Integration (Visit history and home care management)",
     
     "validation.global": "Please fill in all required fields",
     "validation.store": "Please select a store",
