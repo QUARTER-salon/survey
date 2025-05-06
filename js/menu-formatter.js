@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 各種分離パターン - 日本語に適した正規表現
     const patterns = [
+      { regex: /(.*?)\s*\((.+?)\)/, titleIndex: 1, descIndex: 2 },  // 半角括弧パターン（英語）
       { regex: /(.*?)（(.+?)）/, titleIndex: 1, descIndex: 2 },  // 括弧パターン（日本語）
       { regex: /(.*?)【(.+?)】/, titleIndex: 1, descIndex: 2 },  // 角括弧パターン
       { regex: /(.*?)\s*[:：]\s*(.+)/, titleIndex: 1, descIndex: 2 },  // コロンパターン
