@@ -204,9 +204,9 @@ body {
   #thankyou,
   #review-redirect,
   .feedback-card {      /* ← layout‑fix.css で使われるクラスも念のため含める */
-    width: 94% !important;     /* 90% → 94% に拡大 */
-    margin-left: 3% !important;
-    margin-right: 3% !important;
+    width: 96% !important;     /* 90% → 94% に拡大 */
+    margin-inline: auto; 
+
   }
 
   /* 内側コンテナ（全体ラッパー）も少し余裕を持たせる */

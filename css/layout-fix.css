@@ -49,9 +49,9 @@
   /* display: blockを明示的に設定（hidden解除時に適切に表示されるため） */
   display: block;
   /* 幅と余白を明示的に再設定（詳細度を高めるため） */
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 94% !important;
+  margin-left: 3% !important;
+  margin-right: 3% !important;
 }
 
 /* hidden要素の統一 */
@@ -68,9 +68,9 @@
 /* フィードバックカードの明示的な幅設定（詳細度を高めるため） */
 .container #thankyou,
 .container #review-redirect {
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 94% !important;
+  margin-left: 3% !important;
+  margin-right: 3% !important;
   box-sizing: border-box;
   background-color: white;
 }
@@ -79,9 +79,9 @@
 #thankyou:not(.hidden), 
 #review-redirect:not(.hidden) {
   display: block;
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 94% !important;
+  margin-left: 3% !important;
+  margin-right: 3% !important;
   box-sizing: border-box;
   background-color: white;
   padding: var(--spacing-lg);
@@ -150,9 +150,9 @@
   .question, 
   #thankyou, 
   #review-redirect {
-    margin-left: 5% !important; /* 左右マージンを統一 */
-    margin-right: 5% !important;
-    width: 90% !important; /* 幅を統一 */
+    margin-left: 3% !important; /* 左右マージンを統一 */
+    margin-right: 3% !important;
+    width: 94% !important; /* 幅を統一 */
     padding: var(--spacing-md); /* 内側パディングは小さく */
   }
   
