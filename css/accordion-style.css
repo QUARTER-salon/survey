@@ -117,6 +117,39 @@
   }
   
   /* ----------------------------------------
+     アコーディオン内の選択肢スタイリング
+     選択状態の視覚的表現を統一
+     ---------------------------------------- */
+  /* アコーディオン内の選択肢のスタイリング */
+  .collapsible-group .options input[type="radio"]:checked + label,
+  .collapsible-group .options input[type="checkbox"]:checked + label {
+    background-color: rgba(230, 216, 179, 0.15); /* 選択時の背景色 */
+    border-color: var(--border-color); /* 境界線の色 */
+    border-left: 3px solid var(--primary-color); /* 選択時は必ずプライマリーカラー(#C39000)の左境界線 */
+    box-shadow: var(--shadow-md); /* 奥行き用の影 */
+    font-weight: 500; /* 中程度の太さ */
+    transform: translateX(5px); /* 選択時に右へシフト */
+  }
+
+  /* 選択肢のラベルのホバー効果 */
+  .collapsible-group .options label:hover {
+    background-color: rgba(230, 216, 179, 0.1); /* ホバー時の背景 */
+    transform: translateX(3px); /* わずかに右へシフト */
+    box-shadow: var(--shadow-md); /* 影を追加 */
+    border-left: 3px solid var(--secondary-color); /* ホバー時のボーダー色 */
+  }
+
+  /* チェックマークの位置調整 */
+  .collapsible-group .options input[type="radio"]:checked + label::after,
+  .collapsible-group .options input[type="checkbox"]:checked + label::after {
+    content: "✓"; /* チェックマーク */
+    position: absolute; /* 絶対位置 */
+    right: var(--spacing-md); /* 右揃え */
+    color: var(--primary-color); /* ゴールド色 */
+    font-weight: bold; /* 太字 */
+  }
+  
+  /* ----------------------------------------
      サマリーテキストの強調
      カテゴリーの視認性向上
      ---------------------------------------- */
