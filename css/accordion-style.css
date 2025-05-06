@@ -14,7 +14,7 @@
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
-    border-left: 3px solid var(--secondary-color);
+    border-left: 3px solid var(--primary-color);
   }
   
   /* ホバー効果の追加 */
@@ -125,7 +125,7 @@
   .collapsible-group .options input[type="checkbox"]:checked + label {
     background-color: rgba(230, 216, 179, 0.15); /* 選択時の背景色 */
     border-color: var(--border-color); /* 境界線の色 */
-    border-left: 3px solid var(--primary-color); /* 選択時は必ずプライマリーカラー(#C39000)の左境界線 */
+    border-left: 3px solid var(--primary-color); /* 選択時はプライマリーカラー(#C39000)の左境界線 */
     box-shadow: var(--shadow-md); /* 奥行き用の影 */
     font-weight: 500; /* 中程度の太さ */
     transform: translateX(5px); /* 選択時に右へシフト */
@@ -136,7 +136,7 @@
     background-color: rgba(230, 216, 179, 0.1); /* ホバー時の背景 */
     transform: translateX(3px); /* わずかに右へシフト */
     box-shadow: var(--shadow-md); /* 影を追加 */
-    border-left: 3px solid var(--secondary-color); /* ホバー時のボーダー色 */
+    border-left: 3px solid var(--primary-color); /* ホバー時もプライマリーカラーの左境界線 */
   }
 
   /* チェックマークの位置調整 */
