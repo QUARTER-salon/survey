@@ -49,6 +49,9 @@
       
       // バリデーションメッセージなど JS 生成文字列も更新
       if (window.updateValidationMessages) window.updateValidationMessages();
+      
+      // メニュー整形も翻訳後に実行
+      if (window.updateMenuFormatting) window.updateMenuFormatting();
     }
   
     // 言語リンクの状態を更新する関数

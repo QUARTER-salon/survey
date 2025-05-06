@@ -661,180 +661,6 @@ function initStarRating() {
 window.initStarRating = initStarRating;
 </file>
 
-<file path="css/accordion-style.css">
-/* ============================================
-   QUARTERアンケート - おしゃれなアコーディオンスタイル
-   プルダウンの直感性と高級感を向上させるスタイル
-   ============================================ */
-
-/* ----------------------------------------
-   アコーディオン基本スタイル
-   高級感のあるプルダウンデザイン
-   ---------------------------------------- */
-   .collapsible-group details {
-    border: 1px solid var(--border-color);
-    margin-bottom: var(--spacing-sm);
-    background: white;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    border-left: 3px solid var(--secondary-color);
-  }
-  
-  /* ホバー効果の追加 */
-  .collapsible-group details:hover {
-    box-shadow: 0 2px 8px rgba(195, 144, 0, 0.1);
-    transform: translateY(-1px);
-  }
-  
-  /* サマリー（クリック可能な見出し部分）のスタイル改善 */
-  .collapsible-group summary {
-    padding: 12px 16px;
-    font-weight: 500;
-    cursor: pointer;
-    list-style: none; /* デフォルトの三角形を非表示 */
-    position: relative;
-    background-color: white;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    letter-spacing: 0.5px;
-  }
-  
-  /* Safariなどでリスト記号を非表示にするため */
-  .collapsible-group summary::-webkit-details-marker {
-    display: none;
-  }
-  
-  /* ----------------------------------------
-     プルダウン矢印の追加
-     直感的な操作感のための視覚的手がかり
-     ---------------------------------------- */
-  /* カスタム矢印をサマリーの後に追加 */
-  .collapsible-group summary::after {
-    content: ""; /* 疑似要素にコンテンツを追加 */
-    width: 12px;
-    height: 12px;
-    border-right: 2px solid var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    transform: rotate(45deg); /* 下向き矢印の形に回転 */
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    position: absolute;
-    right: 16px;
-    opacity: 0.7;
-  }
-  
-  /* ホバー時の矢印スタイル */
-  .collapsible-group summary:hover::after {
-    opacity: 1;
-    transform: rotate(45deg) scale(1.1);
-  }
-  
-  /* 開いた状態の矢印を上向きに変更 */
-  .collapsible-group details[open] summary::after {
-    transform: rotate(-135deg); /* 上向き矢印に変更 */
-  }
-  
-  /* ----------------------------------------
-     開閉時のアニメーション効果
-     エレガントな動きによる高級感の演出
-     ---------------------------------------- */
-  /* 開閉時のサマリースタイル変更 */
-  .collapsible-group details[open] summary {
-    background: linear-gradient(to right, rgba(230, 216, 179, 0.15), white);
-    border-bottom: 1px solid var(--border-color);
-    color: var(--primary-color);
-  }
-  
-  /* 開いた時のサマリーのホバー効果 */
-  .collapsible-group details[open]:hover {
-    box-shadow: 0 3px 10px rgba(195, 144, 0, 0.12);
-  }
-  
-  /* オプションコンテナのアニメーション設定 */
-  .collapsible-group .options {
-    padding: 16px;
-    animation: fadeSlideDown 0.3s ease-out;
-    border-top: none;
-  }
-  
-  /* フェードイン＋スライドダウンアニメーション */
-  @keyframes fadeSlideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* 強調表示（開いた時の左ボーダー変更） */
-  .collapsible-group details[open] {
-    border-left: 3px solid var(--primary-color);
-  }
-  
-  /* ----------------------------------------
-     サマリーテキストの強調
-     カテゴリーの視認性向上
-     ---------------------------------------- */
-  .collapsible-group summary {
-    color: var(--text-color);
-    font-size: 15px;
-    font-weight: 500;
-  }
-  
-  /* エレガントなアクセント装飾 - 左側の小さなドット */
-  .collapsible-group summary::before {
-    content: "";
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background-color: var(--primary-color);
-    border-radius: 50%;
-    margin-right: 8px;
-    opacity: 0.7;
-    vertical-align: middle;
-  }
-  
-  /* 開いた時のドット強調 */
-  .collapsible-group details[open] summary::before {
-    opacity: 1;
-    background-color: var(--primary-color);
-  }
-  
-  /* ----------------------------------------
-     モバイル対応の調整
-     小さな画面でも使いやすいデザイン
-     ---------------------------------------- */
-  @media (max-width: 480px) {
-    .collapsible-group summary {
-      padding: 10px 14px;
-      font-size: 14px;
-    }
-    
-    .collapsible-group summary::after {
-      width: 10px;
-      height: 10px;
-      right: 14px;
-    }
-    
-    .collapsible-group .options {
-      padding: 12px;
-    }
-  }
-  
-  /* タッチデバイス向けの調整 */
-  @media (hover: none) {
-    /* タッチデバイスでのタップフィードバック */
-    .collapsible-group summary:active {
-      background-color: rgba(230, 216, 179, 0.2);
-    }
-  }
-</file>
-
 <file path="css/menu-styles.css">
 /* ============================================
    QUARTERアンケート - 構造化メニュースタイル
@@ -2157,6 +1983,208 @@ js/mock-api.js
   }
 </file>
 
+<file path="css/accordion-style.css">
+/* ============================================
+   QUARTERアンケート - おしゃれなアコーディオンスタイル
+   プルダウンの直感性と高級感を向上させるスタイル
+   ============================================ */
+
+/* ----------------------------------------
+   アコーディオン基本スタイル
+   高級感のあるプルダウンデザイン
+   ---------------------------------------- */
+   .collapsible-group details {
+    border: 1px solid var(--border-color);
+    margin-bottom: var(--spacing-sm);
+    background: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  /* ホバー効果の追加 */
+  .collapsible-group details:hover {
+    box-shadow: 0 2px 8px rgba(195, 144, 0, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .collapsible-group li {
+      list-style: none;            /* 左端の「・」を完全に無効化 */
+      margin: 0;                   /* 余白もリセット */
+      padding: 0;
+    }
+  
+  /* サマリー（クリック可能な見出し部分）のスタイル改善 */
+  .collapsible-group summary {
+      padding: 12px 40px 12px 16px; /* 右側に 40px の余白 → 矢印用 */
+      font-weight: 500;
+      cursor: pointer;
+      list-style: none;
+      position: relative;
+      background-color: white;
+      transition: all 0.3s ease;
+      display: block;              /* 左詰め */
+      letter-spacing: 0.5px;
+     }
+  
+  /* Safariなどでリスト記号を非表示にするため */
+  .collapsible-group summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  /* ----------------------------------------
+     プルダウン矢印の追加
+     直感的な操作感のための視覚的手がかり
+     ---------------------------------------- */
+  /* カスタム矢印をサマリーの後に追加 */
+  .collapsible-group summary::after {
+    content: ""; /* 疑似要素にコンテンツを追加 */
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    transform: rotate(45deg); /* 下向き矢印の形に回転 */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    position: absolute;
+    right: 16px;
+    opacity: 0.7;
+  }
+  
+  /* ホバー時の矢印スタイル */
+  .collapsible-group summary:hover::after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1.1);
+  }
+  
+  /* 開いた状態の矢印を上向きに変更 */
+  .collapsible-group details[open] summary::after {
+    transform: rotate(-135deg); /* 上向き矢印に変更 */
+  }
+  
+  /* ----------------------------------------
+     開閉時のアニメーション効果
+     エレガントな動きによる高級感の演出
+     ---------------------------------------- */
+  /* 開閉時のサマリースタイル変更 */
+  .collapsible-group details[open] summary {
+    background: linear-gradient(to right, rgba(230, 216, 179, 0.15), white);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--primary-color);
+  }
+  
+  /* 開いた時のサマリーのホバー効果 */
+  .collapsible-group details[open]:hover {
+    box-shadow: 0 3px 10px rgba(195, 144, 0, 0.12);
+  }
+  
+  /* オプションコンテナのアニメーション設定 */
+  .collapsible-group .options {
+    padding: 16px;
+    animation: fadeSlideDown 0.3s ease-out;
+    border-top: none;
+  }
+  
+  /* フェードイン＋スライドダウンアニメーション */
+  @keyframes fadeSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 強調表示（開いた時の左ボーダー変更） */
+  .collapsible-group details[open] {
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  /* ----------------------------------------
+     アコーディオン内の選択肢スタイリング
+     選択状態の視覚的表現を統一
+     ---------------------------------------- */
+  /* アコーディオン内の選択肢のスタイリング */
+  .collapsible-group .options input[type="radio"]:checked + label,
+  .collapsible-group .options input[type="checkbox"]:checked + label {
+    background-color: rgba(230, 216, 179, 0.15); /* 選択時の背景色 */
+    border-color: var(--border-color); /* 境界線の色 */
+    border-left: 3px solid var(--primary-color); /* 選択時はプライマリーカラー(#C39000)の左境界線 */
+    box-shadow: var(--shadow-md); /* 奥行き用の影 */
+    font-weight: 500; /* 中程度の太さ */
+    transform: translateX(5px); /* 選択時に右へシフト */
+  }
+
+  /* 選択肢のラベルのホバー効果 */
+  .collapsible-group .options label:hover {
+    background-color: rgba(230, 216, 179, 0.1); /* ホバー時の背景 */
+    transform: translateX(3px); /* わずかに右へシフト */
+    box-shadow: var(--shadow-md); /* 影を追加 */
+    border-left: 3px solid var(--primary-color); /* ホバー時もプライマリーカラーの左境界線 */
+  }
+
+  /* チェックマークの位置調整 */
+  .collapsible-group .options input[type="radio"]:checked + label::after,
+  .collapsible-group .options input[type="checkbox"]:checked + label::after {
+    content: "✓"; /* チェックマーク */
+    position: absolute; /* 絶対位置 */
+    right: var(--spacing-md); /* 右揃え */
+    color: var(--primary-color); /* ゴールド色 */
+    font-weight: bold; /* 太字 */
+  }
+  
+  /* ----------------------------------------
+     サマリーテキストの強調
+     カテゴリーの視認性向上
+     ---------------------------------------- */
+  .collapsible-group summary {
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  .collapsible-group summary::before {
+      content: none;
+  }
+  
+  /* 開いた時のドット強調 */
+  .collapsible-group details[open] summary::before {
+    opacity: 1;
+    background-color: var(--primary-color);
+  }
+  
+  /* ----------------------------------------
+     モバイル対応の調整
+     小さな画面でも使いやすいデザイン
+     ---------------------------------------- */
+  @media (max-width: 480px) {
+    .collapsible-group summary {
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+    
+    .collapsible-group summary::after {
+      width: 10px;
+      height: 10px;
+      right: 14px;
+    }
+    
+    .collapsible-group .options {
+      padding: 12px;
+    }
+  }
+  
+  /* タッチデバイス向けの調整 */
+  @media (hover: none) {
+    /* タッチデバイスでのタップフィードバック */
+    .collapsible-group summary:active {
+      background-color: rgba(230, 216, 179, 0.2);
+    }
+  }
+</file>
+
 <file path="js/main.js">
 /**
  * QUARTERアンケート - メインJavaScript
@@ -2918,9 +2946,9 @@ window.validateAndSubmit = validateAndSubmit;
   /* display: blockを明示的に設定（hidden解除時に適切に表示されるため） */
   display: block;
   /* 幅と余白を明示的に再設定（詳細度を高めるため） */
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 96% !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
 }
 
 /* hidden要素の統一 */
@@ -2937,9 +2965,9 @@ window.validateAndSubmit = validateAndSubmit;
 /* フィードバックカードの明示的な幅設定（詳細度を高めるため） */
 .container #thankyou,
 .container #review-redirect {
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 96% !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
   box-sizing: border-box;
   background-color: white;
 }
@@ -2948,9 +2976,9 @@ window.validateAndSubmit = validateAndSubmit;
 #thankyou:not(.hidden), 
 #review-redirect:not(.hidden) {
   display: block;
-  width: 90% !important;
-  margin-left: 5% !important;
-  margin-right: 5% !important;
+  width: 96% !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
   box-sizing: border-box;
   background-color: white;
   padding: var(--spacing-lg);
@@ -3019,9 +3047,9 @@ window.validateAndSubmit = validateAndSubmit;
   .question, 
   #thankyou, 
   #review-redirect {
-    margin-left: 5% !important; /* 左右マージンを統一 */
-    margin-right: 5% !important;
-    width: 90% !important; /* 幅を統一 */
+    margin-left: 2% !important; /* 左右マージンを統一 */
+    margin-right: 2% !important;
+    width: 96% !important; /* 幅を統一 */
     padding: var(--spacing-md); /* 内側パディングは小さく */
   }
   
@@ -3557,296 +3585,6 @@ body, .container, #thankyou, #review-redirect, .question {
   </div>
 </body>
 </html>
-</file>
-
-<file path="css/responsive.css">
-/* ============================================
-   QUARTERアンケートのレスポンシブスタイル
-   異なる画面サイズやデバイスに合わせてレイアウトを調整するためのスタイル
-   ============================================ */
-
-/* ----------------------------------------
-   フィードバック画面の基本レイアウト修正
-   画面サイズに関わらず一貫した表示を提供
-   ---------------------------------------- */
-
-/* コンテナ全体の背景色を統一 */
-body {
-  background-color: var(--background-color); /* 淡いベージュ */
-}
-
-/* コンテナとフィードバックカードの親要素のスタイルを統一 */
-.container {
-  background-color: transparent; /* 背景を透明に */
-}
-
-/* フィードバックカードのコンテナを明示的に設定 */
-#thankyou, #review-redirect {
-  background-color: white;
-  /* 他のスタイル */
-}
-
-/* 質問とフィードバックカードの共通コンテナ設定 */
-.question, .feedback-card {
-  /* 両方のコンテナに同じ背景色と余白設定を適用 */
-  background-color: white;
-  /* 質問カードと同じ左右5%マージン */
-  margin-left: 5%;
-  margin-right: 5%;
-  /* その他の共通スタイル */
-}
-
-/* テキストエリアとボタン配置の調整 */
-#review-redirect .copy-container {
-  width: 100%;
-  margin: var(--spacing-lg) 0;
-}
-
-#review-redirect #comment-to-copy {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin-bottom: var(--spacing-md);
-}
-
-/* ボタンコンテナのレイアウト調整 */
-#review-redirect .copy-container div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--spacing-md);
-}
-
-/* ----------------------------------------
-   ヘッダーと言語セレクタのスタイル調整
-   全画面サイズでの言語セレクタとロゴの重なりを防止
-   ---------------------------------------- */
-
-/* デスクトップサイズでの基本設定 */
-.site-header-alt {
-  position: relative;
-}
-
-.language-selector-top-right {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 10; /* 他の要素より前面に表示 */
-}
-
-/* ----------------------------------------
-   モバイル端末（480px以下）
-   スマートフォンなどの小さな画面向けの調整
-   ---------------------------------------- */
-@media (max-width: 480px) {
-  /* 言語セレクタをロゴの上部中央に配置して重なりを防止 */
-  .site-header-alt {
-    padding-top: 50px; /* 上部にスペースを確保してロゴを下げる */
-  }
-  
-  .language-selector-top-right {
-    position: absolute;
-    top: 10px;
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%); /* 中央揃え */
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .logo-container {
-    margin-top: 5px; /* ロゴの上部マージンを調整 */
-  }
-
-  /* 非常に小さな画面ではロゴを少し小さくする */
-  .text-logo {
-    max-width: 160px;
-  }
-
-  .feedback-card {
-    /* スマホでの余白調整 - 質問カードと同様に */
-    margin-left: 5%;
-    margin-right: 5%;
-    padding: var(--spacing-md);
-  }
-
-  /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
-  .container {
-    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
-  }
-  
-  .question {
-    padding: var(--spacing-md); /* 質問カードの内側余白を調整（24pxから16pxへ） */
-  }
-  
-  /* テキストサイズ調整 - 小さな画面でも読みやすいサイズに */
-  h3 {
-    font-size: 15px; /* 見出しを少し小さく（16pxから15pxへ） */
-  }
-  
-  .options label {
-    font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
-  }
-  
-  /* 選択肢の間隔を広げる */
-  .options label {
-    font-size: 14px;
-    /* 選択肢間の下マージンを増やす（8pxから16pxへ） */
-    margin-bottom: var(--spacing-md);
-    /* ラベル内の余白も少し大きく */
-    padding: var(--spacing-md) var(--spacing-md);
-    /* タップしやすくするために最小高さを設定 */
-    min-height: 48px;
-    /* フレックスボックスでコンテンツを縦方向に中央揃え */
-    display: flex;
-    align-items: center;
-  }
-  
-  /* ボタン調整 - モバイル画面でタップしやすく */
-  .submit-button,
-  .action-button {
-    width: 80%; /* ボタンの幅を広げて（もともと自動）タップしやすく */
-    margin-bottom: var(--spacing-md); /* ボタン間の余白を確保 */
-  }
-  
-  /* 星評価 - 小さな画面でも操作しやすいサイズに */
-  .star {
-    font-size: 36px; /* 星のサイズを小さく（42pxから36pxへ） */
-    padding: 0 var(--spacing-xs); /* 左右の余白を縮小（8pxから4pxへ） */
-  }
-  
-  /* ナビゲーション - 小さな画面でもすっきり見えるように調整 */
-  .nav-text {
-    font-size: 12px; /* ナビゲーションのテキストを小さく（14pxから12pxへ） */
-  }
-  
-  .nav-item {
-    padding: 8px 0; /* 上下のパディングを小さく（15pxから8pxへ） */
-  }
-  
-  /* テキストエリア - 入力欄のサイズ調整 */
-  textarea {
-    font-size: 14px; /* フォントサイズを小さく（15pxから14pxへ） */
-  }
-  
-  /* メッセージコンテナ - 完了画面などのコンテナ調整 */
-  #thankyou, 
-  #review-redirect {
-    width: 95%; /* モバイルでは幅を広げる */
-    padding: var(--spacing-md); /* 内側の余白を小さく調整 */
-    margin-top: var(--spacing-md); /* 上部マージンも調整 */
-  }
-  
-  #thankyou h2, 
-  #review-redirect h2 {
-    font-size: 20px; /* 見出しを小さく（24pxから20pxへ） */
-  }
-  
-  /* コピーボタンとリダイレクトボタンを縦に配置 */
-  #review-redirect .copy-container div {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  #review-redirect .action-button {
-    width: 100%;
-    max-width: 300px;
-    margin: var(--spacing-xs) 0;
-  }
-}
-
-/* ----------------------------------------
-   タブレット端末（481px〜768px）
-   中間サイズのデバイス向けの微調整
-   ---------------------------------------- */
-@media (min-width: 481px) and (max-width: 768px) {
-  /* タブレットでも言語セレクタの位置調整 */
-  .site-header-alt {
-    padding-top: 55px; /* 上部にスペースを確保してロゴを下げる */
-  }
-  
-  .language-selector-top-right {
-    position: absolute;
-    top: 12px;
-    right: auto;
-    left: 50%;
-    transform: translateX(-50%); /* 中央揃え */
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .logo-container {
-    margin-top: 8px; /* ロゴの上部マージンを調整 */
-  }
-
-  /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
-  .container {
-    padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */
-  }
-  
-  .nav-item {
-    padding: 10px 0; /* ナビアイテムの上下パディングを少し小さく（15pxから10pxへ） */
-  }
-  
-  .star {
-    font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
-  }
-  
-  /* タブレットでも選択肢の間隔を少し広げる */
-  .options label {
-    margin-bottom: 12px; /* 8pxから12pxへ */
-    min-height: 44px; /* タッチしやすい最小高さ */
-  }
-  
-  /* フィードバック画面の調整 */
-  #thankyou, 
-  #review-redirect {
-    width: 92%; /* 幅をやや広げる */
-    padding: var(--spacing-md) var(--spacing-lg);
-  }
-}
-
-/* ----------------------------------------
-   タッチデバイス対応
-   タッチ操作に最適化した調整（画面サイズに関係なく適用）
-   ---------------------------------------- */
-@media (hover: none) {
-  /* 
-   * hover: none は、タッチスクリーンなどのホバー機能がないデバイスを対象にします
-   * これはスマートフォンやタブレットなどで、マウスのようなホバーができない場合に適用されます
-   */
-  
-  /* タッチデバイスでのホバー効果無効化 - タップ操作に最適化 */
-  .options label:hover {
-    transform: none; /* ホバー時の移動効果を無効化（右に3px移動する効果を消去） */
-    background-color: white; /* ホバー時の背景色変更を無効化 */
-    box-shadow: none; /* ホバー時の影効果を無効化 */
-  }
-  
-  /* タッチフィードバックの強化 - タップ時の視覚的フィードバックを提供 */
-  .options label:active {
-    background-color: var(--background-color); /* タップ時に背景色を変更してフィードバック */
-    transform: translateX(3px); /* タップ時に右へ移動させて反応を示す */
-  }
-  
-  /* ボタンのタップフィードバック - タップされたことがわかりやすく */
-  .submit-button:active,
-  .action-button:active {
-    transform: scale(0.98); /* タップ時にわずかに縮小して押された感を出す */
-    opacity: 0.9; /* わずかに透明度を上げて押された感を強調 */
-  }
-  
-  /* 星評価のタップエリア拡大 - 指でタップしやすくする */
-  .star {
-    padding: 0 var(--spacing-md); /* 左右のパディングを大きく（4/8pxから16pxへ）してタップ領域を拡大 */
-  }
-  
-  /* タッチデバイスでのフィードバックボタン調整 */
-  #review-redirect .action-button {
-    padding: var(--spacing-md) var(--spacing-lg);
-    min-height: 48px; /* タップしやすい最小高さ */
-  }
-}
 </file>
 
 <file path="css/styles.css">
@@ -4688,6 +4426,323 @@ body {
       padding: 8px 12px;
     }
   }
+</file>
+
+<file path="css/responsive.css">
+/* ============================================
+   QUARTERアンケートのレスポンシブスタイル
+   異なる画面サイズやデバイスに合わせてレイアウトを調整するためのスタイル
+   ============================================ */
+
+/* ----------------------------------------
+   フィードバック画面の基本レイアウト修正
+   画面サイズに関わらず一貫した表示を提供
+   ---------------------------------------- */
+
+/* コンテナ全体の背景色を統一 */
+body {
+  background-color: var(--background-color); /* 淡いベージュ */
+}
+
+/* コンテナとフィードバックカードの親要素のスタイルを統一 */
+.container {
+  background-color: transparent; /* 背景を透明に */
+}
+
+/* フィードバックカードのコンテナを明示的に設定 */
+#thankyou, #review-redirect {
+  background-color: white;
+  /* 他のスタイル */
+}
+
+/* 質問とフィードバックカードの共通コンテナ設定 */
+.question, .feedback-card {
+  /* 両方のコンテナに同じ背景色と余白設定を適用 */
+  background-color: white;
+  /* 質問カードと同じ左右5%マージン */
+  margin-left: 5%;
+  margin-right: 5%;
+  /* その他の共通スタイル */
+}
+
+/* テキストエリアとボタン配置の調整 */
+#review-redirect .copy-container {
+  width: 100%;
+  margin: var(--spacing-lg) 0;
+}
+
+#review-redirect #comment-to-copy {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-bottom: var(--spacing-md);
+}
+
+/* ボタンコンテナのレイアウト調整 */
+#review-redirect .copy-container div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+/* ----------------------------------------
+   ヘッダーと言語セレクタのスタイル調整
+   全画面サイズでの言語セレクタとロゴの重なりを防止
+   ---------------------------------------- */
+
+/* デスクトップサイズでの基本設定 */
+.site-header-alt {
+  position: relative;
+}
+
+.language-selector-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10; /* 他の要素より前面に表示 */
+}
+
+/* ----------------------------------------
+   モバイル端末（480px以下）
+   スマートフォンなどの小さな画面向けの調整
+   ---------------------------------------- */
+@media (max-width: 480px) {
+  /* 言語セレクタをロゴの上部中央に配置して重なりを防止 */
+  .site-header-alt {
+    padding-top: 50px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 10px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 5px; /* ロゴの上部マージンを調整 */
+  }
+
+  /* 非常に小さな画面ではロゴを少し小さくする */
+  .text-logo {
+    max-width: 160px;
+  }
+
+  .feedback-card {
+    /* スマホでの余白調整 - 質問カードと同様に */
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: var(--spacing-md);
+  }
+
+  /* コンテナとレイアウト - 小さな画面に合わせて余白を縮小 */
+  .container {
+    padding: var(--spacing-sm); /* 余白を小さく調整（16pxから8pxへ） */
+  }
+  
+  .question {
+    padding: var(--spacing-md); /* 質問カードの内側余白を調整（24pxから16pxへ） */
+  }
+  
+  /* テキストサイズ調整 - 小さな画面でも読みやすいサイズに */
+  h3 {
+    font-size: 15px; /* 見出しを少し小さく（16pxから15pxへ） */
+  }
+  
+  .options label {
+    font-size: 14px; /* 選択肢のテキストを小さく（15pxから14pxへ） */
+  }
+  
+  /* 選択肢の間隔を広げる */
+  .options label {
+    font-size: 14px;
+    /* 選択肢間の下マージンを増やす（8pxから16pxへ） */
+    margin-bottom: var(--spacing-md);
+    /* ラベル内の余白も少し大きく */
+    padding: var(--spacing-md) var(--spacing-md);
+    /* タップしやすくするために最小高さを設定 */
+    min-height: 48px;
+    /* フレックスボックスでコンテンツを縦方向に中央揃え */
+    display: flex;
+    align-items: center;
+  }
+  
+  /* ボタン調整 - モバイル画面でタップしやすく */
+  .submit-button,
+  .action-button {
+    width: 80%; /* ボタンの幅を広げて（もともと自動）タップしやすく */
+    margin-bottom: var(--spacing-md); /* ボタン間の余白を確保 */
+  }
+  
+  /* 星評価 - 小さな画面でも操作しやすいサイズに */
+  .star {
+    font-size: 36px; /* 星のサイズを小さく（42pxから36pxへ） */
+    padding: 0 var(--spacing-xs); /* 左右の余白を縮小（8pxから4pxへ） */
+  }
+  
+  /* ナビゲーション - 小さな画面でもすっきり見えるように調整 */
+  .nav-text {
+    font-size: 12px; /* ナビゲーションのテキストを小さく（14pxから12pxへ） */
+  }
+  
+  .nav-item {
+    padding: 8px 0; /* 上下のパディングを小さく（15pxから8pxへ） */
+  }
+  
+  /* テキストエリア - 入力欄のサイズ調整 */
+  textarea {
+    font-size: 14px; /* フォントサイズを小さく（15pxから14pxへ） */
+  }
+  
+  /* メッセージコンテナ - 完了画面などのコンテナ調整 */
+  #thankyou, 
+  #review-redirect {
+    width: 95%; /* モバイルでは幅を広げる */
+    padding: var(--spacing-md); /* 内側の余白を小さく調整 */
+    margin-top: var(--spacing-md); /* 上部マージンも調整 */
+  }
+  
+  #thankyou h2, 
+  #review-redirect h2 {
+    font-size: 20px; /* 見出しを小さく（24pxから20pxへ） */
+  }
+  
+  /* コピーボタンとリダイレクトボタンを縦に配置 */
+  #review-redirect .copy-container div {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #review-redirect .action-button {
+    width: 100%;
+    max-width: 300px;
+    margin: var(--spacing-xs) 0;
+  }
+  
+  /* ============================
+     スマホ幅を少し広げる調整
+     ----------------------------
+     変更前 : 左右 5% マージン ＋ 幅 90%（実質 100% だが padding が狭く見える）
+     ============================ */
+  
+  /* 質問カード・フィードバックカード共通 */
+  .question,
+  #thankyou,
+  #review-redirect,
+  .feedback-card {      /* ← layout‑fix.css で使われるクラスも念のため含める */
+    width: 96% !important;     /* 90% → 94% に拡大 */
+    margin-inline: auto; 
+
+  }
+
+  /* 内側コンテナ（全体ラッパー）も少し余裕を持たせる */
+  .container {
+    padding-left: var(--spacing-md);   /* 16px 程度 */
+    padding-right: var(--spacing-md);
+  }
+
+  /* オプションラベルの幅が足りない場合は 100% に */
+  .options label {
+    width: 100%;
+  }
+}
+
+/* ----------------------------------------
+   タブレット端末（481px〜768px）
+   中間サイズのデバイス向けの微調整
+   ---------------------------------------- */
+@media (min-width: 481px) and (max-width: 768px) {
+  /* タブレットでも言語セレクタの位置調整 */
+  .site-header-alt {
+    padding-top: 55px; /* 上部にスペースを確保してロゴを下げる */
+  }
+  
+  .language-selector-top-right {
+    position: absolute;
+    top: 12px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 中央揃え */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .logo-container {
+    margin-top: 8px; /* ロゴの上部マージンを調整 */
+  }
+
+  /* タブレットサイズ向けの控えめな調整 - モバイルほど極端にしない */
+  .container {
+    padding: var(--spacing-md); /* コンテナの余白をやや小さく調整 */
+  }
+  
+  .nav-item {
+    padding: 10px 0; /* ナビアイテムの上下パディングを少し小さく（15pxから10pxへ） */
+  }
+  
+  .star {
+    font-size: 38px; /* 星のサイズを少し小さく（42pxから38pxへ） */
+  }
+  
+  /* タブレットでも選択肢の間隔を少し広げる */
+  .options label {
+    margin-bottom: 12px; /* 8pxから12pxへ */
+    min-height: 44px; /* タッチしやすい最小高さ */
+  }
+  
+  /* フィードバック画面の調整 */
+  #thankyou, 
+  #review-redirect {
+    width: 92%; /* 幅をやや広げる */
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+}
+
+/* ----------------------------------------
+   タッチデバイス対応
+   タッチ操作に最適化した調整（画面サイズに関係なく適用）
+   ---------------------------------------- */
+@media (hover: none) {
+  /* 
+   * hover: none は、タッチスクリーンなどのホバー機能がないデバイスを対象にします
+   * これはスマートフォンやタブレットなどで、マウスのようなホバーができない場合に適用されます
+   */
+  
+  /* タッチデバイスでのホバー効果無効化 - タップ操作に最適化 */
+  .options label:hover {
+    transform: none; /* ホバー時の移動効果を無効化（右に3px移動する効果を消去） */
+    background-color: white; /* ホバー時の背景色変更を無効化 */
+    box-shadow: none; /* ホバー時の影効果を無効化 */
+  }
+  
+  /* タッチフィードバックの強化 - タップ時の視覚的フィードバックを提供 */
+  .options label:active {
+    background-color: var(--background-color); /* タップ時に背景色を変更してフィードバック */
+    transform: translateX(3px); /* タップ時に右へ移動させて反応を示す */
+  }
+  
+  /* ボタンのタップフィードバック - タップされたことがわかりやすく */
+  .submit-button:active,
+  .action-button:active {
+    transform: scale(0.98); /* タップ時にわずかに縮小して押された感を出す */
+    opacity: 0.9; /* わずかに透明度を上げて押された感を強調 */
+  }
+  
+  /* 星評価のタップエリア拡大 - 指でタップしやすくする */
+  .star {
+    padding: 0 var(--spacing-md); /* 左右のパディングを大きく（4/8pxから16pxへ）してタップ領域を拡大 */
+  }
+  
+  /* タッチデバイスでのフィードバックボタン調整 */
+  #review-redirect .action-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    min-height: 48px; /* タップしやすい最小高さ */
+  }
+}
 </file>
 
 </files>
