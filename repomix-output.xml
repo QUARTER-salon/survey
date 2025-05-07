@@ -563,49 +563,6 @@ window.initDynamicServices = initDynamicServices;
 }
 </file>
 
-<file path="js/config.js">
-/**
- * QUARTERアンケート - 設定ファイル
- * アプリケーション全体で使用される定数と設定
- * 
- * このファイルは「設定」のみを含み、ロジック（処理）は含みません。
- * 設定を一カ所にまとめることで、後から変更が必要になった場合に修正しやすくなります。
- */
-
-// グローバル変数としてCONFIGを定義
-// window.CONFIGとすることで、他のJavaScriptファイルからもアクセスできるようになります
-// （windowはブラウザのグローバルオブジェクトで、ブラウザ上で動くすべてのJSから参照できます）
-window.CONFIG = {
-  // Apps Script WebアプリのURL
-  // このURLはGoogleフォームやスプレッドシートと連携するためのエンドポイントです
-  // アンケートの回答データはこのURLに送信され、Googleスプレッドシートに保存されます
-  // 注意: このURLは定期的に変更される可能性があります（Googleのセキュリティポリシーにより）
-  APPS_SCRIPT_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzbw0Dk5xcpe-D5FKc0mjiLsUwHyTOPIbO9Gnvuzrd24Sp0VtHiun5l3VZnE9qZAGsuYw/exec',
-  
-  // 各店舗のGoogleマップレビューURL
-  // オブジェクト（連想配列）形式で、店舗名をキーに、そのレビューページURLを値として保存しています
-  // 高評価（星4以上）を選択したユーザーを、対応する店舗のGoogleマップレビューページに誘導するために使用します
-  STORE_REVIEW_URLS: {
-    // QUARTERブランドの店舗
-    'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',         // QUARTERメイン店
-    'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',   // QUARTERリゾート店
-    'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',  // QUARTER SEASONS店
-    'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',            // LINK店
-    'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'               // iL店
-  }
-};
-
-// エクスポート（必要に応じて）
-// この部分は、Node.js環境（サーバーサイド）でこのファイルが読み込まれた場合に、
-// CONFIGオブジェクトをエクスポートするためのコードです。
-// ブラウザ環境では実行されず、Node.js環境でのみ実行されます。
-// これにより同じ設定ファイルをフロントエンド（ブラウザ）とバックエンド（サーバー）の両方で使える「ユニバーサル」な設定にしています。
-if (typeof module !== 'undefined' && module.exports) {
-  // module変数が存在し、exportsプロパティがある場合（=Node.js環境の場合）
-  module.exports = CONFIG;  // CONFIGオブジェクトをエクスポート
-}
-</file>
-
 <file path="js/menu-formatter.js">
 /**
  * QUARTERアンケート - メニュー表示改善スクリプト
@@ -1538,244 +1495,46 @@ window.initStarRating = function() {
 })();
 </file>
 
-<file path="locales/en/translation.json">
-{
-    "nav.store": "Store",
-    "nav.rating": "Rating",
-    "nav.info": "Information",
-    "nav.service": "Service",
-    "nav.feedback": "Feedback",
+<file path="js/config.js">
+/**
+ * QUARTERアンケート - 設定ファイル
+ * アプリケーション全体で使用される定数と設定
+ * 
+ * このファイルは「設定」のみを含み、ロジック（処理）は含みません。
+ * 設定を一カ所にまとめることで、後から変更が必要になった場合に修正しやすくなります。
+ */
+
+// グローバル変数としてCONFIGを定義
+// window.CONFIGとすることで、他のJavaScriptファイルからもアクセスできるようになります
+// （windowはブラウザのグローバルオブジェクトで、ブラウザ上で動くすべてのJSから参照できます）
+window.CONFIG = {
+  // Apps Script WebアプリのURL
+  // このURLはGoogleフォームやスプレッドシートと連携するためのエンドポイントです
+  // アンケートの回答データはこのURLに送信され、Googleスプレッドシートに保存されます
+  // 注意: このURLは定期的に変更される可能性があります（Googleのセキュリティポリシーにより）
+  APPS_SCRIPT_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbwyL_OetvLjqwoDm_BrtuAC9VrwzR4ab_VBfihzu8u8NQTGpYlFhMr3b7tos_9xyaK6Cg/exec',
   
-    "q1.title": "Q1. Which store did you visit today?",
-    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
-    "rating.prefix": "Rating:",
-    "rating.lowWarning": "Your feedback is important. Would you like to share details about your experience?",
-    
-    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
-    
-    "q3.title": "Q3. Please tell us your name (optional)",
-    "q3.placeholder": "Enter your name or nickname",
-    
-    "q4.title": "Q4. Your visit to our store was... (optional)",
-    "q4.firstTime": "First time (New customer)",
-    "q4.repeat": "Repeat visit (Regular customer)",
-    
-    "q5.title": "Q5. Please tell us your gender (optional)",
-    "q5.male": "Male",
-    "q5.female": "Female",
-    "q5.other": "Other",
-    
-    "q6.title": "Q6. Please tell us your age range (optional)",
-    "q6.age10s": "10s",
-    "q6.age20s": "20s",
-    "q6.age30s": "30s",
-    "q6.age40s": "40s",
-    "q6.age50s": "50s",
-    "q6.age60plus": "60s or above",
-    
-    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
-    "q7.cut": "Haircut",
-    "q7.color": "Hair coloring",
-    "q7.perm": "Perm",
-    "q7.treatment": "Treatment",
-    "q7.headspa": "Head spa",
-    "q7.other": "Other (Nail, Kimono dressing, etc.)",
-    "q7.il.eyelashExt": "Eyelash extensions",
-    "q7.il.eyelashPerm": "Eyelash perm",
-    "q7.il.wax": "Waxing services",
-    "q7.il.other": "Other services",
-    
-    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
-    
-    "q9.title": "Q9. How was our staff's customer service?",
-    
-    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
-    
-    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
-    
-    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
-    "q12.placeholder": "Enter your suggestions here",
-    
-    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
-    "q13.placeholder": "Enter your feedback here",
+  // 各店舗のGoogleマップレビューURL
+  // オブジェクト（連想配列）形式で、店舗名をキーに、そのレビューページURLを値として保存しています
+  // 高評価（星4以上）を選択したユーザーを、対応する店舗のGoogleマップレビューページに誘導するために使用します
+  STORE_REVIEW_URLS: {
+    // QUARTERブランドの店舗
+    'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',         // QUARTERメイン店
+    'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',   // QUARTERリゾート店
+    'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',  // QUARTER SEASONS店
+    'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',            // LINK店
+    'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'               // iL店
+  }
+};
 
-    
-    "q14.title": "Q14. What additional services would you like us to offer? (Multiple selections possible)",
-
-    "q14.grp.haircare": "Specialized Hair Care Menu",
-    "q14.treat": "Hair Quality Improvement Treatment (Damage repair, frizz control, etc.)",
-    "q14.organicColor": "Organic/Plant-based Hair Color (For sensitive scalp and skin care)",
-    "q14.scalp": "Expanded Scalp Care Menu (Improving scalp environment for healthier hair)",
-
-    "q14.grp.trend": "Trending Hair Styling Techniques",
-    "q14.innerColor": "Inner Color (Natural surface with playful colors underneath)",
-    "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
-    "q14.extension": "Hair Extensions (Temporary added length or volume)",
-    "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
-    "q14.hairArrange": "Hair Arrangement (Event and party arrangements, etc.)",
-
-    "q14.grp.beauty": "Esthetic & Beauty Services",
-    "q14.lashPerm": "Eyelash Perm/Extensions",
-    "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
-    "q14.facial": "Facial Treatments (Face massage and mask therapy)",
-    "q14.earJewelry": "Ear Acupressure Jewelry (Accessory placement on ear pressure points)",
-    "q14.accessory": "Hair Accessory Sales (Salon-selected hair accessories)",
-
-    "q14.grp.men": "Men's Specialized Menu",
-    "q14.mensShave": "Men's Beard Care/Shaving",
-    "q14.mensScalp": "Men's Scalp & Eyebrow Design",
-    "q14.mensMake": "Men's Makeup",
-    "q14.mensFacial": "Men's Facial Care",
-    
-    "q14.grp.package": "Special Packages & Membership",
-    "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
-    "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
-    "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
-    "q14.MaikeLasson": "Ladies Makeup Lessons (Learn makeup that suits you)",
-    "q14.hairLesson": "Hair Care & Styling Lessons (Learn home hair care and styling methods)",
-    "q14.mensMakeLesson": "Men's Makeup Lessons (Learn basic men's makeup techniques)",
-    "q14.mensLesson": "Men's Hair Styling Lessons (Learn self-styling methods)",
-
-    "q14.grp.digital": "Digital Services",
-    "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
-    "q14.onlineConsult": "Online Hair Consultation (Video consultation before visit)",
-    "q14.app": "Hair Care App Integration (Visit history and home care management)",
-    
-    "validation.global": "Please fill in all required fields",
-    "validation.store": "Please select a store",
-    "validation.rating": "Please select a rating",
-    "submit": "Submit",
-    
-    "thankyou.title": "Thank you for your response.",
-    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
-    "thankyou.high": "Thank you for your high rating!",
-    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
-    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
-    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
-    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
-    "thankyou.copy.button": "Copy Comment",
-    "thankyou.redirect.button": "Post a Review on Google Maps",
-    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
-}
-</file>
-
-<file path="locales/zh/translation.json">
-{
-    "nav.store": "店铺",
-    "nav.rating": "评价",
-    "nav.info": "信息",
-    "nav.service": "服务",
-    "nav.feedback": "感想",
-  
-    "q1.title": "Q1. 今天您光顾了哪家店铺？",
-    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
-    "rating.prefix": "评分:",
-    "rating.lowWarning": "您的反馈对我们很重要。您愿意分享您的体验详情吗？",
-    
-    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
-    
-    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
-    "q3.placeholder": "请输入您的姓名或昵称",
-    
-    "q4.title": "Q4. 您对本店的光临是...（选填）",
-    "q4.firstTime": "初次光临（新顾客）",
-    "q4.repeat": "再次光临（回头客）",
-    
-    "q5.title": "Q5. 请告诉我们您的性别（选填）",
-    "q5.male": "男性",
-    "q5.female": "女性",
-    "q5.other": "其他",
-    
-    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
-    "q6.age10s": "10多岁",
-    "q6.age20s": "20多岁",
-    "q6.age30s": "30多岁",
-    "q6.age40s": "40多岁",
-    "q6.age50s": "50多岁",
-    "q6.age60plus": "60岁以上",
-    
-    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
-    "q7.cut": "剪发",
-    "q7.color": "染发",
-    "q7.perm": "烫发",
-    "q7.treatment": "护理",
-    "q7.headspa": "头皮护理",
-    "q7.other": "其他（美甲、和服穿戴等）",
-    "q7.il.eyelashExt": "睫毛嫁接",
-    "q7.il.eyelashPerm": "睫毛烫",
-    "q7.il.wax": "脱毛服务",
-    "q7.il.other": "其他服务",
-    
-    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
-    
-    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
-    
-    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
-    
-    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
-    
-    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
-    "q12.placeholder": "请在此输入您的建议",
-    
-    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
-    "q13.placeholder": "请在此输入您的感想",
-
-    
-    "q14.title": "Q14. 您希望我们增加哪些服务项目？（可多选）",
-
-    "q14.grp.haircare": "专业护发菜单",
-    "q14.treat": "发质改善护理（修复受损发质、改善卷曲发质等专业护理）",
-    "q14.organicColor": "有机染发 / 植物提取染发（适合敏感肌肤、注重头皮护理）",
-    "q14.scalp": "头皮护理菜单扩充（改善头皮环境，促进健康发质）",
-
-    "q14.grp.trend": "流行发型技术",
-    "q14.innerColor": "内层挑染（表面保持自然色调，内层添加个性色彩）",
-    "q14.balayage": "空气感挑染 / 渐变染发（自然立体效果）",
-    "q14.extension": "接发服务（临时增加发长或发量）",
-    "q14.koreanSet": "韩式发型设计（K-POP偶像风格）",
-    "q14.hairArrange": "发型设计（活动与派对造型等）",
-    "q14.grp.beauty": "美容相关服务",
-    "q14.lashPerm": "睫毛烫 / 睫毛嫁接",
-    "q14.eyebrow": "眉形设计（眉毛全面塑形）",
-    "q14.facial": "面部护理（面部按摩和面膜护理）",
-    "q14.earJewelry": "耳穴压力点饰品（耳部穴位饰品安装）",
-    "q14.accessory": "发饰销售（沙龙精选发饰）",
-
-    "q14.grp.men": "男士专属服务",
-    "q14.mensShave": "男士胡须护理 / 修剪",
-    "q14.mensScalp": "男士头皮护理 & 眉形设计",
-    "q14.mensMake": "男士彩妆",
-    "q14.mensFacial": "男士面部护理",
-    
-    "q14.grp.package": "特别套餐与会员制度",
-    "q14.bridal": "新娘美容套餐（为婚礼准备的多次护理计划）",
-    "q14.season": "季节限定护理（夏季防紫外线、冬季防干燥等）",
-    "q14.family": "家庭优惠计划（亲子或情侣同行折扣）",
-    "q14.MaikeLasson": "女士化妆课程（学习适合自己的妆容）",
-    "q14.hairLesson": "头发护理与造型课程（学习家庭护发和造型方法）",
-    "q14.mensMakeLesson": "男士化妆课程（学习男士化妆基础）",
-    "q14.mensLesson": "男士发型造型课程（学习自我造型方法）",
-
-    "q14.grp.digital": "数字化服务",
-    "q14.aiSim": "AI发型模拟（预先确认适合的发型）",
-    "q14.onlineConsult": "线上发型咨询（来店前的视频咨询）",
-    "q14.app": "护发应用程序连动服务（访问记录和家庭护理管理）",
-    
-    "validation.global": "请填写所有必填项",
-    "validation.store": "请选择店铺",
-    "validation.rating": "请选择评价",
-    "submit": "提交",
-    
-    "thankyou.title": "感谢您的回答。",
-    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
-    "thankyou.high": "感谢您的高度评价！",
-    "thankyou.high.text1": "非常感谢您光临本店。",
-    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
-    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
-    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
-    "thankyou.copy.button": "复制评论",
-    "thankyou.redirect.button": "在谷歌地图上发表评论",
-    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
+// エクスポート（必要に応じて）
+// この部分は、Node.js環境（サーバーサイド）でこのファイルが読み込まれた場合に、
+// CONFIGオブジェクトをエクスポートするためのコードです。
+// ブラウザ環境では実行されず、Node.js環境でのみ実行されます。
+// これにより同じ設定ファイルをフロントエンド（ブラウザ）とバックエンド（サーバー）の両方で使える「ユニバーサル」な設定にしています。
+if (typeof module !== 'undefined' && module.exports) {
+  // module変数が存在し、exportsプロパティがある場合（=Node.js環境の場合）
+  module.exports = CONFIG;  // CONFIGオブジェクトをエクスポート
 }
 </file>
 
@@ -2078,6 +1837,247 @@ window.redirectToGoogleMaps = function() {
     console.error('リダイレクトエラー:', e);
   }
 };
+</file>
+
+<file path="locales/en/translation.json">
+{
+    "nav.store": "Store",
+    "nav.rating": "Rating",
+    "nav.info": "Information",
+    "nav.service": "Service",
+    "nav.feedback": "Feedback",
+  
+    "q1.title": "Q1. Which store did you visit today?",
+    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
+    "rating.prefix": "Rating:",
+    "rating.lowWarning": "Your feedback is important. Would you like to share details about your experience?",
+    
+    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
+    
+    "q3.title": "Q3. Please tell us your name (optional)",
+    "q3.placeholder": "Enter your name or nickname",
+    
+    "q4.title": "Q4. Your visit to our store was... (optional)",
+    "q4.firstTime": "First time (New customer)",
+    "q4.repeat": "Repeat visit (Regular customer)",
+    
+    "q5.title": "Q5. Please tell us your gender (optional)",
+    "q5.male": "Male",
+    "q5.female": "Female",
+    "q5.other": "Other",
+    
+    "q6.title": "Q6. Please tell us your age range (optional)",
+    "q6.age10s": "10s",
+    "q6.age20s": "20s",
+    "q6.age30s": "30s",
+    "q6.age40s": "40s",
+    "q6.age50s": "50s",
+    "q6.age60plus": "60s or above",
+    
+    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
+    "q7.cut": "Haircut",
+    "q7.color": "Hair coloring",
+    "q7.perm": "Perm",
+    "q7.treatment": "Treatment",
+    "q7.headspa": "Head spa",
+    "q7.other": "Other (Nail, Kimono dressing, etc.)",
+    "q7.il.eyelashExt": "Eyelash extensions",
+    "q7.il.eyelashPerm": "Eyelash perm",
+    "q7.il.wax": "Waxing services",
+    "q7.il.other": "Other services",
+    
+    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
+    
+    "q9.title": "Q9. How was our staff's customer service?",
+    
+    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
+    
+    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
+    
+    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
+    "q12.placeholder": "Enter your suggestions here",
+    
+    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
+    "q13.placeholder": "Enter your feedback here",
+
+    
+    "q14.title": "Q14. What additional services would you like us to offer? (Multiple selections possible)",
+
+    "q14.grp.haircare": "Specialized Hair Care Menu",
+    "q14.treat": "Hair Quality Improvement Treatment (Damage repair, frizz control, etc.)",
+    "q14.organicColor": "Organic/Plant-based Hair Color (For sensitive scalp and skin care)",
+    "q14.scalp": "Expanded Scalp Care Menu (Improving scalp environment for healthier hair)",
+
+    "q14.grp.trend": "Trending Hair Styling Techniques",
+    "q14.innerColor": "Inner Color (Natural surface with playful colors underneath)",
+    "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
+    "q14.extension": "Hair Extensions (Temporary added length or volume)",
+    "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
+    "q14.hairArrange": "Hair Arrangement (Event and party arrangements, etc.)",
+
+    "q14.grp.beauty": "Esthetic & Beauty Services",
+    "q14.lashPerm": "Eyelash Perm/Extensions",
+    "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
+    "q14.facial": "Facial Treatments (Face massage and mask therapy)",
+    "q14.earJewelry": "Ear Acupressure Jewelry (Accessory placement on ear pressure points)",
+    "q14.accessory": "Hair Accessory Sales (Salon-selected hair accessories)",
+
+    "q14.grp.men": "Men's Specialized Menu",
+    "q14.mensShave": "Men's Beard Care/Shaving",
+    "q14.mensScalp": "Men's Scalp & Eyebrow Design",
+    "q14.mensMake": "Men's Makeup",
+    "q14.mensFacial": "Men's Facial Care",
+    
+    "q14.grp.package": "Special Packages & Membership",
+    "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
+    "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
+    "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
+    "q14.MaikeLasson": "Ladies Makeup Lessons (Learn makeup that suits you)",
+    "q14.hairLesson": "Hair Care & Styling Lessons (Learn home hair care and styling methods)",
+    "q14.mensMakeLesson": "Men's Makeup Lessons (Learn basic men's makeup techniques)",
+    "q14.mensLesson": "Men's Hair Styling Lessons (Learn self-styling methods)",
+
+    "q14.grp.digital": "Digital Services",
+    "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
+    "q14.onlineConsult": "Online Hair Consultation (Video consultation before visit)",
+    "q14.app": "Hair Care App Integration (Visit history and home care management)",
+    
+    "validation.global": "Please fill in all required fields",
+    "validation.store": "Please select a store",
+    "validation.rating": "Please select a rating",
+    "submit": "Submit",
+    
+    "thankyou.title": "Thank you for your response.",
+    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
+    "thankyou.high": "Thank you for your high rating!",
+    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
+    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
+    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
+    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
+    "thankyou.copy.button": "Copy Comment",
+    "thankyou.redirect.button": "Post a Review on Google Maps",
+    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
+}
+</file>
+
+<file path="locales/zh/translation.json">
+{
+    "nav.store": "店铺",
+    "nav.rating": "评价",
+    "nav.info": "信息",
+    "nav.service": "服务",
+    "nav.feedback": "感想",
+  
+    "q1.title": "Q1. 今天您光顾了哪家店铺？",
+    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
+    "rating.prefix": "评分:",
+    "rating.lowWarning": "您的反馈对我们很重要。您愿意分享您的体验详情吗？",
+    
+    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
+    
+    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
+    "q3.placeholder": "请输入您的姓名或昵称",
+    
+    "q4.title": "Q4. 您对本店的光临是...（选填）",
+    "q4.firstTime": "初次光临（新顾客）",
+    "q4.repeat": "再次光临（回头客）",
+    
+    "q5.title": "Q5. 请告诉我们您的性别（选填）",
+    "q5.male": "男性",
+    "q5.female": "女性",
+    "q5.other": "其他",
+    
+    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
+    "q6.age10s": "10多岁",
+    "q6.age20s": "20多岁",
+    "q6.age30s": "30多岁",
+    "q6.age40s": "40多岁",
+    "q6.age50s": "50多岁",
+    "q6.age60plus": "60岁以上",
+    
+    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
+    "q7.cut": "剪发",
+    "q7.color": "染发",
+    "q7.perm": "烫发",
+    "q7.treatment": "护理",
+    "q7.headspa": "头皮护理",
+    "q7.other": "其他（美甲、和服穿戴等）",
+    "q7.il.eyelashExt": "睫毛嫁接",
+    "q7.il.eyelashPerm": "睫毛烫",
+    "q7.il.wax": "脱毛服务",
+    "q7.il.other": "其他服务",
+    
+    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
+    
+    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
+    
+    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
+    
+    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
+    
+    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
+    "q12.placeholder": "请在此输入您的建议",
+    
+    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
+    "q13.placeholder": "请在此输入您的感想",
+
+    
+    "q14.title": "Q14. 您希望我们增加哪些服务项目？（可多选）",
+
+    "q14.grp.haircare": "专业护发菜单",
+    "q14.treat": "发质改善护理（修复受损发质、改善卷曲发质等专业护理）",
+    "q14.organicColor": "有机染发 / 植物提取染发（适合敏感肌肤、注重头皮护理）",
+    "q14.scalp": "头皮护理菜单扩充（改善头皮环境，促进健康发质）",
+
+    "q14.grp.trend": "流行发型技术",
+    "q14.innerColor": "内层挑染（表面保持自然色调，内层添加个性色彩）",
+    "q14.balayage": "空气感挑染 / 渐变染发（自然立体效果）",
+    "q14.extension": "接发服务（临时增加发长或发量）",
+    "q14.koreanSet": "韩式发型设计（K-POP偶像风格）",
+    "q14.hairArrange": "发型设计（活动与派对造型等）",
+    "q14.grp.beauty": "美容相关服务",
+    "q14.lashPerm": "睫毛烫 / 睫毛嫁接",
+    "q14.eyebrow": "眉形设计（眉毛全面塑形）",
+    "q14.facial": "面部护理（面部按摩和面膜护理）",
+    "q14.earJewelry": "耳穴压力点饰品（耳部穴位饰品安装）",
+    "q14.accessory": "发饰销售（沙龙精选发饰）",
+
+    "q14.grp.men": "男士专属服务",
+    "q14.mensShave": "男士胡须护理 / 修剪",
+    "q14.mensScalp": "男士头皮护理 & 眉形设计",
+    "q14.mensMake": "男士彩妆",
+    "q14.mensFacial": "男士面部护理",
+    
+    "q14.grp.package": "特别套餐与会员制度",
+    "q14.bridal": "新娘美容套餐（为婚礼准备的多次护理计划）",
+    "q14.season": "季节限定护理（夏季防紫外线、冬季防干燥等）",
+    "q14.family": "家庭优惠计划（亲子或情侣同行折扣）",
+    "q14.MaikeLasson": "女士化妆课程（学习适合自己的妆容）",
+    "q14.hairLesson": "头发护理与造型课程（学习家庭护发和造型方法）",
+    "q14.mensMakeLesson": "男士化妆课程（学习男士化妆基础）",
+    "q14.mensLesson": "男士发型造型课程（学习自我造型方法）",
+
+    "q14.grp.digital": "数字化服务",
+    "q14.aiSim": "AI发型模拟（预先确认适合的发型）",
+    "q14.onlineConsult": "线上发型咨询（来店前的视频咨询）",
+    "q14.app": "护发应用程序连动服务（访问记录和家庭护理管理）",
+    
+    "validation.global": "请填写所有必填项",
+    "validation.store": "请选择店铺",
+    "validation.rating": "请选择评价",
+    "submit": "提交",
+    
+    "thankyou.title": "感谢您的回答。",
+    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
+    "thankyou.high": "感谢您的高度评价！",
+    "thankyou.high.text1": "非常感谢您光临本店。",
+    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
+    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
+    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
+    "thankyou.copy.button": "复制评论",
+    "thankyou.redirect.button": "在谷歌地图上发表评论",
+    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
+}
 </file>
 
 <file path="locales/ja/translation.json">
@@ -2575,14 +2575,19 @@ function submitFormData(dataObj) {
     
     // fetch APIを使ってPOSTリクエストを送信
     fetch(apiUrl, {
-      method: 'POST', // HTTPメソッド
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded' // コンテンツタイプ
+        'Content-Type': 'application/json'
       },
-      // URLSearchParamsを使ってデータをURLエンコード形式に変換
-      body: new URLSearchParams(dataObj)
+      body: JSON.stringify(dataObj)
     })
-    .then(res => res.json()) // レスポンスをJSONとして解析
+    .then(res => {
+      // レスポンスのステータスをチェック
+      if (!res.ok) {
+        throw new Error('サーバーエラー: ' + res.status);
+      }
+      return res.json();
+    })
     .then(result => {
       console.log('送信成功:', result);
       // サーバーからのレスポンスにエラーが含まれていた場合
@@ -2821,557 +2826,6 @@ body, .container, #thankyou, #review-redirect, .question {
 #comment-to-copy {
   background-color: white;
 }
-</file>
-
-<file path="index.html">
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-  <title>QUARTERアンケート</title>
-  
-  <!-- Google Fonts - 原版から復元 -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
-  
-  <!-- 既存 CSS -->
-  <link rel="stylesheet" href="css/styles.css">
-  <style>
-    input, textarea {
-      font-size: 16px; /* 16px以上のサイズは一般的に自動ズームを防ぎます */
-      touch-action: manipulation;
-    }
-  </style>
-  <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/layout-fix.css">
-  <link rel="stylesheet" href="css/menu-styles.css">
-  <link rel="stylesheet" href="css/accordion-style.css">
-
-  <!-- i18next 本体 -->
-  <script src="https://cdn.jsdelivr.net/npm/i18next@latest/dist/umd/i18next.min.js"></script>
-  <!-- ブラウザ言語自動判定プラグイン -->
-  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.1.0/i18nextBrowserLanguageDetector.min.js"></script>
-
-  <!-- ★ i18n 初期化 -->
-  <script defer src="js/i18n.js"></script>
-
-  <!-- 既存 JS（順序自由） -->
-  <script defer src="js/config.js"></script>
-  <script defer src="js/navigation.js"></script>
-  <script defer src="js/star-rating.js"></script>
-  <script defer src="js/dynamic-services.js"></script>
-  <script defer src="js/validation.js"></script>
-  <script defer src="js/scroll-monitor.js"></script>
-  <script defer src="js/main.js"></script>
-  <script defer src="js/menu-formatter.js"></script>
-</head>
-<body>
-  <div class="container">
-    <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
-    <header class="site-header-alt">
-      <div class="language-selector-top-right">
-        <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
-        <span class="separator">|</span>
-        <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
-        <span class="separator">|</span>
-        <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
-      </div>
-      
-      <div class="logo-container">
-        <img class="text-logo" src="./images/quarter-logo.png" alt="QUARTERロゴ" style="max-width: 200px; height: auto;">
-      </div>
-    </header>
-
-    <!-- ナビゲーションバー - 原版の構造を復元 -->
-    <div class="nav-container">
-      <div class="progress-nav">
-        <div class="nav-item active" data-section="store">
-          <span class="nav-text" data-i18n="nav.store"></span>
-          <div class="nav-indicator"></div>
-        </div>
-        <div class="nav-item" data-section="rating">
-          <span class="nav-text" data-i18n="nav.rating"></span>
-          <div class="nav-indicator"></div>
-        </div>
-        <div class="nav-item" data-section="info">
-          <span class="nav-text" data-i18n="nav.info"></span>
-          <div class="nav-indicator"></div>
-        </div>
-        <div class="nav-item" data-section="service">
-          <span class="nav-text" data-i18n="nav.service"></span>
-          <div class="nav-indicator"></div>
-        </div>
-        <div class="nav-item" data-section="feedback">
-          <span class="nav-text" data-i18n="nav.feedback"></span>
-          <div class="nav-indicator"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- アンケートフォーム -->
-    <form id="surveyForm" novalidate>
-      <!-- Q1. 店舗選択（必須） -->
-      <div class="question required current" id="question1" data-section="store">
-        <h3 data-i18n="q1.title"></h3>
-        <div class="options">
-          <input type="radio" id="quarter" name="store" value="QUARTER" required>
-          <label for="quarter">QUARTER</label>
-          
-          <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT">
-          <label for="quarter-resort">QUARTER RESORT</label>
-          
-          <input type="radio" id="quarter-seasons" name="store" value="QUARTER SEASONS">
-          <label for="quarter-seasons">QUARTER SEASONS</label>
-          
-          <input type="radio" id="link" name="store" value="LINK">
-          <label for="link">LINK</label>
-          
-          <input type="radio" id="il" name="store" value="iL">
-          <label for="il">iL</label>
-        </div>
-        
-        <div class="validation-message" id="store-validation">
-          <span data-i18n="validation.store"></span>
-        </div>
-      </div>
-      
-      <!-- Q2. 総合評価（必須） -->
-      <div class="question required" id="question2" data-section="rating">
-        <h3 data-i18n="q2.title"></h3>
-        
-        <div class="star-rating-container">
-          <div class="stars-row" data-stars-container>
-            <span class="star" data-value="1">★</span>
-            <span class="star" data-value="2">★</span>
-            <span class="star" data-value="3">★</span>
-            <span class="star" data-value="4">★</span>
-            <span class="star" data-value="5">★</span>
-          </div>
-          
-          <div class="rating-score" data-rating-score>
-            <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-          </div>
-        </div>
-        
-        <div class="star-rating-hidden">
-          <input type="radio" id="star5" name="rating" value="5" required>
-          <input type="radio" id="star4" name="rating" value="4">
-          <input type="radio" id="star3" name="rating" value="3">
-          <input type="radio" id="star2" name="rating" value="2">
-          <input type="radio" id="star1" name="rating" value="1">
-        </div>
-
-        <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-          <span data-i18n="rating.lowWarning"></span>
-        </div>
-
-        <div class="validation-message" id="rating-validation">
-          <span data-i18n="validation.rating"></span>
-        </div>
-      </div>
-      
-      <!-- 任意質問セクション - 復元 -->
-      <div class="optional-questions">
-        <p class="optional-note" data-i18n="optional.note"></p>
-        
-        <!-- Q3. お名前（任意） -->
-        <div class="question" id="question3" data-section="info">
-          <h3 data-i18n="q3.title"></h3>
-          <textarea name="name" rows="1" data-i18n-placeholder="q3.placeholder"></textarea>
-        </div>
-        
-        <!-- Q4. 来店タイプ（任意） -->
-        <div class="question" id="question4" data-section="info">
-          <h3 data-i18n="q4.title"></h3>
-          <div class="options">
-            <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
-            <label for="first-time" data-i18n="q4.firstTime"></label>
-            
-            <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
-            <label for="repeat" data-i18n="q4.repeat"></label>
-          </div>
-        </div>
-        
-        <!-- Q5. 性別（任意） -->
-        <div class="question" id="question5" data-section="info">
-          <h3 data-i18n="q5.title"></h3>
-          <div class="options">
-            <input type="radio" id="male" name="gender" value="男性">
-            <label for="male" data-i18n="q5.male"></label>
-            
-            <input type="radio" id="female" name="gender" value="女性">
-            <label for="female" data-i18n="q5.female"></label>
-            
-            <input type="radio" id="other" name="gender" value="その他">
-            <label for="other" data-i18n="q5.other"></label>
-          </div>
-        </div>
-        
-        <!-- Q6. 年齢（任意） -->
-        <div class="question" id="question6" data-section="info">
-          <h3 data-i18n="q6.title"></h3>
-          <div class="options">
-            <input type="radio" id="age10s" name="age" value="10代">
-            <label for="age10s" data-i18n="q6.age10s"></label>
-            
-            <input type="radio" id="age20s" name="age" value="20代">
-            <label for="age20s" data-i18n="q6.age20s"></label>
-            
-            <input type="radio" id="age30s" name="age" value="30代">
-            <label for="age30s" data-i18n="q6.age30s"></label>
-            
-            <input type="radio" id="age40s" name="age" value="40代">
-            <label for="age40s" data-i18n="q6.age40s"></label>
-            
-            <input type="radio" id="age50s" name="age" value="50代">
-            <label for="age50s" data-i18n="q6.age50s"></label>
-            
-            <input type="radio" id="age60plus" name="age" value="60代以上">
-            <label for="age60plus" data-i18n="q6.age60plus"></label>
-          </div>
-        </div>
-        
-        <!-- Q7. 利用サービス（複数選択可） -->
-        <div class="question" id="question7" data-section="service">
-          <h3 data-i18n="q7.title"></h3>
-            
-          <!-- 通常店舗用のメニュー（デフォルト表示） -->
-          <div class="options" id="standard-services">
-            <input type="checkbox" id="cut" name="services" value="カット">
-            <label for="cut" data-i18n="q7.cut"></label>
-            
-            <input type="checkbox" id="color" name="services" value="カラー">
-            <label for="color" data-i18n="q7.color"></label>
-            
-            <input type="checkbox" id="perm" name="services" value="パーマ">
-            <label for="perm" data-i18n="q7.perm"></label>
-            
-            <input type="checkbox" id="treatment" name="services" value="トリートメント">
-            <label for="treatment" data-i18n="q7.treatment"></label>
-            
-            <input type="checkbox" id="headspa" name="services" value="ヘッドスパ">
-            <label for="headspa" data-i18n="q7.headspa"></label>
-            
-            <input type="checkbox" id="other-service" name="services" value="その他">
-            <label for="other-service" data-i18n="q7.other"></label>
-          </div>
-          
-          <!-- iL店舗用のメニュー（初期状態では非表示） -->
-          <div class="options" id="il-services" style="display: none;">
-            <input type="checkbox" id="il-eyelash-ext" name="services" value="まつ毛エクステ">
-            <label for="il-eyelash-ext" data-i18n="q7.il.eyelashExt"></label>
-            
-            <input type="checkbox" id="il-eyelash-perm" name="services" value="まつ毛パーマ">
-            <label for="il-eyelash-perm" data-i18n="q7.il.eyelashPerm"></label>
-            
-            <input type="checkbox" id="il-wax" name="services" value="WAXメニュー">
-            <label for="il-wax" data-i18n="q7.il.wax"></label>
-            
-            <input type="checkbox" id="il-other" name="services" value="その他メニュー">
-            <label for="il-other" data-i18n="q7.il.other"></label>
-          </div>
-        </div>
-          
-        <!-- Q8. サービス満足度 - 星評価に変更 -->
-        <div class="question" id="question8" data-section="service">
-          <h3 data-i18n="q8.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
-            
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q8_star5" name="serviceSatisfaction" value="5">
-            <input type="radio" id="q8_star4" name="serviceSatisfaction" value="4">
-            <input type="radio" id="q8_star3" name="serviceSatisfaction" value="3">
-            <input type="radio" id="q8_star2" name="serviceSatisfaction" value="2">
-            <input type="radio" id="q8_star1" name="serviceSatisfaction" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
-          </div>
-        </div>
-        
-        <!-- Q9. スタッフ対応 - 星評価に変更 -->
-        <div class="question" id="question9" data-section="service">
-          <h3 data-i18n="q9.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
-            
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q9_star5" name="staffResponse" value="5">
-            <input type="radio" id="q9_star4" name="staffResponse" value="4">
-            <input type="radio" id="q9_star3" name="staffResponse" value="3">
-            <input type="radio" id="q9_star2" name="staffResponse" value="2">
-            <input type="radio" id="q9_star1" name="staffResponse" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
-          </div>
-        </div>
-        
-        <!-- Q10. 待ち時間 - 星評価に変更 -->
-        <div class="question" id="question10" data-section="service">
-          <h3 data-i18n="q10.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
-            
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q10_star5" name="waitTime" value="5">
-            <input type="radio" id="q10_star4" name="waitTime" value="4">
-            <input type="radio" id="q10_star3" name="waitTime" value="3">
-            <input type="radio" id="q10_star2" name="waitTime" value="2">
-            <input type="radio" id="q10_star1" name="waitTime" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
-          </div>
-        </div>
-        
-        <!-- Q11. 店内清潔感 - 星評価に変更 -->
-        <div class="question" id="question11" data-section="service">
-          <h3 data-i18n="q11.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
-            
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q11_star5" name="cleanliness" value="5">
-            <input type="radio" id="q11_star4" name="cleanliness" value="4">
-            <input type="radio" id="q11_star3" name="cleanliness" value="3">
-            <input type="radio" id="q11_star2" name="cleanliness" value="2">
-            <input type="radio" id="q11_star1" name="cleanliness" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
-          </div>
-        </div>
-        
-        <!-- Q12. 改善点・要望 -->
-        <div class="question" id="question12" data-section="feedback">
-          <h3 data-i18n="q12.title"></h3>
-          <textarea name="improvement" rows="3" data-i18n-placeholder="q12.placeholder"></textarea>
-        </div>
-        
-        <!-- Q13. その他感想 -->
-        <div class="question" id="question13" data-section="feedback">
-          <h3 data-i18n="q13.title"></h3>
-          <textarea name="otherComments" rows="3" data-i18n-placeholder="q13.placeholder"></textarea>
-        </div>
-      </div>
-
-<!-- Q14. 追加希望サービス -->
-<div class="question" id="question14" data-section="feedback">
-  <h3 data-i18n="q14.title"></h3>
-  <p class="optional-note" data-i18n="optional.note"></p>
-  <div class="collapsible-group">
-    <!-- ヘアケア特化メニュー -->
-    <details>
-      <summary data-i18n="q14.grp.haircare"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-treat" name="wishServices" value="髪質改善トリートメント">
-        <label for="wish-treat" data-i18n="q14.treat"></label>
-        
-        <input type="checkbox" id="wish-organic" name="wishServices" value="オーガニックカラー">
-        <label for="wish-organic" data-i18n="q14.organicColor"></label>
-        
-        <input type="checkbox" id="wish-scalp" name="wishServices" value="スキャルプケア">
-        <label for="wish-scalp" data-i18n="q14.scalp"></label>
-      </div>
-    </details>
-
-    <!-- トレンドヘアスタイル技術 -->
-    <details>
-      <summary data-i18n="q14.grp.trend"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-inner" name="wishServices" value="インナーカラー">
-        <label for="wish-inner" data-i18n="q14.innerColor"></label>
-        
-        <input type="checkbox" id="wish-balayage" name="wishServices" value="バレイヤージュ">
-        <label for="wish-balayage" data-i18n="q14.balayage"></label>
-        
-        <input type="checkbox" id="wish-extension" name="wishServices" value="ヘアエクステンション">
-        <label for="wish-extension" data-i18n="q14.extension"></label>
-        
-        <input type="checkbox" id="wish-korean" name="wishServices" value="韓国風ヘアセット">
-        <label for="wish-korean" data-i18n="q14.koreanSet"></label>
-        
-        <input type="checkbox" id="wish-hair-arrange" name="wishServices" value="ヘアアレンジ">
-        <label for="wish-hair-arrange" data-i18n="q14.hairArrange"></label>
-      </div>
-    </details>
-
-    <!-- エステ・美容関連 -->
-    <details>
-      <summary data-i18n="q14.grp.beauty"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-lash" name="wishServices" value="まつげパーマ">
-        <label for="wish-lash" data-i18n="q14.lashPerm"></label>
-        
-        <input type="checkbox" id="wish-eyebrow" name="wishServices" value="アイブロウデザイン">
-        <label for="wish-eyebrow" data-i18n="q14.eyebrow"></label>
-        
-        <input type="checkbox" id="wish-facial" name="wishServices" value="フェイシャルエステ">
-        <label for="wish-facial" data-i18n="q14.facial"></label>
-        
-        <input type="checkbox" id="wish-ear-jewelry" name="wishServices" value="耳ツボジュエリー">
-        <label for="wish-ear-jewelry" data-i18n="q14.earJewelry"></label>
-        
-        <input type="checkbox" id="wish-accessory" name="wishServices" value="ヘアアクセサリー販売">
-        <label for="wish-accessory" data-i18n="q14.accessory"></label>
-      </div>
-    </details>
-
-    <!-- 男性向け特化メニュー -->
-    <details>
-      <summary data-i18n="q14.grp.men"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-mens-shave" name="wishServices" value="メンズヒゲケア">
-        <label for="wish-mens-shave" data-i18n="q14.mensShave"></label>
-        
-        <input type="checkbox" id="wish-mens-scalp" name="wishServices" value="メンズスキャルプ">
-        <label for="wish-mens-scalp" data-i18n="q14.mensScalp"></label>
-        
-        <input type="checkbox" id="wish-mens-make" name="wishServices" value="メンズメイク">
-        <label for="wish-mens-make" data-i18n="q14.mensMake"></label>
-        
-        <input type="checkbox" id="wish-mens-facial" name="wishServices" value="男性向けフェイシャルケア">
-        <label for="wish-mens-facial" data-i18n="q14.mensFacial"></label>
-      </div>
-    </details>
-
-    <!-- 特別パッケージ・会員制度 -->
-    <details>
-      <summary data-i18n="q14.grp.package"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-bridal" name="wishServices" value="ブライダル総合プラン">
-        <label for="wish-bridal" data-i18n="q14.bridal"></label>
-        
-        <input type="checkbox" id="wish-season" name="wishServices" value="季節限定ケア">
-        <label for="wish-season" data-i18n="q14.season"></label>
-        
-        <input type="checkbox" id="wish-family" name="wishServices" value="ファミリープラン">
-        <label for="wish-family" data-i18n="q14.family"></label>
-        
-        <input type="checkbox" id="wish-maike-lasson" name="wishServices" value="レディースメイク講座">
-        <label for="wish-maike-lasson" data-i18n="q14.MaikeLasson"></label>
-        
-        <input type="checkbox" id="wish-hair-lesson" name="wishServices" value="ヘアケア＆ヘアアレンジ講座">
-        <label for="wish-hair-lesson" data-i18n="q14.hairLesson"></label>
-        
-        <input type="checkbox" id="wish-mens-make-lesson" name="wishServices" value="メンズメイク講座">
-        <label for="wish-mens-make-lesson" data-i18n="q14.mensMakeLesson"></label>
-        
-        <input type="checkbox" id="wish-mens-lesson" name="wishServices" value="メンズヘアスタイリング講座">
-        <label for="wish-mens-lesson" data-i18n="q14.mensLesson"></label>
-      </div>
-    </details>
-
-    <!-- デジタル活用サービス -->
-    <details>
-      <summary data-i18n="q14.grp.digital"></summary>
-      <div class="options">
-        <input type="checkbox" id="wish-ai" name="wishServices" value="AIヘアスタイルシミュレーション">
-        <label for="wish-ai" data-i18n="q14.aiSim"></label>
-        
-        <input type="checkbox" id="wish-online" name="wishServices" value="オンラインヘア相談">
-        <label for="wish-online" data-i18n="q14.onlineConsult"></label>
-        
-        <input type="checkbox" id="wish-app" name="wishServices" value="ヘアケアアプリ連動サービス">
-        <label for="wish-app" data-i18n="q14.app"></label>
-      </div>
-    </details>
-  </div><!-- /.collapsible-group -->
-</div><!-- /#question14 -->
-
-
-      <!-- グローバルバリデーションメッセージ -->
-      <div class="validation-message" id="global-validation" style="text-align: center; margin-bottom: var(--spacing-md);">
-        <span data-i18n="validation.global"></span>
-      </div>
-      
-      <!-- 送信ボタン -->
-      <div class="submit-container">
-        <button type="button" id="submitButton" class="submit-button" data-i18n="submit"></button>
-      </div>
-    </form>
-
-    <!-- 星3以下用のメッセージ -->
-    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
-      <h2 data-i18n="thankyou.title"></h2>
-      <p data-i18n="thankyou.low"></p>
-    </div>
-
-    <!-- 星4以上用の口コミ促進メッセージ -->
-    <div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
-      <h2 data-i18n="thankyou.high"></h2>
-      <p data-i18n="thankyou.high.text1"></p>
-      <p data-i18n="thankyou.high.text2"></p>
-      <p data-i18n="thankyou.high.text3"></p>
-      
-      <div class="copy-container">
-        <textarea id="comment-to-copy" readonly></textarea>
-        <p class="copy-hint" data-i18n="thankyou.copy.hint"></p>
-        <div>
-          <button id="copy-button" class="action-button" onclick="copyComment()" data-i18n="thankyou.copy.button"></button>
-          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()" data-i18n="thankyou.redirect.button"></button>
-        </div>
-      </div>
-      
-      <p data-i18n="thankyou.high.text4"></p>
-    </div>
-  </div>
-</body>
-</html>
 </file>
 
 <file path="css/styles.css">
@@ -4213,6 +3667,557 @@ body, .container, #thankyou, #review-redirect, .question {
       padding: 8px 12px;
     }
   }
+</file>
+
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>QUARTERアンケート</title>
+  
+  <!-- Google Fonts - 原版から復元 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- 既存 CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    input, textarea {
+      font-size: 16px; /* 16px以上のサイズは一般的に自動ズームを防ぎます */
+      touch-action: manipulation;
+    }
+  </style>
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/layout-fix.css">
+  <link rel="stylesheet" href="css/menu-styles.css">
+  <link rel="stylesheet" href="css/accordion-style.css">
+
+  <!-- i18next 本体 -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next@latest/dist/umd/i18next.min.js"></script>
+  <!-- ブラウザ言語自動判定プラグイン -->
+  <script src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@8.1.0/i18nextBrowserLanguageDetector.min.js"></script>
+
+  <!-- ★ i18n 初期化 -->
+  <script defer src="js/i18n.js"></script>
+
+  <!-- 既存 JS（順序自由） -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/star-rating.js"></script>
+  <script defer src="js/dynamic-services.js"></script>
+  <script defer src="js/validation.js"></script>
+  <script defer src="js/scroll-monitor.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/menu-formatter.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
+    <header class="site-header-alt">
+      <div class="language-selector-top-right">
+        <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
+        <span class="separator">|</span>
+        <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
+      </div>
+      
+      <div class="logo-container">
+        <img class="text-logo" src="./images/quarter-logo.png" alt="QUARTERロゴ" style="max-width: 200px; height: auto;">
+      </div>
+    </header>
+
+    <!-- ナビゲーションバー - 原版の構造を復元 -->
+    <div class="nav-container">
+      <div class="progress-nav">
+        <div class="nav-item active" data-section="store">
+          <span class="nav-text" data-i18n="nav.store"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="rating">
+          <span class="nav-text" data-i18n="nav.rating"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="info">
+          <span class="nav-text" data-i18n="nav.info"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="service">
+          <span class="nav-text" data-i18n="nav.service"></span>
+          <div class="nav-indicator"></div>
+        </div>
+        <div class="nav-item" data-section="feedback">
+          <span class="nav-text" data-i18n="nav.feedback"></span>
+          <div class="nav-indicator"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- アンケートフォーム -->
+    <form id="surveyForm" novalidate>
+      <!-- Q1. 店舗選択（必須） -->
+      <div class="question required current" id="question1" data-section="store">
+        <h3 data-i18n="q1.title"></h3>
+        <div class="options">
+          <input type="radio" id="quarter" name="store" value="QUARTER" required>
+          <label for="quarter">QUARTER</label>
+          
+          <input type="radio" id="quarter-resort" name="store" value="QUARTER RESORT">
+          <label for="quarter-resort">QUARTER RESORT</label>
+          
+          <input type="radio" id="quarter-seasons" name="store" value="QUARTER SEASONS">
+          <label for="quarter-seasons">QUARTER SEASONS</label>
+          
+          <input type="radio" id="link" name="store" value="LINK">
+          <label for="link">LINK</label>
+          
+          <input type="radio" id="il" name="store" value="iL">
+          <label for="il">iL</label>
+        </div>
+        
+        <div class="validation-message" id="store-validation">
+          <span data-i18n="validation.store"></span>
+        </div>
+      </div>
+      
+      <!-- Q2. 総合評価（必須） -->
+      <div class="question required" id="question2" data-section="rating">
+        <h3 data-i18n="q2.title"></h3>
+        
+        <div class="star-rating-container">
+          <div class="stars-row" data-stars-container>
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          
+          <div class="rating-score" data-rating-score>
+            <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+          </div>
+        </div>
+        
+        <div class="star-rating-hidden">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <input type="radio" id="star4" name="rating" value="4">
+          <input type="radio" id="star3" name="rating" value="3">
+          <input type="radio" id="star2" name="rating" value="2">
+          <input type="radio" id="star1" name="rating" value="1">
+        </div>
+
+        <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+          <span data-i18n="rating.lowWarning"></span>
+        </div>
+
+        <div class="validation-message" id="rating-validation">
+          <span data-i18n="validation.rating"></span>
+        </div>
+      </div>
+      
+      <!-- 任意質問セクション - 復元 -->
+      <div class="optional-questions">
+        <p class="optional-note" data-i18n="optional.note"></p>
+        
+        <!-- Q3. お名前（任意） -->
+        <div class="question" id="question3" data-section="info">
+          <h3 data-i18n="q3.title"></h3>
+          <textarea name="name" rows="1" data-i18n-placeholder="q3.placeholder"></textarea>
+        </div>
+        
+        <!-- Q4. 来店タイプ（任意） -->
+        <div class="question" id="question4" data-section="info">
+          <h3 data-i18n="q4.title"></h3>
+          <div class="options">
+            <input type="radio" id="first-time" name="visitType" value="初めて（新規）">
+            <label for="first-time" data-i18n="q4.firstTime"></label>
+            
+            <input type="radio" id="repeat" name="visitType" value="2回目以降（常連）">
+            <label for="repeat" data-i18n="q4.repeat"></label>
+          </div>
+        </div>
+        
+        <!-- Q5. 性別（任意） -->
+        <div class="question" id="question5" data-section="info">
+          <h3 data-i18n="q5.title"></h3>
+          <div class="options">
+            <input type="radio" id="male" name="gender" value="男性">
+            <label for="male" data-i18n="q5.male"></label>
+            
+            <input type="radio" id="female" name="gender" value="女性">
+            <label for="female" data-i18n="q5.female"></label>
+            
+            <input type="radio" id="other" name="gender" value="その他">
+            <label for="other" data-i18n="q5.other"></label>
+          </div>
+        </div>
+        
+        <!-- Q6. 年齢（任意） -->
+        <div class="question" id="question6" data-section="info">
+          <h3 data-i18n="q6.title"></h3>
+          <div class="options">
+            <input type="radio" id="age10s" name="age" value="10代">
+            <label for="age10s" data-i18n="q6.age10s"></label>
+            
+            <input type="radio" id="age20s" name="age" value="20代">
+            <label for="age20s" data-i18n="q6.age20s"></label>
+            
+            <input type="radio" id="age30s" name="age" value="30代">
+            <label for="age30s" data-i18n="q6.age30s"></label>
+            
+            <input type="radio" id="age40s" name="age" value="40代">
+            <label for="age40s" data-i18n="q6.age40s"></label>
+            
+            <input type="radio" id="age50s" name="age" value="50代">
+            <label for="age50s" data-i18n="q6.age50s"></label>
+            
+            <input type="radio" id="age60plus" name="age" value="60代以上">
+            <label for="age60plus" data-i18n="q6.age60plus"></label>
+          </div>
+        </div>
+        
+        <!-- Q7. 利用サービス（複数選択可） -->
+        <div class="question" id="question7" data-section="service">
+          <h3 data-i18n="q7.title"></h3>
+            
+          <!-- 通常店舗用のメニュー（デフォルト表示） -->
+          <div class="options" id="standard-services">
+            <input type="checkbox" id="cut" name="services" value="カット">
+            <label for="cut" data-i18n="q7.cut"></label>
+            
+            <input type="checkbox" id="color" name="services" value="カラー">
+            <label for="color" data-i18n="q7.color"></label>
+            
+            <input type="checkbox" id="perm" name="services" value="パーマ">
+            <label for="perm" data-i18n="q7.perm"></label>
+            
+            <input type="checkbox" id="treatment" name="services" value="トリートメント">
+            <label for="treatment" data-i18n="q7.treatment"></label>
+            
+            <input type="checkbox" id="headspa" name="services" value="ヘッドスパ">
+            <label for="headspa" data-i18n="q7.headspa"></label>
+            
+            <input type="checkbox" id="other-service" name="services" value="その他">
+            <label for="other-service" data-i18n="q7.other"></label>
+          </div>
+          
+          <!-- iL店舗用のメニュー（初期状態では非表示） -->
+          <div class="options" id="il-services" style="display: none;">
+            <input type="checkbox" id="il-eyelash-ext" name="services" value="まつ毛エクステ">
+            <label for="il-eyelash-ext" data-i18n="q7.il.eyelashExt"></label>
+            
+            <input type="checkbox" id="il-eyelash-perm" name="services" value="まつ毛パーマ">
+            <label for="il-eyelash-perm" data-i18n="q7.il.eyelashPerm"></label>
+            
+            <input type="checkbox" id="il-wax" name="services" value="WAXメニュー">
+            <label for="il-wax" data-i18n="q7.il.wax"></label>
+            
+            <input type="checkbox" id="il-other" name="services" value="その他メニュー">
+            <label for="il-other" data-i18n="q7.il.other"></label>
+          </div>
+        </div>
+          
+        <!-- Q8. サービス満足度 - 星評価に変更 -->
+        <div class="question" id="question8" data-section="service">
+          <h3 data-i18n="q8.title"></h3>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q8_star5" name="serviceSatisfaction" value="5">
+            <input type="radio" id="q8_star4" name="serviceSatisfaction" value="4">
+            <input type="radio" id="q8_star3" name="serviceSatisfaction" value="3">
+            <input type="radio" id="q8_star2" name="serviceSatisfaction" value="2">
+            <input type="radio" id="q8_star1" name="serviceSatisfaction" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
+          </div>
+        </div>
+        
+        <!-- Q9. スタッフ対応 - 星評価に変更 -->
+        <div class="question" id="question9" data-section="service">
+          <h3 data-i18n="q9.title"></h3>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q9_star5" name="staffResponse" value="5">
+            <input type="radio" id="q9_star4" name="staffResponse" value="4">
+            <input type="radio" id="q9_star3" name="staffResponse" value="3">
+            <input type="radio" id="q9_star2" name="staffResponse" value="2">
+            <input type="radio" id="q9_star1" name="staffResponse" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
+          </div>
+        </div>
+        
+        <!-- Q10. 待ち時間 - 星評価に変更 -->
+        <div class="question" id="question10" data-section="service">
+          <h3 data-i18n="q10.title"></h3>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q10_star5" name="waitTime" value="5">
+            <input type="radio" id="q10_star4" name="waitTime" value="4">
+            <input type="radio" id="q10_star3" name="waitTime" value="3">
+            <input type="radio" id="q10_star2" name="waitTime" value="2">
+            <input type="radio" id="q10_star1" name="waitTime" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
+          </div>
+        </div>
+        
+        <!-- Q11. 店内清潔感 - 星評価に変更 -->
+        <div class="question" id="question11" data-section="service">
+          <h3 data-i18n="q11.title"></h3>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q11_star5" name="cleanliness" value="5">
+            <input type="radio" id="q11_star4" name="cleanliness" value="4">
+            <input type="radio" id="q11_star3" name="cleanliness" value="3">
+            <input type="radio" id="q11_star2" name="cleanliness" value="2">
+            <input type="radio" id="q11_star1" name="cleanliness" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
+          </div>
+        </div>
+        
+        <!-- Q12. 改善点・要望 -->
+        <div class="question" id="question12" data-section="feedback">
+          <h3 data-i18n="q12.title"></h3>
+          <textarea name="improvement" rows="3" data-i18n-placeholder="q12.placeholder"></textarea>
+        </div>
+        
+        <!-- Q13. その他感想 -->
+        <div class="question" id="question13" data-section="feedback">
+          <h3 data-i18n="q13.title"></h3>
+          <textarea name="otherComments" rows="3" data-i18n-placeholder="q13.placeholder"></textarea>
+        </div>
+      </div>
+
+<!-- Q14. 追加希望サービス -->
+<div class="question" id="question14" data-section="feedback">
+  <h3 data-i18n="q14.title"></h3>
+  <p class="optional-note" data-i18n="optional.note"></p>
+  <div class="collapsible-group">
+    <!-- ヘアケア特化メニュー -->
+    <details>
+      <summary data-i18n="q14.grp.haircare"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-treat" name="wishServices" value="髪質改善トリートメント">
+        <label for="wish-treat" data-i18n="q14.treat"></label>
+        
+        <input type="checkbox" id="wish-organic" name="wishServices" value="オーガニックカラー">
+        <label for="wish-organic" data-i18n="q14.organicColor"></label>
+        
+        <input type="checkbox" id="wish-scalp" name="wishServices" value="スキャルプケア">
+        <label for="wish-scalp" data-i18n="q14.scalp"></label>
+      </div>
+    </details>
+
+    <!-- トレンドヘアスタイル技術 -->
+    <details>
+      <summary data-i18n="q14.grp.trend"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-inner" name="wishServices" value="インナーカラー">
+        <label for="wish-inner" data-i18n="q14.innerColor"></label>
+        
+        <input type="checkbox" id="wish-balayage" name="wishServices" value="バレイヤージュ">
+        <label for="wish-balayage" data-i18n="q14.balayage"></label>
+        
+        <input type="checkbox" id="wish-extension" name="wishServices" value="ヘアエクステンション">
+        <label for="wish-extension" data-i18n="q14.extension"></label>
+        
+        <input type="checkbox" id="wish-korean" name="wishServices" value="韓国風ヘアセット">
+        <label for="wish-korean" data-i18n="q14.koreanSet"></label>
+        
+        <input type="checkbox" id="wish-hair-arrange" name="wishServices" value="ヘアアレンジ">
+        <label for="wish-hair-arrange" data-i18n="q14.hairArrange"></label>
+      </div>
+    </details>
+
+    <!-- エステ・美容関連 -->
+    <details>
+      <summary data-i18n="q14.grp.beauty"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-lash" name="wishServices" value="まつげパーマ">
+        <label for="wish-lash" data-i18n="q14.lashPerm"></label>
+        
+        <input type="checkbox" id="wish-eyebrow" name="wishServices" value="アイブロウデザイン">
+        <label for="wish-eyebrow" data-i18n="q14.eyebrow"></label>
+        
+        <input type="checkbox" id="wish-facial" name="wishServices" value="フェイシャルエステ">
+        <label for="wish-facial" data-i18n="q14.facial"></label>
+        
+        <input type="checkbox" id="wish-ear-jewelry" name="wishServices" value="耳ツボジュエリー">
+        <label for="wish-ear-jewelry" data-i18n="q14.earJewelry"></label>
+        
+        <input type="checkbox" id="wish-accessory" name="wishServices" value="ヘアアクセサリー販売">
+        <label for="wish-accessory" data-i18n="q14.accessory"></label>
+      </div>
+    </details>
+
+    <!-- 男性向け特化メニュー -->
+    <details>
+      <summary data-i18n="q14.grp.men"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-mens-shave" name="wishServices" value="メンズヒゲケア">
+        <label for="wish-mens-shave" data-i18n="q14.mensShave"></label>
+        
+        <input type="checkbox" id="wish-mens-scalp" name="wishServices" value="メンズスキャルプ">
+        <label for="wish-mens-scalp" data-i18n="q14.mensScalp"></label>
+        
+        <input type="checkbox" id="wish-mens-make" name="wishServices" value="メンズメイク">
+        <label for="wish-mens-make" data-i18n="q14.mensMake"></label>
+        
+        <input type="checkbox" id="wish-mens-facial" name="wishServices" value="男性向けフェイシャルケア">
+        <label for="wish-mens-facial" data-i18n="q14.mensFacial"></label>
+      </div>
+    </details>
+
+    <!-- 特別パッケージ・会員制度 -->
+    <details>
+      <summary data-i18n="q14.grp.package"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-bridal" name="wishServices" value="ブライダル総合プラン">
+        <label for="wish-bridal" data-i18n="q14.bridal"></label>
+        
+        <input type="checkbox" id="wish-season" name="wishServices" value="季節限定ケア">
+        <label for="wish-season" data-i18n="q14.season"></label>
+        
+        <input type="checkbox" id="wish-family" name="wishServices" value="ファミリープラン">
+        <label for="wish-family" data-i18n="q14.family"></label>
+        
+        <input type="checkbox" id="wish-maike-lasson" name="wishServices" value="レディースメイク講座">
+        <label for="wish-maike-lasson" data-i18n="q14.MaikeLasson"></label>
+        
+        <input type="checkbox" id="wish-hair-lesson" name="wishServices" value="ヘアケア＆ヘアアレンジ講座">
+        <label for="wish-hair-lesson" data-i18n="q14.hairLesson"></label>
+        
+        <input type="checkbox" id="wish-mens-make-lesson" name="wishServices" value="メンズメイク講座">
+        <label for="wish-mens-make-lesson" data-i18n="q14.mensMakeLesson"></label>
+        
+        <input type="checkbox" id="wish-mens-lesson" name="wishServices" value="メンズヘアスタイリング講座">
+        <label for="wish-mens-lesson" data-i18n="q14.mensLesson"></label>
+      </div>
+    </details>
+
+    <!-- デジタル活用サービス -->
+    <details>
+      <summary data-i18n="q14.grp.digital"></summary>
+      <div class="options">
+        <input type="checkbox" id="wish-ai" name="wishServices" value="AIヘアスタイルシミュレーション">
+        <label for="wish-ai" data-i18n="q14.aiSim"></label>
+        
+        <input type="checkbox" id="wish-online" name="wishServices" value="オンラインヘア相談">
+        <label for="wish-online" data-i18n="q14.onlineConsult"></label>
+        
+        <input type="checkbox" id="wish-app" name="wishServices" value="ヘアケアアプリ連動サービス">
+        <label for="wish-app" data-i18n="q14.app"></label>
+      </div>
+    </details>
+  </div><!-- /.collapsible-group -->
+</div><!-- /#question14 -->
+
+
+      <!-- グローバルバリデーションメッセージ -->
+      <div class="validation-message" id="global-validation" style="text-align: center; margin-bottom: var(--spacing-md);">
+        <span data-i18n="validation.global"></span>
+      </div>
+      
+      <!-- 送信ボタン -->
+      <div class="submit-container">
+        <button type="button" id="submitButton" class="submit-button" data-i18n="submit"></button>
+      </div>
+    </form>
+
+    <!-- 星3以下用のメッセージ -->
+    <div id="thankyou" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.title"></h2>
+      <p data-i18n="thankyou.low"></p>
+    </div>
+
+    <!-- 星4以上用の口コミ促進メッセージ -->
+    <div id="review-redirect" class="question feedback-card hidden" data-section="feedback">
+      <h2 data-i18n="thankyou.high"></h2>
+      <p data-i18n="thankyou.high.text1"></p>
+      <p data-i18n="thankyou.high.text2"></p>
+      <p data-i18n="thankyou.high.text3"></p>
+      
+      <div class="copy-container">
+        <textarea id="comment-to-copy" readonly></textarea>
+        <p class="copy-hint" data-i18n="thankyou.copy.hint"></p>
+        <div>
+          <button id="copy-button" class="action-button" onclick="copyComment()" data-i18n="thankyou.copy.button"></button>
+          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()" data-i18n="thankyou.redirect.button"></button>
+        </div>
+      </div>
+      
+      <p data-i18n="thankyou.high.text4"></p>
+    </div>
+  </div>
+</body>
+</html>
 </file>
 
 <file path="css/responsive.css">
