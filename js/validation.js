@@ -364,14 +364,19 @@ function submitFormData(dataObj) {
     
     // fetch APIを使ってPOSTリクエストを送信
     fetch(apiUrl, {
-      method: 'POST', // HTTPメソッド
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json' // JSONに変更
+        'Content-Type': 'application/json'
       },
-      // JSONとしてデータを送信
       body: JSON.stringify(dataObj)
     })
-    .then(res => res.json()) // レスポンスをJSONとして解析
+    .then(res => {
+      // レスポンスのステータスをチェック
+      if (!res.ok) {
+        throw new Error('サーバーエラー: ' + res.status);
+      }
+      return res.json();
+    })
     .then(result => {
       console.log('送信成功:', result);
       // サーバーからのレスポンスにエラーが含まれていた場合
