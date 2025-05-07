@@ -14,7 +14,7 @@ window.CONFIG = {
   // このURLはGoogleフォームやスプレッドシートと連携するためのエンドポイントです
   // アンケートの回答データはこのURLに送信され、Googleスプレッドシートに保存されます
   // 注意: このURLは定期的に変更される可能性があります（Googleのセキュリティポリシーにより）
-  APPS_SCRIPT_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbxOXf2p0Md_69bjyWdEfTx14HaLV-WcuV6qMIShfowqZDKS1QKtGCWvsn4wPtCxy8LUXw/exec',
+  APPS_SCRIPT_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbx8aD56U6cb6EXkFqOVIjuDlOkXhipygt2Rc9ea08I3XqDM48qMA3Cnmc0WGr0RnzoB0Q/exec',
   
   // 各店舗のGoogleマップレビューURL
   // オブジェクト（連想配列）形式で、店舗名をキーに、そのレビューページURLを値として保存しています

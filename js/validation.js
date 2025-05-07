@@ -364,12 +364,9 @@ function submitFormData(dataObj) {
     
     // fetch APIを使ってPOSTリクエストを送信
     fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataObj)
-    })
+        method: 'POST',
+        body: JSON.stringify(dataObj)   // text/plain 扱い → プリフライト不要
+     })
     .then(res => {
       // レスポンスのステータスをチェック
       if (!res.ok) {
