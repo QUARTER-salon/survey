@@ -492,175 +492,6 @@ window.initDynamicServices = initDynamicServices;
 })(); // 即時実行関数の終了と実行
 </file>
 
-<file path="js/star-rating.js">
-/**
- * 星評価UI管理
- * 星による評価システムの動作を制御します
- * 
- * このファイルは星評価のインタラクティブな機能を実装し、
- * ユーザーが視覚的に星をクリック・タップして評価を選択できるようにします。
- * マウスオーバー効果や選択状態の視覚化、エラー表示なども管理します。
- */
-
-// DOM読み込み完了後に初期化
-// HTML要素が完全に読み込まれた後に星評価の機能を初期化します
-document.addEventListener('DOMContentLoaded', function() {
-  initStarRating();
-});
-
-/**
- * 星評価機能の初期化
- * すべての星評価関連の要素を設定し、イベントリスナーを追加します
- */
-function initStarRating() {
-  // DOM要素の取得
-  // 必要なすべての要素を一度に取得して後で使えるようにします
-  const stars = document.querySelectorAll('.star');               // すべての星要素
-  const ratingScore = document.getElementById('ratingScore');      // 評価スコア表示用コンテナ
-  const scoreValue = document.getElementById('scoreValue');        // 数値としての評価値表示
-  const lowRatingWarning = document.getElementById('lowRatingWarning'); // 低評価警告メッセージ
-  const question2 = document.getElementById('question2');          // 評価質問のコンテナ
-  const ratingValidation = document.getElementById('rating-validation'); // 評価のバリデーションメッセージ
-  const globalValidation = document.getElementById('global-validation'); // グローバルバリデーションメッセージ
-  
-  // 状態変数
-  // 現在選択されている評価値（1-5、初期値は0で未選択）
-  let selectedRating = 0;
-  
-  // 初期設定
-  // 低評価警告は初期状態では非表示
-  if (lowRatingWarning) {
-    lowRatingWarning.style.display = 'none';
-  }
-  
-  // 星にマウスオーバーイベントを設定
-  // マウスが星の上に乗ったときのプレビュー効果
-  stars.forEach(star => {
-    star.addEventListener('mouseover', () => {
-      // data-value属性から星の値（1-5）を取得
-      const value = parseInt(star.getAttribute('data-value'));
-      // その値までの星をハイライト表示
-      highlightStars(value);
-    });
-  });
-  
-  // マウスアウト時に選択中の評価に戻す
-  // マウスが星の領域から離れたとき、選択中の評価に表示を戻します
-  const starsContainer = document.getElementById('starsContainer');
-  if (starsContainer) {
-    starsContainer.addEventListener('mouseout', () => {
-      // 現在選択されている評価値に戻す
-      highlightStars(selectedRating);
-    });
-  }
-  
-  // 星のクリックイベント
-  // ユーザーが星をクリックして評価を選択したときの処理
-  stars.forEach(star => {
-    star.addEventListener('click', () => {
-      // クリックされた星の値を取得
-      const value = parseInt(star.getAttribute('data-value'));
-      // その値で評価を設定
-      selectRating(value);
-      
-      // アニメーション効果
-      // クリック時に星を一瞬大きくする「パルス」アニメーション
-      star.classList.add('pulse');
-      // 300ミリ秒後にアニメーションクラスを削除（アニメーション完了後）
-      setTimeout(() => {
-        star.classList.remove('pulse');
-      }, 300);
-    });
-    
-    // タッチデバイス対応
-    // スマートフォンやタブレットなどのタッチデバイス向けの処理
-    star.addEventListener('touchend', e => {
-      // タッチイベントのデフォルト動作（タップ後のクリックイベント等）を防止
-      e.preventDefault();
-      // タップされた星の値を取得
-      const value = parseInt(star.getAttribute('data-value'));
-      // その値で評価を設定
-      selectRating(value);
-    });
-  });
-  
-  /**
-   * 指定された数まで星をハイライト表示
-   * 星の見た目を更新する内部ヘルパー関数
-   * 
-   * @param {number} count - ハイライトする星の数（1-5）
-   */
-  function highlightStars(count) {
-    // すべての星に対して処理
-    stars.forEach(star => {
-      // 各星の値を取得
-      const starValue = parseInt(star.getAttribute('data-value'));
-      // 指定された数以下の値を持つ星には「active」クラスを追加
-      if (starValue <= count) {
-        star.classList.add('active');
-      } else {
-        // それ以外の星からは「active」クラスを削除
-        star.classList.remove('active');
-      }
-    });
-  }
-  
-  /**
-   * 低評価警告の表示
-   * 低い評価（1-2）が選択された際に注意を促す警告を表示します
-   */
-  function showLowRatingWarning() {
-    // 警告要素が存在しない場合は処理を中断
-    if (!lowRatingWarning) return;
-    
-    // 警告を表示するためのクラスを追加
-    lowRatingWarning.classList.add('visible');
-    // 3秒（3000ミリ秒）後に警告を非表示にする
-    setTimeout(() => {
-      lowRatingWarning.classList.remove('visible');
-    }, 3000);
-  }
-  
-  /**
-   * 評価を選択・設定
-   * ユーザーが選択した評価値を保存し、UI全体を更新します
-   * 
-   * @param {number} value - 選択された評価値（1-5）
-   */
-  function selectRating(value) {
-    // 選択された評価値を状態変数に保存
-    selectedRating = value;
-    // 星の表示を更新
-    highlightStars(value);
-    
-    // 対応するラジオボタンをチェック
-    // 見えない（隠れた）ラジオボタンをフォーム送信用に設定
-    const radioBtn = document.getElementById('star' + value);
-    if (radioBtn) radioBtn.checked = true;
-    
-    // UI更新
-    // 数値表示を更新
-    if (scoreValue) scoreValue.textContent = value;
-    // 評価スコア表示を可視化
-    if (ratingScore) ratingScore.classList.add('visible');
-    // 低評価警告を非表示に
-    if (lowRatingWarning) lowRatingWarning.classList.remove('visible');
-    // 質問を完了状態に
-    if (question2) question2.classList.add('completed');
-    
-    // エラー状態の解除
-    // 評価が選択されたのでエラー表示をクリア
-    if (question2) question2.classList.remove('error');
-    if (ratingValidation) ratingValidation.classList.remove('visible');
-    if (globalValidation) globalValidation.classList.remove('visible');
-  }
-}
-
-// グローバルスコープに公開
-// 他のJSファイルからもこの関数を呼び出せるようにする
-window.initStarRating = initStarRating;
-</file>
-
 <file path="css/menu-styles.css">
 /* ============================================
    QUARTERアンケート - 構造化メニュースタイル
@@ -1248,283 +1079,168 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 © 2025 Studio25 Group / QUARTER アンケート開発チーム
 </file>
 
-<file path="locales/en/translation.json">
-{
-    "nav.store": "Store",
-    "nav.rating": "Rating",
-    "nav.info": "Information",
-    "nav.service": "Service",
-    "nav.feedback": "Feedback",
+<file path="js/star-rating.js">
+/**
+ * 星評価UI管理 (汎用化版)
+ * 複数の星による評価システムの動作を制御します
+ * 
+ * このファイルは星評価のインタラクティブな機能を実装し、
+ * ユーザーが視覚的に星をクリック・タップして評価を選択できるようにします。
+ * マウスオーバー効果や選択状態の視覚化、エラー表示なども管理します。
+ */
+
+// DOM読み込み完了後に初期化
+document.addEventListener('DOMContentLoaded', function() {
+  // 星評価を持つすべての質問要素を取得
+  const starRatingQuestions = document.querySelectorAll('#question2, #question8, #question9, #question10, #question11');
   
-    "q1.title": "Q1. Which store did you visit today?",
-    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
-    "rating.prefix": "Rating:",
-    
-    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
-    
-    "q3.title": "Q3. Please tell us your name (optional)",
-    "q3.placeholder": "Enter your name or nickname",
-    
-    "q4.title": "Q4. Your visit to our store was... (optional)",
-    "q4.firstTime": "First time (New customer)",
-    "q4.repeat": "Repeat visit (Regular customer)",
-    
-    "q5.title": "Q5. Please tell us your gender (optional)",
-    "q5.male": "Male",
-    "q5.female": "Female",
-    "q5.other": "Other",
-    
-    "q6.title": "Q6. Please tell us your age range (optional)",
-    "q6.age10s": "10s",
-    "q6.age20s": "20s",
-    "q6.age30s": "30s",
-    "q6.age40s": "40s",
-    "q6.age50s": "50s",
-    "q6.age60plus": "60s or above",
-    
-    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
-    "q7.cut": "Haircut",
-    "q7.color": "Hair coloring",
-    "q7.perm": "Perm",
-    "q7.treatment": "Treatment",
-    "q7.headspa": "Head spa",
-    "q7.other": "Other (Nail, Kimono dressing, etc.)",
-    "q7.il.eyelashExt": "Eyelash extensions",
-    "q7.il.eyelashPerm": "Eyelash perm",
-    "q7.il.wax": "Waxing services",
-    "q7.il.other": "Other services",
-    
-    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
-    "q8.veryGood": "Very satisfied",
-    "q8.good": "Satisfied",
-    "q8.normal": "Neutral",
-    "q8.bad": "Dissatisfied",
-    "q8.veryBad": "Very dissatisfied",
-    
-    "q9.title": "Q9. How was our staff's customer service?",
-    "q9.veryGood": "Very good",
-    "q9.good": "Good",
-    "q9.normal": "Neutral",
-    "q9.bad": "Poor",
-    "q9.veryBad": "Very poor",
-    
-    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
-    "q10.veryGood": "Very satisfied",
-    "q10.good": "Satisfied",
-    "q10.normal": "Neutral",
-    "q10.bad": "Dissatisfied",
-    "q10.veryBad": "Very dissatisfied",
-    
-    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
-    "q11.veryGood": "Very clean",
-    "q11.good": "Clean",
-    "q11.normal": "Neutral",
-    "q11.bad": "Unclean",
-    "q11.veryBad": "Very unclean",
-    
-    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
-    "q12.placeholder": "Enter your suggestions here",
-    
-    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
-    "q13.placeholder": "Enter your feedback here",
+  // 各質問要素に対して星評価機能を初期化
+  starRatingQuestions.forEach(question => {
+    initStarRatingForElement(question);
+  });
+});
 
-    
-    "q14.title": "Q14. What additional services would you like us to offer? (Multiple selections possible)",
-
-    "q14.grp.haircare": "Specialized Hair Care Menu",
-    "q14.treat": "Hair Quality Improvement Treatment (Damage repair, frizz control, etc.)",
-    "q14.organicColor": "Organic/Plant-based Hair Color (For sensitive scalp and skin care)",
-    "q14.scalp": "Expanded Scalp Care Menu (Improving scalp environment for healthier hair)",
-
-    "q14.grp.trend": "Trending Hair Styling Techniques",
-    "q14.innerColor": "Inner Color (Natural surface with playful colors underneath)",
-    "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
-    "q14.extension": "Hair Extensions (Temporary added length or volume)",
-    "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
-    "q14.hairArrange": "Hair Arrangement (Event and party arrangements, etc.)",
-
-    "q14.grp.beauty": "Esthetic & Beauty Services",
-    "q14.lashPerm": "Eyelash Perm/Extensions",
-    "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
-    "q14.facial": "Facial Treatments (Face massage and mask therapy)",
-    "q14.earJewelry": "Ear Acupressure Jewelry (Accessory placement on ear pressure points)",
-    "q14.accessory": "Hair Accessory Sales (Salon-selected hair accessories)",
-
-    "q14.grp.men": "Men's Specialized Menu",
-    "q14.mensShave": "Men's Beard Care/Shaving",
-    "q14.mensScalp": "Men's Scalp & Eyebrow Design",
-    "q14.mensMake": "Men's Makeup",
-    "q14.mensFacial": "Men's Facial Care",
-    
-    "q14.grp.package": "Special Packages & Membership",
-    "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
-    "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
-    "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
-    "q14.MaikeLasson": "Ladies Makeup Lessons (Learn makeup that suits you)",
-    "q14.hairLesson": "Hair Care & Styling Lessons (Learn home hair care and styling methods)",
-    "q14.mensMakeLesson": "Men's Makeup Lessons (Learn basic men's makeup techniques)",
-    "q14.mensLesson": "Men's Hair Styling Lessons (Learn self-styling methods)",
-
-    "q14.grp.digital": "Digital Services",
-    "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
-    "q14.onlineConsult": "Online Hair Consultation (Video consultation before visit)",
-    "q14.app": "Hair Care App Integration (Visit history and home care management)",
-    
-    "validation.global": "Please fill in all required fields",
-    "validation.store": "Please select a store",
-    "validation.rating": "Please select a rating",
-    "submit": "Submit",
-    
-    "thankyou.title": "Thank you for your response.",
-    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
-    "thankyou.high": "Thank you for your high rating!",
-    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
-    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
-    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
-    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
-    "thankyou.copy.button": "Copy Comment",
-    "thankyou.redirect.button": "Post a Review on Google Maps",
-    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
-}
-</file>
-
-<file path="locales/zh/translation.json">
-{
-    "nav.store": "店铺",
-    "nav.rating": "评价",
-    "nav.info": "信息",
-    "nav.service": "服务",
-    "nav.feedback": "感想",
+/**
+ * 特定の質問要素に対する星評価機能の初期化
+ * @param {HTMLElement} questionElement - 星評価を含む質問要素
+ */
+function initStarRatingForElement(questionElement) {
+  // この質問内の星評価関連要素を取得
+  const stars = questionElement.querySelectorAll('.star');
+  const starsContainer = questionElement.querySelector('[data-stars-container]');
+  const ratingScore = questionElement.querySelector('[data-rating-score]');
+  const scoreValue = questionElement.querySelector('[data-score-value]');
+  const lowRatingWarning = questionElement.querySelector('[data-low-rating-warning]');
+  const ratingValidation = questionElement.querySelector('.validation-message');
+  const globalValidation = document.getElementById('global-validation');
   
-    "q1.title": "Q1. 今天您光顾了哪家店铺？",
-    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
-    "rating.prefix": "评分:",
+  // 質問IDと評価のname属性を取得（フォーム送信用）
+  const questionId = questionElement.id;
+  const ratingName = questionElement.querySelector('.star-rating-hidden input[type="radio"]')?.name;
+  
+  // 状態変数
+  let selectedRating = 0;
+  
+  // 初期設定
+  if (lowRatingWarning) {
+    lowRatingWarning.style.display = 'none';
+  }
+  
+  // 星にマウスオーバーイベントを設定
+  stars.forEach(star => {
+    star.addEventListener('mouseover', () => {
+      const value = parseInt(star.getAttribute('data-value'));
+      highlightStars(stars, value);
+    });
+  });
+  
+  // マウスアウト時に選択中の評価に戻す
+  if (starsContainer) {
+    starsContainer.addEventListener('mouseout', () => {
+      highlightStars(stars, selectedRating);
+    });
+  }
+  
+  // 星のクリックイベント
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const value = parseInt(star.getAttribute('data-value'));
+      selectRating(value);
+      
+      // アニメーション効果
+      star.classList.add('pulse');
+      setTimeout(() => {
+        star.classList.remove('pulse');
+      }, 300);
+    });
     
-    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
+    // タッチデバイス対応
+    star.addEventListener('touchend', e => {
+      e.preventDefault();
+      const value = parseInt(star.getAttribute('data-value'));
+      selectRating(value);
+    });
+  });
+  
+  /**
+   * 指定された数まで星をハイライト表示
+   * @param {NodeList} starsElements - 星要素のコレクション
+   * @param {number} count - ハイライトする星の数（1-5）
+   */
+  function highlightStars(starsElements, count) {
+    starsElements.forEach(star => {
+      const starValue = parseInt(star.getAttribute('data-value'));
+      if (starValue <= count) {
+        star.classList.add('active');
+      } else {
+        star.classList.remove('active');
+      }
+    });
+  }
+  
+  /**
+   * 低評価警告の表示
+   * 低い評価（1-2）が選択された際に注意を促す警告を表示します
+   */
+  function showLowRatingWarning() {
+    if (!lowRatingWarning) return;
     
-    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
-    "q3.placeholder": "请输入您的姓名或昵称",
+    lowRatingWarning.style.display = 'block';
+    lowRatingWarning.classList.add('visible');
     
-    "q4.title": "Q4. 您对本店的光临是...（选填）",
-    "q4.firstTime": "初次光临（新顾客）",
-    "q4.repeat": "再次光临（回头客）",
+    // 3秒後に警告を非表示にする
+    setTimeout(() => {
+      lowRatingWarning.classList.remove('visible');
+      setTimeout(() => {
+        lowRatingWarning.style.display = 'none';
+      }, 300); // フェードアウトのアニメーション時間後に非表示に
+    }, 3000);
+  }
+  
+  /**
+   * 評価を選択・設定
+   * @param {number} value - 選択された評価値（1-5）
+   */
+  function selectRating(value) {
+    // 選択された評価値を保存
+    selectedRating = value;
     
-    "q5.title": "Q5. 请告诉我们您的性别（选填）",
-    "q5.male": "男性",
-    "q5.female": "女性",
-    "q5.other": "其他",
+    // 星の表示を更新
+    highlightStars(stars, value);
     
-    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
-    "q6.age10s": "10多岁",
-    "q6.age20s": "20多岁",
-    "q6.age30s": "30多岁",
-    "q6.age40s": "40多岁",
-    "q6.age50s": "50多岁",
-    "q6.age60plus": "60岁以上",
+    // 対応するラジオボタンをチェック
+    const radioId = questionId === 'question2' ? 'star' + value : `${questionId.replace('question', 'q')}_star${value}`;
+    const radioBtn = document.getElementById(radioId);
+    if (radioBtn) radioBtn.checked = true;
     
-    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
-    "q7.cut": "剪发",
-    "q7.color": "染发",
-    "q7.perm": "烫发",
-    "q7.treatment": "护理",
-    "q7.headspa": "头皮护理",
-    "q7.other": "其他（美甲、和服穿戴等）",
-    "q7.il.eyelashExt": "睫毛嫁接",
-    "q7.il.eyelashPerm": "睫毛烫",
-    "q7.il.wax": "脱毛服务",
-    "q7.il.other": "其他服务",
+    // UI更新
+    if (scoreValue) scoreValue.textContent = value;
+    if (ratingScore) ratingScore.classList.add('visible');
     
-    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
-    "q8.veryGood": "非常满意",
-    "q8.good": "满意",
-    "q8.normal": "一般",
-    "q8.bad": "不满意",
-    "q8.veryBad": "非常不满意",
+    // 低評価（1-2）の場合は警告を表示
+    if (value <= 2 && lowRatingWarning) {
+      showLowRatingWarning();
+    } else if (lowRatingWarning) {
+      lowRatingWarning.classList.remove('visible');
+    }
     
-    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
-    "q9.veryGood": "非常好",
-    "q9.good": "好",
-    "q9.normal": "一般",
-    "q9.bad": "差",
-    "q9.veryBad": "非常差",
+    // 質問を完了状態に
+    questionElement.classList.add('completed');
     
-    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
-    "q10.veryGood": "非常满意",
-    "q10.good": "满意",
-    "q10.normal": "一般",
-    "q10.bad": "不满意",
-    "q10.veryBad": "非常不满意",
-    
-    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
-    "q11.veryGood": "非常干净",
-    "q11.good": "干净",
-    "q11.normal": "一般",
-    "q11.bad": "不干净",
-    "q11.veryBad": "非常不干净",
-    
-    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
-    "q12.placeholder": "请在此输入您的建议",
-    
-    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
-    "q13.placeholder": "请在此输入您的感想",
-
-    
-    "q14.title": "Q14. 您希望我们增加哪些服务项目？（可多选）",
-
-    "q14.grp.haircare": "专业护发菜单",
-    "q14.treat": "发质改善护理（修复受损发质、改善卷曲发质等专业护理）",
-    "q14.organicColor": "有机染发 / 植物提取染发（适合敏感肌肤、注重头皮护理）",
-    "q14.scalp": "头皮护理菜单扩充（改善头皮环境，促进健康发质）",
-
-    "q14.grp.trend": "流行发型技术",
-    "q14.innerColor": "内层挑染（表面保持自然色调，内层添加个性色彩）",
-    "q14.balayage": "空气感挑染 / 渐变染发（自然立体效果）",
-    "q14.extension": "接发服务（临时增加发长或发量）",
-    "q14.koreanSet": "韩式发型设计（K-POP偶像风格）",
-    "q14.hairArrange": "发型设计（活动与派对造型等）",
-    "q14.grp.beauty": "美容相关服务",
-    "q14.lashPerm": "睫毛烫 / 睫毛嫁接",
-    "q14.eyebrow": "眉形设计（眉毛全面塑形）",
-    "q14.facial": "面部护理（面部按摩和面膜护理）",
-    "q14.earJewelry": "耳穴压力点饰品（耳部穴位饰品安装）",
-    "q14.accessory": "发饰销售（沙龙精选发饰）",
-
-    "q14.grp.men": "男士专属服务",
-    "q14.mensShave": "男士胡须护理 / 修剪",
-    "q14.mensScalp": "男士头皮护理 & 眉形设计",
-    "q14.mensMake": "男士彩妆",
-    "q14.mensFacial": "男士面部护理",
-    
-    "q14.grp.package": "特别套餐与会员制度",
-    "q14.bridal": "新娘美容套餐（为婚礼准备的多次护理计划）",
-    "q14.season": "季节限定护理（夏季防紫外线、冬季防干燥等）",
-    "q14.family": "家庭优惠计划（亲子或情侣同行折扣）",
-    "q14.MaikeLasson": "女士化妆课程（学习适合自己的妆容）",
-    "q14.hairLesson": "头发护理与造型课程（学习家庭护发和造型方法）",
-    "q14.mensMakeLesson": "男士化妆课程（学习男士化妆基础）",
-    "q14.mensLesson": "男士发型造型课程（学习自我造型方法）",
-
-    "q14.grp.digital": "数字化服务",
-    "q14.aiSim": "AI发型模拟（预先确认适合的发型）",
-    "q14.onlineConsult": "线上发型咨询（来店前的视频咨询）",
-    "q14.app": "护发应用程序连动服务（访问记录和家庭护理管理）",
-    
-    "validation.global": "请填写所有必填项",
-    "validation.store": "请选择店铺",
-    "validation.rating": "请选择评价",
-    "submit": "提交",
-    
-    "thankyou.title": "感谢您的回答。",
-    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
-    "thankyou.high": "感谢您的高度评价！",
-    "thankyou.high.text1": "非常感谢您光临本店。",
-    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
-    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
-    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
-    "thankyou.copy.button": "复制评论",
-    "thankyou.redirect.button": "在谷歌地图上发表评论",
-    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
+    // エラー状態の解除
+    questionElement.classList.remove('error');
+    if (ratingValidation) ratingValidation.classList.remove('visible');
+    if (globalValidation) globalValidation.classList.remove('visible');
+  }
 }
+
+// グローバルスコープに公開
+window.initStarRating = function() {
+  const starRatingQuestions = document.querySelectorAll('#question2, #question8, #question9, #question10, #question11');
+  starRatingQuestions.forEach(question => {
+    initStarRatingForElement(question);
+  });
+};
 </file>
 
 <file path="css/accordion-style.css">
@@ -1822,150 +1538,244 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 })();
 </file>
 
-<file path="locales/ja/translation.json">
+<file path="locales/en/translation.json">
 {
-    "nav.store": "店舗",
-    "nav.rating": "評価",
-    "nav.info": "情報",
-    "nav.service": "サービス",
+    "nav.store": "Store",
+    "nav.rating": "Rating",
+    "nav.info": "Information",
+    "nav.service": "Service",
+    "nav.feedback": "Feedback",
+  
+    "q1.title": "Q1. Which store did you visit today?",
+    "q2.title": "Q2. Overall satisfaction (1–5 stars)",
+    "rating.prefix": "Rating:",
+    "rating.lowWarning": "Your feedback is important. Would you like to share details about your experience?",
+    
+    "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
+    
+    "q3.title": "Q3. Please tell us your name (optional)",
+    "q3.placeholder": "Enter your name or nickname",
+    
+    "q4.title": "Q4. Your visit to our store was... (optional)",
+    "q4.firstTime": "First time (New customer)",
+    "q4.repeat": "Repeat visit (Regular customer)",
+    
+    "q5.title": "Q5. Please tell us your gender (optional)",
+    "q5.male": "Male",
+    "q5.female": "Female",
+    "q5.other": "Other",
+    
+    "q6.title": "Q6. Please tell us your age range (optional)",
+    "q6.age10s": "10s",
+    "q6.age20s": "20s",
+    "q6.age30s": "30s",
+    "q6.age40s": "40s",
+    "q6.age50s": "50s",
+    "q6.age60plus": "60s or above",
+    
+    "q7.title": "Q7. Which services did you use today? (Multiple selections possible)",
+    "q7.cut": "Haircut",
+    "q7.color": "Hair coloring",
+    "q7.perm": "Perm",
+    "q7.treatment": "Treatment",
+    "q7.headspa": "Head spa",
+    "q7.other": "Other (Nail, Kimono dressing, etc.)",
+    "q7.il.eyelashExt": "Eyelash extensions",
+    "q7.il.eyelashPerm": "Eyelash perm",
+    "q7.il.wax": "Waxing services",
+    "q7.il.other": "Other services",
+    
+    "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
+    
+    "q9.title": "Q9. How was our staff's customer service?",
+    
+    "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
+    
+    "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
+    
+    "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
+    "q12.placeholder": "Enter your suggestions here",
+    
+    "q13.title": "Q13. Please share any other thoughts or observations about your experience at our salon (optional)",
+    "q13.placeholder": "Enter your feedback here",
+
+    
+    "q14.title": "Q14. What additional services would you like us to offer? (Multiple selections possible)",
+
+    "q14.grp.haircare": "Specialized Hair Care Menu",
+    "q14.treat": "Hair Quality Improvement Treatment (Damage repair, frizz control, etc.)",
+    "q14.organicColor": "Organic/Plant-based Hair Color (For sensitive scalp and skin care)",
+    "q14.scalp": "Expanded Scalp Care Menu (Improving scalp environment for healthier hair)",
+
+    "q14.grp.trend": "Trending Hair Styling Techniques",
+    "q14.innerColor": "Inner Color (Natural surface with playful colors underneath)",
+    "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
+    "q14.extension": "Hair Extensions (Temporary added length or volume)",
+    "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
+    "q14.hairArrange": "Hair Arrangement (Event and party arrangements, etc.)",
+
+    "q14.grp.beauty": "Esthetic & Beauty Services",
+    "q14.lashPerm": "Eyelash Perm/Extensions",
+    "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
+    "q14.facial": "Facial Treatments (Face massage and mask therapy)",
+    "q14.earJewelry": "Ear Acupressure Jewelry (Accessory placement on ear pressure points)",
+    "q14.accessory": "Hair Accessory Sales (Salon-selected hair accessories)",
+
+    "q14.grp.men": "Men's Specialized Menu",
+    "q14.mensShave": "Men's Beard Care/Shaving",
+    "q14.mensScalp": "Men's Scalp & Eyebrow Design",
+    "q14.mensMake": "Men's Makeup",
+    "q14.mensFacial": "Men's Facial Care",
+    
+    "q14.grp.package": "Special Packages & Membership",
+    "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
+    "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
+    "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
+    "q14.MaikeLasson": "Ladies Makeup Lessons (Learn makeup that suits you)",
+    "q14.hairLesson": "Hair Care & Styling Lessons (Learn home hair care and styling methods)",
+    "q14.mensMakeLesson": "Men's Makeup Lessons (Learn basic men's makeup techniques)",
+    "q14.mensLesson": "Men's Hair Styling Lessons (Learn self-styling methods)",
+
+    "q14.grp.digital": "Digital Services",
+    "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
+    "q14.onlineConsult": "Online Hair Consultation (Video consultation before visit)",
+    "q14.app": "Hair Care App Integration (Visit history and home care management)",
+    
+    "validation.global": "Please fill in all required fields",
+    "validation.store": "Please select a store",
+    "validation.rating": "Please select a rating",
+    "submit": "Submit",
+    
+    "thankyou.title": "Thank you for your response.",
+    "thankyou.low": "We sincerely appreciate your feedback and will work to improve our services. We look forward to serving you again at the QUARTER group.",
+    "thankyou.high": "Thank you for your high rating!",
+    "thankyou.high.text1": "We sincerely appreciate your visit to our salon.",
+    "thankyou.high.text2": "If you don't mind, we would be greatly encouraged if you could copy the comment below and post it on Google Maps.",
+    "thankyou.high.text3": "• Copy the comment with the button below<br>• Simply paste it when the review page opens",
+    "thankyou.copy.hint": "※ This text cannot be edited now, but you can edit it after pasting it on the Google Maps review page.",
+    "thankyou.copy.button": "Copy Comment",
+    "thankyou.redirect.button": "Post a Review on Google Maps",
+    "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
+}
+</file>
+
+<file path="locales/zh/translation.json">
+{
+    "nav.store": "店铺",
+    "nav.rating": "评价",
+    "nav.info": "信息",
+    "nav.service": "服务",
     "nav.feedback": "感想",
   
-    "q1.title": "Q1. 本日はどちらの店舗をご利用いただきましたか？",
-    "q2.title": "Q2. 本日の総合満足度を星1～5でお聞かせください。",
-    "rating.prefix": "評価:",
+    "q1.title": "Q1. 今天您光顾了哪家店铺？",
+    "q2.title": "Q2. 请用1-5星评价您的总体满意度",
+    "rating.prefix": "评分:",
+    "rating.lowWarning": "您的反馈对我们很重要。您愿意分享您的体验详情吗？",
     
-    "optional.note": "以下の質問は任意です。ご回答いただけると大変参考になります。",
+    "optional.note": "以下问题为选填项目。您的回答对我们非常有参考价值。",
     
-    "q3.title": "Q3. お名前をお聞かせください。（任意）",
-    "q3.placeholder": "お名前またはニックネームをご記入ください",
+    "q3.title": "Q3. 请告诉我们您的姓名（选填）",
+    "q3.placeholder": "请输入您的姓名或昵称",
     
-    "q4.title": "Q4. 当店へのご来店は…（任意）",
-    "q4.firstTime": "初めて（新規）",
-    "q4.repeat": "2回目以降（リピーター）",
+    "q4.title": "Q4. 您对本店的光临是...（选填）",
+    "q4.firstTime": "初次光临（新顾客）",
+    "q4.repeat": "再次光临（回头客）",
     
-    "q5.title": "Q5. お客様の性別をお聞かせください。（任意）",
+    "q5.title": "Q5. 请告诉我们您的性别（选填）",
     "q5.male": "男性",
     "q5.female": "女性",
-    "q5.other": "その他",
+    "q5.other": "其他",
     
-    "q6.title": "Q6. お客様のご年齢をお聞かせください。（任意）",
-    "q6.age10s": "10代",
-    "q6.age20s": "20代",
-    "q6.age30s": "30代",
-    "q6.age40s": "40代",
-    "q6.age50s": "50代",
-    "q6.age60plus": "60代以上",
+    "q6.title": "Q6. 请告诉我们您的年龄段（选填）",
+    "q6.age10s": "10多岁",
+    "q6.age20s": "20多岁",
+    "q6.age30s": "30多岁",
+    "q6.age40s": "40多岁",
+    "q6.age50s": "50多岁",
+    "q6.age60plus": "60岁以上",
     
-    "q7.title": "Q7. 本日ご利用いただいたメニューをお選びください。（複数選択可）",
-    "q7.cut": "カット",
-    "q7.color": "カラー",
-    "q7.perm": "パーマ",
-    "q7.treatment": "トリートメント",
-    "q7.headspa": "ヘッドスパ",
-    "q7.other": "その他（ネイル・着付け 等）",
-    "q7.il.eyelashExt": "まつ毛エクステ",
-    "q7.il.eyelashPerm": "まつ毛パーマ",
-    "q7.il.wax": "WAXメニュー",
-    "q7.il.other": "その他メニュー",
+    "q7.title": "Q7. 今天您使用了哪些服务项目？（可多选）",
+    "q7.cut": "剪发",
+    "q7.color": "染发",
+    "q7.perm": "烫发",
+    "q7.treatment": "护理",
+    "q7.headspa": "头皮护理",
+    "q7.other": "其他（美甲、和服穿戴等）",
+    "q7.il.eyelashExt": "睫毛嫁接",
+    "q7.il.eyelashPerm": "睫毛烫",
+    "q7.il.wax": "脱毛服务",
+    "q7.il.other": "其他服务",
     
-    "q8.title": "Q8. 施術の技術や仕上がりに対する満足度をお聞かせください。",
-    "q8.veryGood": "非常に満足",
-    "q8.good": "満足",
-    "q8.normal": "普通",
-    "q8.bad": "不満",
-    "q8.veryBad": "非常に不満",
+    "q8.title": "Q8. 您对服务技术和效果的满意度如何？",
     
-    "q9.title": "Q9. スタッフの接客対応はいかがでしたか？",
-    "q9.veryGood": "非常に良い",
-    "q9.good": "良い",
-    "q9.normal": "普通",
-    "q9.bad": "悪い",
-    "q9.veryBad": "非常に悪い",
+    "q9.title": "Q9. 您认为我们的工作人员服务态度如何？",
     
-    "q10.title": "Q10. ご来店から施術開始までの時間についてのご感想をお聞かせください。",
-    "q10.veryGood": "非常に満足",
-    "q10.good": "満足",
-    "q10.normal": "普通",
-    "q10.bad": "不満",
-    "q10.veryBad": "非常に不満",
+    "q10.title": "Q10. 从到店到开始服务的等待时间，您的感受如何？",
     
-    "q11.title": "Q11. 店内の空間や清潔感についてのご印象をお聞かせください。",
-    "q11.veryGood": "非常に清潔",
-    "q11.good": "清潔",
-    "q11.normal": "普通",
-    "q11.bad": "不清潔",
-    "q11.veryBad": "非常に不清潔",
+    "q11.title": "Q11. 您对店内环境和清洁度的印象如何？",
     
-    "q12.title": "Q12. ご要望や改善点などがございましたら、ぜひお聞かせください。（任意）",
-    "q12.placeholder": "ご意見をご記入ください",
+    "q12.title": "Q12. 如果您有任何建议或改进意见，请告诉我们（选填）",
+    "q12.placeholder": "请在此输入您的建议",
     
-    "q13.title": "Q13. その他、当店での体験についてのご感想やお気づきの点をお聞かせください。（任意）",
-    "q13.placeholder": "ご感想をご記入ください",
+    "q13.title": "Q13. 请分享您在本店的其他体验感受或观察（选填）",
+    "q13.placeholder": "请在此输入您的感想",
 
     
-    
-    "q14.title": "Q14. 追加して欲しいサービスはございますか？（複数選択可）",
-        
-    "q14.grp.haircare": "ヘアケア特化メニュー",
-    "q14.treat": "髪質改善トリートメント（ダメージ修復・くせ毛改善など専門的なケア）",
-    "q14.organicColor": "オーガニックカラー / 植物由来カラー（敏感肌・頭皮ケア重視の方向け）",
-    "q14.scalp": "スキャルプケアメニューの拡充（頭皮環境改善による健康な髪づくり）",
-        
-    "q14.grp.trend": "トレンドヘアスタイル技術",
-    "q14.innerColor": "インナーカラー（表面は自然な色味で内側に遊び心のある色を入れる）",
-    "q14.balayage": "バレイヤージュ / グラデーションカラー（自然な立体感のある仕上がり）",
-    "q14.extension": "ヘアエクステンション（長さや量を一時的に追加）",
-    "q14.koreanSet": "韓国風ヘアセット（K-POPアイドル風スタイリング）",
-    "q14.hairArrange": "ヘアアレンジ（イベントやパーティー向けアレンジなど）",
+    "q14.title": "Q14. 您希望我们增加哪些服务项目？（可多选）",
 
-        
-    "q14.grp.beauty": "エステ・美容関連",
-    "q14.lashPerm": "まつげパーマ / まつげエクステ",
-    "q14.eyebrow": "アイブロウデザイン（眉毛のフルメイク・形成）",
-    "q14.facial": "フェイシャルエステ（顔のマッサージ・パック）",
-    "q14.earJewelry": "耳ツボジュエリー（耳つぼへのアクセサリー装着）",
-    "q14.accessory": "ヘアアクセサリー販売（サロン厳選のヘアアクセサリー取り扱い）",
+    "q14.grp.haircare": "专业护发菜单",
+    "q14.treat": "发质改善护理（修复受损发质、改善卷曲发质等专业护理）",
+    "q14.organicColor": "有机染发 / 植物提取染发（适合敏感肌肤、注重头皮护理）",
+    "q14.scalp": "头皮护理菜单扩充（改善头皮环境，促进健康发质）",
 
-        
-    "q14.grp.men": "男性向け特化メニュー",
-    "q14.mensShave": "メンズヒゲケア （プロによる整髭・デザイン）",
-    "q14.mensScalp": "メンズスキャルプ & 眉デザイン（男性特有の頭皮悩みケアと眉整え）",
-    "q14.mensMake": "メンズメイク（自然な印象アップの男性向けメイクアップ）",
-    "q14.mensFacial": "男性向けフェイシャルケア（男性の肌質に合わせた顔のケア）",
-        
-    "q14.grp.package": "特別パッケージ・会員制度",
-    "q14.bridal": "ブライダル総合プラン（結婚式に向けた複数回のケア）",
-    "q14.season": "季節限定ケア（夏の紫外線対策、冬の乾燥対策など）",
-    "q14.family": "ファミリープラン（親子・カップルでの来店割引）",
-    "q14.MaikeLasson": "レディースメイク講座（自分に似合うメイクを学ぶ）",
-    "q14.hairLesson": "ヘアケア＆ヘアアレンジ講座（自宅でのヘアケアとアレンジ方法を学ぶ）",
-    "q14.mensMakeLesson": "メンズメイク講座（男性向けメイクアップの基礎を学ぶ）",
-    "q14.mensLesson": "メンズヘアスタイリング講座（自分でセットする方法を学べる）",
+    "q14.grp.trend": "流行发型技术",
+    "q14.innerColor": "内层挑染（表面保持自然色调，内层添加个性色彩）",
+    "q14.balayage": "空气感挑染 / 渐变染发（自然立体效果）",
+    "q14.extension": "接发服务（临时增加发长或发量）",
+    "q14.koreanSet": "韩式发型设计（K-POP偶像风格）",
+    "q14.hairArrange": "发型设计（活动与派对造型等）",
+    "q14.grp.beauty": "美容相关服务",
+    "q14.lashPerm": "睫毛烫 / 睫毛嫁接",
+    "q14.eyebrow": "眉形设计（眉毛全面塑形）",
+    "q14.facial": "面部护理（面部按摩和面膜护理）",
+    "q14.earJewelry": "耳穴压力点饰品（耳部穴位饰品安装）",
+    "q14.accessory": "发饰销售（沙龙精选发饰）",
 
-        
-    "q14.grp.digital": "デジタル活用サービス",
-    "q14.aiSim": "AIヘアスタイルシミュレーション（似合うスタイルの事前確認）",
-    "q14.onlineConsult": "オンラインヘア相談（来店前のビデオ相談）",
-    "q14.app": "ヘアケアアプリ連動サービス（来店履歴・ホームケア管理）",
+    "q14.grp.men": "男士专属服务",
+    "q14.mensShave": "男士胡须护理 / 修剪",
+    "q14.mensScalp": "男士头皮护理 & 眉形设计",
+    "q14.mensMake": "男士彩妆",
+    "q14.mensFacial": "男士面部护理",
+    
+    "q14.grp.package": "特别套餐与会员制度",
+    "q14.bridal": "新娘美容套餐（为婚礼准备的多次护理计划）",
+    "q14.season": "季节限定护理（夏季防紫外线、冬季防干燥等）",
+    "q14.family": "家庭优惠计划（亲子或情侣同行折扣）",
+    "q14.MaikeLasson": "女士化妆课程（学习适合自己的妆容）",
+    "q14.hairLesson": "头发护理与造型课程（学习家庭护发和造型方法）",
+    "q14.mensMakeLesson": "男士化妆课程（学习男士化妆基础）",
+    "q14.mensLesson": "男士发型造型课程（学习自我造型方法）",
 
+    "q14.grp.digital": "数字化服务",
+    "q14.aiSim": "AI发型模拟（预先确认适合的发型）",
+    "q14.onlineConsult": "线上发型咨询（来店前的视频咨询）",
+    "q14.app": "护发应用程序连动服务（访问记录和家庭护理管理）",
     
-      
+    "validation.global": "请填写所有必填项",
+    "validation.store": "请选择店铺",
+    "validation.rating": "请选择评价",
+    "submit": "提交",
     
-    "validation.global": "必須項目をご入力ください",
-    "validation.store": "店舗を選択してください",
-    "validation.rating": "評価を選択してください",
-    "submit": "送信する",
-    
-    "thankyou.title": "ご回答ありがとうございました。",
-    "thankyou.low": "いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。",
-    "thankyou.high": "高評価ありがとうございます！",
-    "thankyou.high.text1": "当店をご利用いただき、心より感謝申し上げます。",
-    "thankyou.high.text2": "もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。",
-    "thankyou.high.text3": "・下のボタンでコメントをコピー<br>・投稿ページが開いたらペーストするだけです",
-    "thankyou.copy.hint": "※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。",
-    "thankyou.copy.button": "コメントをコピー",
-    "thankyou.redirect.button": "Googleマップで口コミを投稿する",
-    "thankyou.high.text4": "今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>引き続きQUARTERグループをよろしくお願いいたします。"
+    "thankyou.title": "感谢您的回答。",
+    "thankyou.low": "我们真诚感谢您的反馈，并将努力改进我们的服务。期待您再次惠顾QUARTER集团。",
+    "thankyou.high": "感谢您的高度评价！",
+    "thankyou.high.text1": "非常感谢您光临本店。",
+    "thankyou.high.text2": "如果您不介意，希望您能将以下评论复制并发布到谷歌地图，这将对我们是莫大的鼓励。",
+    "thankyou.high.text3": "• 使用下方按钮复制评论<br>• 打开评论页面后直接粘贴即可",
+    "thankyou.copy.hint": "※ 此文本现在无法编辑，但粘贴到谷歌地图评论页面后可以编辑。",
+    "thankyou.copy.button": "复制评论",
+    "thankyou.redirect.button": "在谷歌地图上发表评论",
+    "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
 }
 </file>
 
@@ -2268,6 +2078,134 @@ window.redirectToGoogleMaps = function() {
     console.error('リダイレクトエラー:', e);
   }
 };
+</file>
+
+<file path="locales/ja/translation.json">
+{
+    "nav.store": "店舗",
+    "nav.rating": "評価",
+    "nav.info": "情報",
+    "nav.service": "サービス",
+    "nav.feedback": "感想",
+  
+    "q1.title": "Q1. 本日はどちらの店舗をご利用いただきましたか？",
+    "q2.title": "Q2. 本日の総合満足度を星1～5でお聞かせください。",
+    "rating.prefix": "評価:",
+    "rating.lowWarning": "お客様のご意見は大切です。体験についての詳細をお聞かせいただけますか？",
+    
+    "optional.note": "以下の質問は任意です。ご回答いただけると大変参考になります。",
+    
+    "q3.title": "Q3. お名前をお聞かせください。（任意）",
+    "q3.placeholder": "お名前またはニックネームをご記入ください",
+    
+    "q4.title": "Q4. 当店へのご来店は…（任意）",
+    "q4.firstTime": "初めて（新規）",
+    "q4.repeat": "2回目以降（リピーター）",
+    
+    "q5.title": "Q5. お客様の性別をお聞かせください。（任意）",
+    "q5.male": "男性",
+    "q5.female": "女性",
+    "q5.other": "その他",
+    
+    "q6.title": "Q6. お客様のご年齢をお聞かせください。（任意）",
+    "q6.age10s": "10代",
+    "q6.age20s": "20代",
+    "q6.age30s": "30代",
+    "q6.age40s": "40代",
+    "q6.age50s": "50代",
+    "q6.age60plus": "60代以上",
+    
+    "q7.title": "Q7. 本日ご利用いただいたメニューをお選びください。（複数選択可）",
+    "q7.cut": "カット",
+    "q7.color": "カラー",
+    "q7.perm": "パーマ",
+    "q7.treatment": "トリートメント",
+    "q7.headspa": "ヘッドスパ",
+    "q7.other": "その他（ネイル・着付け 等）",
+    "q7.il.eyelashExt": "まつ毛エクステ",
+    "q7.il.eyelashPerm": "まつ毛パーマ",
+    "q7.il.wax": "WAXメニュー",
+    "q7.il.other": "その他メニュー",
+    
+    "q8.title": "Q8. 施術の技術や仕上がりに対する満足度をお聞かせください。",
+    
+    "q9.title": "Q9. スタッフの接客対応はいかがでしたか？",
+    
+    "q10.title": "Q10. ご来店から施術開始までの時間についてのご感想をお聞かせください。",
+    
+    "q11.title": "Q11. 店内の空間や清潔感についてのご印象をお聞かせください。",
+    
+    "q12.title": "Q12. ご要望や改善点などがございましたら、ぜひお聞かせください。（任意）",
+    "q12.placeholder": "ご意見をご記入ください",
+    
+    "q13.title": "Q13. その他、当店での体験についてのご感想やお気づきの点をお聞かせください。（任意）",
+    "q13.placeholder": "ご感想をご記入ください",
+
+    
+    
+    "q14.title": "Q14. 追加して欲しいサービスはございますか？（複数選択可）",
+        
+    "q14.grp.haircare": "ヘアケア特化メニュー",
+    "q14.treat": "髪質改善トリートメント（ダメージ修復・くせ毛改善など専門的なケア）",
+    "q14.organicColor": "オーガニックカラー / 植物由来カラー（敏感肌・頭皮ケア重視の方向け）",
+    "q14.scalp": "スキャルプケアメニューの拡充（頭皮環境改善による健康な髪づくり）",
+        
+    "q14.grp.trend": "トレンドヘアスタイル技術",
+    "q14.innerColor": "インナーカラー（表面は自然な色味で内側に遊び心のある色を入れる）",
+    "q14.balayage": "バレイヤージュ / グラデーションカラー（自然な立体感のある仕上がり）",
+    "q14.extension": "ヘアエクステンション（長さや量を一時的に追加）",
+    "q14.koreanSet": "韓国風ヘアセット（K-POPアイドル風スタイリング）",
+    "q14.hairArrange": "ヘアアレンジ（イベントやパーティー向けアレンジなど）",
+
+        
+    "q14.grp.beauty": "エステ・美容関連",
+    "q14.lashPerm": "まつげパーマ / まつげエクステ",
+    "q14.eyebrow": "アイブロウデザイン（眉毛のフルメイク・形成）",
+    "q14.facial": "フェイシャルエステ（顔のマッサージ・パック）",
+    "q14.earJewelry": "耳ツボジュエリー（耳つぼへのアクセサリー装着）",
+    "q14.accessory": "ヘアアクセサリー販売（サロン厳選のヘアアクセサリー取り扱い）",
+
+        
+    "q14.grp.men": "男性向け特化メニュー",
+    "q14.mensShave": "メンズヒゲケア （プロによる整髭・デザイン）",
+    "q14.mensScalp": "メンズスキャルプ & 眉デザイン（男性特有の頭皮悩みケアと眉整え）",
+    "q14.mensMake": "メンズメイク（自然な印象アップの男性向けメイクアップ）",
+    "q14.mensFacial": "男性向けフェイシャルケア（男性の肌質に合わせた顔のケア）",
+        
+    "q14.grp.package": "特別パッケージ・会員制度",
+    "q14.bridal": "ブライダル総合プラン（結婚式に向けた複数回のケア）",
+    "q14.season": "季節限定ケア（夏の紫外線対策、冬の乾燥対策など）",
+    "q14.family": "ファミリープラン（親子・カップルでの来店割引）",
+    "q14.MaikeLasson": "レディースメイク講座（自分に似合うメイクを学ぶ）",
+    "q14.hairLesson": "ヘアケア＆ヘアアレンジ講座（自宅でのヘアケアとアレンジ方法を学ぶ）",
+    "q14.mensMakeLesson": "メンズメイク講座（男性向けメイクアップの基礎を学ぶ）",
+    "q14.mensLesson": "メンズヘアスタイリング講座（自分でセットする方法を学べる）",
+
+        
+    "q14.grp.digital": "デジタル活用サービス",
+    "q14.aiSim": "AIヘアスタイルシミュレーション（似合うスタイルの事前確認）",
+    "q14.onlineConsult": "オンラインヘア相談（来店前のビデオ相談）",
+    "q14.app": "ヘアケアアプリ連動サービス（来店履歴・ホームケア管理）",
+
+    
+      
+    
+    "validation.global": "必須項目をご入力ください",
+    "validation.store": "店舗を選択してください",
+    "validation.rating": "評価を選択してください",
+    "submit": "送信する",
+    
+    "thankyou.title": "ご回答ありがとうございました。",
+    "thankyou.low": "いただいたご意見を真摯に受け止め、サービスの向上に努めてまいります。今後ともQUARTERグループをよろしくお願いいたします。",
+    "thankyou.high": "高評価ありがとうございます！",
+    "thankyou.high.text1": "当店をご利用いただき、心より感謝申し上げます。",
+    "thankyou.high.text2": "もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。",
+    "thankyou.high.text3": "・下のボタンでコメントをコピー<br>・投稿ページが開いたらペーストするだけです",
+    "thankyou.copy.hint": "※このテキストは現在編集できませんが、Googleマップの口コミページにペーストした後は編集できます。",
+    "thankyou.copy.button": "コメントをコピー",
+    "thankyou.redirect.button": "Googleマップで口コミを投稿する",
+    "thankyou.high.text4": "今後もお客様にご満足いただけるよう、スタッフ一同技術を磨いてまいります。<br>引き続きQUARTERグループをよろしくお願いいたします。"
+}
 </file>
 
 <file path="js/validation.js">
@@ -3002,7 +2940,7 @@ body, .container, #thankyou, #review-redirect, .question {
         <h3 data-i18n="q2.title"></h3>
         
         <div class="star-rating-container">
-          <div class="stars-row" id="starsContainer">
+          <div class="stars-row" data-stars-container>
             <span class="star" data-value="1">★</span>
             <span class="star" data-value="2">★</span>
             <span class="star" data-value="3">★</span>
@@ -3010,8 +2948,8 @@ body, .container, #thankyou, #review-redirect, .question {
             <span class="star" data-value="5">★</span>
           </div>
           
-          <div class="rating-score" id="ratingScore">
-            <span data-i18n="rating.prefix"></span> <span id="scoreValue">0</span>/5
+          <div class="rating-score" data-rating-score>
+            <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
           </div>
         </div>
         
@@ -3021,6 +2959,10 @@ body, .container, #thankyou, #review-redirect, .question {
           <input type="radio" id="star3" name="rating" value="3">
           <input type="radio" id="star2" name="rating" value="2">
           <input type="radio" id="star1" name="rating" value="1">
+        </div>
+
+        <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+          <span data-i18n="rating.lowWarning"></span>
         </div>
 
         <div class="validation-message" id="rating-validation">
@@ -3130,87 +3072,127 @@ body, .container, #thankyou, #review-redirect, .question {
           </div>
         </div>
           
-        <!-- Q8. サービス満足度 -->
+        <!-- Q8. サービス満足度 - 星評価に変更 -->
         <div class="question" id="question8" data-section="service">
           <h3 data-i18n="q8.title"></h3>
-          <div class="options">
-            <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
-            <label for="service5" data-i18n="q8.veryGood"></label>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
             
-            <input type="radio" id="service4" name="serviceSatisfaction" value="満足">
-            <label for="service4" data-i18n="q8.good"></label>
-            
-            <input type="radio" id="service3" name="serviceSatisfaction" value="普通">
-            <label for="service3" data-i18n="q8.normal"></label>
-            
-            <input type="radio" id="service2" name="serviceSatisfaction" value="不満">
-            <label for="service2" data-i18n="q8.bad"></label>
-            
-            <input type="radio" id="service1" name="serviceSatisfaction" value="非常に不満">
-            <label for="service1" data-i18n="q8.veryBad"></label>
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q8_star5" name="serviceSatisfaction" value="5">
+            <input type="radio" id="q8_star4" name="serviceSatisfaction" value="4">
+            <input type="radio" id="q8_star3" name="serviceSatisfaction" value="3">
+            <input type="radio" id="q8_star2" name="serviceSatisfaction" value="2">
+            <input type="radio" id="q8_star1" name="serviceSatisfaction" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
           </div>
         </div>
         
-        <!-- Q9. スタッフ対応 -->
+        <!-- Q9. スタッフ対応 - 星評価に変更 -->
         <div class="question" id="question9" data-section="service">
           <h3 data-i18n="q9.title"></h3>
-          <div class="options">
-            <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
-            <label for="staff5" data-i18n="q9.veryGood"></label>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
             
-            <input type="radio" id="staff4" name="staffResponse" value="良い">
-            <label for="staff4" data-i18n="q9.good"></label>
-            
-            <input type="radio" id="staff3" name="staffResponse" value="普通">
-            <label for="staff3" data-i18n="q9.normal"></label>
-            
-            <input type="radio" id="staff2" name="staffResponse" value="悪い">
-            <label for="staff2" data-i18n="q9.bad"></label>
-            
-            <input type="radio" id="staff1" name="staffResponse" value="非常に悪い">
-            <label for="staff1" data-i18n="q9.veryBad"></label>
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q9_star5" name="staffResponse" value="5">
+            <input type="radio" id="q9_star4" name="staffResponse" value="4">
+            <input type="radio" id="q9_star3" name="staffResponse" value="3">
+            <input type="radio" id="q9_star2" name="staffResponse" value="2">
+            <input type="radio" id="q9_star1" name="staffResponse" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
           </div>
         </div>
         
-        <!-- Q10. 待ち時間 -->
+        <!-- Q10. 待ち時間 - 星評価に変更 -->
         <div class="question" id="question10" data-section="service">
           <h3 data-i18n="q10.title"></h3>
-          <div class="options">
-            <input type="radio" id="wait5" name="waitTime" value="非常に満足">
-            <label for="wait5" data-i18n="q10.veryGood"></label>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
             
-            <input type="radio" id="wait4" name="waitTime" value="満足">
-            <label for="wait4" data-i18n="q10.good"></label>
-            
-            <input type="radio" id="wait3" name="waitTime" value="普通">
-            <label for="wait3" data-i18n="q10.normal"></label>
-            
-            <input type="radio" id="wait2" name="waitTime" value="不満">
-            <label for="wait2" data-i18n="q10.bad"></label>
-            
-            <input type="radio" id="wait1" name="waitTime" value="非常に不満">
-            <label for="wait1" data-i18n="q10.veryBad"></label>
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q10_star5" name="waitTime" value="5">
+            <input type="radio" id="q10_star4" name="waitTime" value="4">
+            <input type="radio" id="q10_star3" name="waitTime" value="3">
+            <input type="radio" id="q10_star2" name="waitTime" value="2">
+            <input type="radio" id="q10_star1" name="waitTime" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
           </div>
         </div>
         
-        <!-- Q11. 店内清潔感 -->
+        <!-- Q11. 店内清潔感 - 星評価に変更 -->
         <div class="question" id="question11" data-section="service">
           <h3 data-i18n="q11.title"></h3>
-          <div class="options">
-            <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
-            <label for="clean5" data-i18n="q11.veryGood"></label>
+          
+          <div class="star-rating-container">
+            <div class="stars-row" data-stars-container>
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
             
-            <input type="radio" id="clean4" name="cleanliness" value="清潔">
-            <label for="clean4" data-i18n="q11.good"></label>
-            
-            <input type="radio" id="clean3" name="cleanliness" value="普通">
-            <label for="clean3" data-i18n="q11.normal"></label>
-            
-            <input type="radio" id="clean2" name="cleanliness" value="不清潔">
-            <label for="clean2" data-i18n="q11.bad"></label>
-            
-            <input type="radio" id="clean1" name="cleanliness" value="非常に不清潔">
-            <label for="clean1" data-i18n="q11.veryBad"></label>
+            <div class="rating-score" data-rating-score>
+              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+            </div>
+          </div>
+          
+          <div class="star-rating-hidden">
+            <input type="radio" id="q11_star5" name="cleanliness" value="5">
+            <input type="radio" id="q11_star4" name="cleanliness" value="4">
+            <input type="radio" id="q11_star3" name="cleanliness" value="3">
+            <input type="radio" id="q11_star2" name="cleanliness" value="2">
+            <input type="radio" id="q11_star1" name="cleanliness" value="1">
+          </div>
+
+          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
+            <span data-i18n="rating.lowWarning"></span>
           </div>
         </div>
         
