@@ -114,7 +114,7 @@
         <h3 data-i18n="q2.title"></h3>
         
         <div class="star-rating-container">
-          <div class="stars-row" data-stars-container>
+          <div class="stars-row" id="starsContainer">
             <span class="star" data-value="1">★</span>
             <span class="star" data-value="2">★</span>
             <span class="star" data-value="3">★</span>
@@ -122,8 +122,8 @@
             <span class="star" data-value="5">★</span>
           </div>
           
-          <div class="rating-score" data-rating-score>
-            <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
+          <div class="rating-score" id="ratingScore">
+            <span data-i18n="rating.prefix"></span> <span id="scoreValue">0</span>/5
           </div>
         </div>
         
@@ -133,10 +133,6 @@
           <input type="radio" id="star3" name="rating" value="3">
           <input type="radio" id="star2" name="rating" value="2">
           <input type="radio" id="star1" name="rating" value="1">
-        </div>
-
-        <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-          <span data-i18n="rating.lowWarning"></span>
         </div>
 
         <div class="validation-message" id="rating-validation">
@@ -246,127 +242,87 @@
           </div>
         </div>
           
-        <!-- Q8. サービス満足度 - 星評価に変更 -->
+        <!-- Q8. サービス満足度 -->
         <div class="question" id="question8" data-section="service">
           <h3 data-i18n="q8.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
+          <div class="options">
+            <input type="radio" id="service5" name="serviceSatisfaction" value="非常に満足">
+            <label for="service5" data-i18n="q8.veryGood"></label>
             
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q8_star5" name="serviceSatisfaction" value="5">
-            <input type="radio" id="q8_star4" name="serviceSatisfaction" value="4">
-            <input type="radio" id="q8_star3" name="serviceSatisfaction" value="3">
-            <input type="radio" id="q8_star2" name="serviceSatisfaction" value="2">
-            <input type="radio" id="q8_star1" name="serviceSatisfaction" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
+            <input type="radio" id="service4" name="serviceSatisfaction" value="満足">
+            <label for="service4" data-i18n="q8.good"></label>
+            
+            <input type="radio" id="service3" name="serviceSatisfaction" value="普通">
+            <label for="service3" data-i18n="q8.normal"></label>
+            
+            <input type="radio" id="service2" name="serviceSatisfaction" value="不満">
+            <label for="service2" data-i18n="q8.bad"></label>
+            
+            <input type="radio" id="service1" name="serviceSatisfaction" value="非常に不満">
+            <label for="service1" data-i18n="q8.veryBad"></label>
           </div>
         </div>
         
-        <!-- Q9. スタッフ対応 - 星評価に変更 -->
+        <!-- Q9. スタッフ対応 -->
         <div class="question" id="question9" data-section="service">
           <h3 data-i18n="q9.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
+          <div class="options">
+            <input type="radio" id="staff5" name="staffResponse" value="非常に良い">
+            <label for="staff5" data-i18n="q9.veryGood"></label>
             
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q9_star5" name="staffResponse" value="5">
-            <input type="radio" id="q9_star4" name="staffResponse" value="4">
-            <input type="radio" id="q9_star3" name="staffResponse" value="3">
-            <input type="radio" id="q9_star2" name="staffResponse" value="2">
-            <input type="radio" id="q9_star1" name="staffResponse" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
+            <input type="radio" id="staff4" name="staffResponse" value="良い">
+            <label for="staff4" data-i18n="q9.good"></label>
+            
+            <input type="radio" id="staff3" name="staffResponse" value="普通">
+            <label for="staff3" data-i18n="q9.normal"></label>
+            
+            <input type="radio" id="staff2" name="staffResponse" value="悪い">
+            <label for="staff2" data-i18n="q9.bad"></label>
+            
+            <input type="radio" id="staff1" name="staffResponse" value="非常に悪い">
+            <label for="staff1" data-i18n="q9.veryBad"></label>
           </div>
         </div>
         
-        <!-- Q10. 待ち時間 - 星評価に変更 -->
+        <!-- Q10. 待ち時間 -->
         <div class="question" id="question10" data-section="service">
           <h3 data-i18n="q10.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
+          <div class="options">
+            <input type="radio" id="wait5" name="waitTime" value="非常に満足">
+            <label for="wait5" data-i18n="q10.veryGood"></label>
             
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q10_star5" name="waitTime" value="5">
-            <input type="radio" id="q10_star4" name="waitTime" value="4">
-            <input type="radio" id="q10_star3" name="waitTime" value="3">
-            <input type="radio" id="q10_star2" name="waitTime" value="2">
-            <input type="radio" id="q10_star1" name="waitTime" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
+            <input type="radio" id="wait4" name="waitTime" value="満足">
+            <label for="wait4" data-i18n="q10.good"></label>
+            
+            <input type="radio" id="wait3" name="waitTime" value="普通">
+            <label for="wait3" data-i18n="q10.normal"></label>
+            
+            <input type="radio" id="wait2" name="waitTime" value="不満">
+            <label for="wait2" data-i18n="q10.bad"></label>
+            
+            <input type="radio" id="wait1" name="waitTime" value="非常に不満">
+            <label for="wait1" data-i18n="q10.veryBad"></label>
           </div>
         </div>
         
-        <!-- Q11. 店内清潔感 - 星評価に変更 -->
+        <!-- Q11. 店内清潔感 -->
         <div class="question" id="question11" data-section="service">
           <h3 data-i18n="q11.title"></h3>
-          
-          <div class="star-rating-container">
-            <div class="stars-row" data-stars-container>
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
+          <div class="options">
+            <input type="radio" id="clean5" name="cleanliness" value="非常に清潔">
+            <label for="clean5" data-i18n="q11.veryGood"></label>
             
-            <div class="rating-score" data-rating-score>
-              <span data-i18n="rating.prefix"></span> <span data-score-value>0</span>/5
-            </div>
-          </div>
-          
-          <div class="star-rating-hidden">
-            <input type="radio" id="q11_star5" name="cleanliness" value="5">
-            <input type="radio" id="q11_star4" name="cleanliness" value="4">
-            <input type="radio" id="q11_star3" name="cleanliness" value="3">
-            <input type="radio" id="q11_star2" name="cleanliness" value="2">
-            <input type="radio" id="q11_star1" name="cleanliness" value="1">
-          </div>
-
-          <div class="low-rating-warning" data-low-rating-warning style="display: none;">
-            <span data-i18n="rating.lowWarning"></span>
+            <input type="radio" id="clean4" name="cleanliness" value="清潔">
+            <label for="clean4" data-i18n="q11.good"></label>
+            
+            <input type="radio" id="clean3" name="cleanliness" value="普通">
+            <label for="clean3" data-i18n="q11.normal"></label>
+            
+            <input type="radio" id="clean2" name="cleanliness" value="不清潔">
+            <label for="clean2" data-i18n="q11.bad"></label>
+            
+            <input type="radio" id="clean1" name="cleanliness" value="非常に不清潔">
+            <label for="clean1" data-i18n="q11.veryBad"></label>
           </div>
         </div>
         

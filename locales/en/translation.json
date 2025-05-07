@@ -8,7 +8,6 @@
     "q1.title": "Q1. Which store did you visit today?",
     "q2.title": "Q2. Overall satisfaction (1–5 stars)",
     "rating.prefix": "Rating:",
-    "rating.lowWarning": "Your feedback is important. Would you like to share details about your experience?",
     
     "optional.note": "The following questions are optional. Your responses will be very helpful for us.",
     
@@ -45,12 +44,32 @@
     "q7.il.other": "Other services",
     
     "q8.title": "Q8. How satisfied were you with the technical skill and result of your service?",
+    "q8.veryGood": "Very satisfied",
+    "q8.good": "Satisfied",
+    "q8.normal": "Neutral",
+    "q8.bad": "Dissatisfied",
+    "q8.veryBad": "Very dissatisfied",
     
     "q9.title": "Q9. How was our staff's customer service?",
+    "q9.veryGood": "Very good",
+    "q9.good": "Good",
+    "q9.normal": "Neutral",
+    "q9.bad": "Poor",
+    "q9.veryBad": "Very poor",
     
     "q10.title": "Q10. What did you think about the waiting time from arrival to the start of your service?",
+    "q10.veryGood": "Very satisfied",
+    "q10.good": "Satisfied",
+    "q10.normal": "Neutral",
+    "q10.bad": "Dissatisfied",
+    "q10.veryBad": "Very dissatisfied",
     
     "q11.title": "Q11. What was your impression of our salon's atmosphere and cleanliness?",
+    "q11.veryGood": "Very clean",
+    "q11.good": "Clean",
+    "q11.normal": "Neutral",
+    "q11.bad": "Unclean",
+    "q11.veryBad": "Very unclean",
     
     "q12.title": "Q12. Please let us know if you have any requests or suggestions for improvement (optional)",
     "q12.placeholder": "Enter your suggestions here",
