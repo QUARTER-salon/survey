@@ -90,24 +90,28 @@
     "q14.balayage": "空气感挑染 / 渐变染发（自然立体效果）",
     "q14.extension": "接发服务（临时增加发长或发量）",
     "q14.koreanSet": "韩式发型设计（K-POP偶像风格）",
-
+    "q14.hairArrange": "发型设计（活动与派对造型等）",
     "q14.grp.beauty": "美容相关服务",
     "q14.lashPerm": "睫毛烫 / 睫毛嫁接",
     "q14.eyebrow": "眉形设计（眉毛全面塑形）",
     "q14.facial": "面部护理（面部按摩和面膜护理）",
+    "q14.earJewelry": "耳穴压力点饰品（耳部穴位饰品安装）",
+    "q14.accessory": "发饰销售（沙龙精选发饰）",
 
     "q14.grp.men": "男士专属服务",
     "q14.mensShave": "男士胡须护理 / 修剪",
     "q14.mensScalp": "男士头皮护理 & 眉形设计",
     "q14.mensMake": "男士彩妆",
     "q14.mensFacial": "男士面部护理",
-    "q14.mensLesson": "商务男士发型自理课程（学习自己打理发型）",
-
+    
     "q14.grp.package": "特别套餐与会员制度",
     "q14.bridal": "新娘美容套餐（为婚礼准备的多次护理计划）",
     "q14.season": "季节限定护理（夏季防紫外线、冬季防干燥等）",
     "q14.family": "家庭优惠计划（亲子或情侣同行折扣）",
-    "q14.subscription": "月度定额护发计划（每月一次的定额保养服务）",
+    "q14.MaikeLasson": "女士化妆课程（学习适合自己的妆容）",
+    "q14.hairLesson": "头发护理与造型课程（学习家庭护发和造型方法）",
+    "q14.mensMakeLesson": "男士化妆课程（学习男士化妆基础）",
+    "q14.mensLesson": "男士发型造型课程（学习自我造型方法）",
 
     "q14.grp.digital": "数字化服务",
     "q14.aiSim": "AI发型模拟（预先确认适合的发型）",
@@ -129,4 +133,4 @@
     "thankyou.copy.button": "复制评论",
     "thankyou.redirect.button": "在谷歌地图上发表评论",
     "thankyou.high.text4": "我们将继续提升技能，确保客户满意。<br>感谢您持续支持QUARTER集团。"
-  }
+}

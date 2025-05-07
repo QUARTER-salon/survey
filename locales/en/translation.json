@@ -90,24 +90,29 @@
     "q14.balayage": "Balayage/Gradient Color (Natural dimensional finish)",
     "q14.extension": "Hair Extensions (Temporary added length or volume)",
     "q14.koreanSet": "K-Pop Inspired Styling (Korean idol-style hair setting)",
+    "q14.hairArrange": "Hair Arrangement (Event and party arrangements, etc.)",
 
     "q14.grp.beauty": "Esthetic & Beauty Services",
     "q14.lashPerm": "Eyelash Perm/Extensions",
     "q14.eyebrow": "Eyebrow Design (Full eyebrow styling and shaping)",
     "q14.facial": "Facial Treatments (Face massage and mask therapy)",
+    "q14.earJewelry": "Ear Acupressure Jewelry (Accessory placement on ear pressure points)",
+    "q14.accessory": "Hair Accessory Sales (Salon-selected hair accessories)",
 
     "q14.grp.men": "Men's Specialized Menu",
     "q14.mensShave": "Men's Beard Care/Shaving",
     "q14.mensScalp": "Men's Scalp & Eyebrow Design",
     "q14.mensMake": "Men's Makeup",
     "q14.mensFacial": "Men's Facial Care",
-    "q14.mensLesson": "Business Hairstyling Workshop (Learn to style your own hair)",
-
+    
     "q14.grp.package": "Special Packages & Membership",
     "q14.bridal": "Bridal Beauty Plan (Multiple care sessions for wedding preparation)",
     "q14.season": "Seasonal Care (Summer UV protection, winter dry-skin prevention, etc.)",
     "q14.family": "Family Plan (Discounts for parent-child or couples visits)",
-    "q14.subscription": "Monthly Subscription Hair Care (Fixed-price monthly maintenance)",
+    "q14.MaikeLasson": "Ladies Makeup Lessons (Learn makeup that suits you)",
+    "q14.hairLesson": "Hair Care & Styling Lessons (Learn home hair care and styling methods)",
+    "q14.mensMakeLesson": "Men's Makeup Lessons (Learn basic men's makeup techniques)",
+    "q14.mensLesson": "Men's Hair Styling Lessons (Learn self-styling methods)",
 
     "q14.grp.digital": "Digital Services",
     "q14.aiSim": "AI Hairstyle Simulation (Preview suitable styles before appointment)",
@@ -129,4 +134,4 @@
     "thankyou.copy.button": "Copy Comment",
     "thankyou.redirect.button": "Post a Review on Google Maps",
     "thankyou.high.text4": "We will continue to refine our skills to ensure customer satisfaction.<br>Thank you for your continued support of the QUARTER group."
-  }
+}
