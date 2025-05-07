@@ -1,523 +1,284 @@
-# **QUARTER アンケート要件定義書（実装反映版）**
+# **QUARTER アンケート要件定義書（実装反映版 2025‑05‑07）**
 
-## **1. プロジェクト概要**
-
-**プロジェクト名**: 「QUARTERアンケートWebアプリ構築」  
-**実施目的**:
-* 来店客に短時間で回答してもらい、施術やサービスへのフィードバックを集める
-* 星4以上（高評価）の場合はGoogleマップの口コミ投稿を促し、オンライン評価を向上させる
-* スタッフがシンプルに案内できる運用フローを構築し、回答数を増やす
-* QUARTER様の「落ち着いた高級感・白を基調とした世界観」を損なわない、おしゃれなフォームデザインを実現する
-
-## **2. サロンのブランド・コンセプト**
-
-**運営：Studio25グループ（1948年創業）、文京区を中心に5店舗展開**
-
-1. QUARTER  
-2. QUARTER RESORT  
-3. QUARTER SEASONS  
-4. LINK  
-5. iL
-
-**経営理念**:
-「技術を磨き続けることで、地域のお客様の美に貢献し、豊かで誇りある人生を歩む。」
-
-**コンセプト**:
-* 落ち着いた雰囲気の高級志向サロン
-* 店内は洗練されたデザインでリラックスできる空間
-* 幅広い年齢層（20代～70代）のお客様が来店
-* ヘアだけでなくネイルや着付けなどトータルビューティーも提供
-
-## **3. 実装済みUI/UXの特徴**
-
-### **3.1 デザイン・カラースキーム**
-
-* **基本カラー**:
-  * プライマリカラー: `#C39000`（リッチゴールド）
-  * セカンダリカラー: `#9F8C55`（マットゴールド）
-  * アクセントカラー: `#D0A900`（ゴールド）
-  * 背景色: `#F9F6F0`（淡いベージュ）
-  * テキスト色: `#333333`
-  * ボーダー色: `#E6D8B3`（シャンパンベージュ）
-
-* **フォント**:
-  * 見出し: 'Playfair Display', serif
-  * 本文: 'Noto Sans JP', sans-serif
-
-* **全体的なデザイン**:
-  * 白を基調としたミニマルで上品なデザイン
-  * 角を四角に統一（border-radius: 0px）
-  * 要素間の余白を一貫して調整
-  * ゴールドのアクセントで高級感を表現
-
-### **3.2 ナビゲーション**
-
-* 画面上部に固定されたタブ形式のナビゲーション
-* 5つのセクションに分類:
-  1. 店舗
-  2. 評価
-  3. 情報
-  4. サービス
-  5. 感想
-* アクティブなセクションはゴールドの下線でハイライト
-* スクロールに応じて自動的にアクティブタブが切り替わる
-* タブをタップするとそのセクションへスムーズにスクロール
-
-### **3.3 フォーム要素のデザイン**
-
-* **質問カード**:
-  * 白背景で影付き
-  * 現在の質問は左側にゴールドのボーダー
-  * 回答済み質問は左側にマットゴールドのボーダー
-
-* **選択肢のインタラクション**:
-  * ホバー/タップ時に背景色変化
-  * 選択時に左側ボーダーがゴールドに変化
-  * 選択時にチェックマーク（✓）表示
-
-* **星評価**:
-  * 大きく見やすい星マークUI
-  * 選択した評価に応じた星の色づけ
-  * 評価選択時のアニメーション効果
-  * 低評価（1-2星）時の確認メッセージ
-
-* **送信ボタン**:
-  * ゴールドのグラデーション背景
-  * ホバー時の拡大と影の強調
-  * クリック時のフィードバック
-
-## **4. アンケート項目と構成**
-
-### **4.1 必須項目**
-
-1. **ご来店店舗** (Q1)
-   * QUARTER
-   * QUARTER RESORT
-   * QUARTER SEASONS
-   * LINK
-   * iL
-
-2. **総合評価（星1～5）** (Q2)
-   * ★★★★★ (5)
-   * ★★★★☆ (4)
-   * ★★★☆☆ (3)
-   * ★★☆☆☆ (2)
-   * ★☆☆☆☆ (1)
-
-### **4.2 任意項目**
-
-3. **お名前（ニックネーム可）** (Q3)
-   * テキスト入力
-
-4. **新規 or 常連** (Q4)
-   * 初めて（新規）
-   * 2回目以降（常連）
-
-5. **性別** (Q5)
-   * 男性
-   * 女性
-   * その他
-
-6. **年齢** (Q6)
-   * 10代
-   * 20代
-   * 30代
-   * 40代
-   * 50代
-   * 60代以上
-
-7. **ご利用いただいたサービス（複数選択可）** (Q7)
-   * カット
-   * カラー
-   * パーマ
-   * トリートメント
-   * スタイリング
-   * その他（ネイル・着付け 等）
-
-8. **技術や仕上がりに対する満足度** (Q8)
-   * 非常に満足
-   * 満足
-   * 普通
-   * 不満
-   * 非常に不満
-
-9. **スタッフの対応** (Q9)
-   * 非常に良い
-   * 良い
-   * 普通
-   * 悪い
-   * 非常に悪い
-
-10. **待ち時間** (Q10)
-    * 非常に満足
-    * 満足
-    * 普通
-    * 不満
-    * 非常に不満
-
-11. **店内の清潔感** (Q11)
-    * 非常に清潔
-    * 清潔
-    * 普通
-    * 不清潔
-    * 非常に不清潔
-
-12. **追加してほしいサービスや改善点など** (Q12)
-    * テキストエリア入力
-
-13. **その他ご感想** (Q13)
-    * テキストエリア入力
-
-## **5. バリデーションと入力支援**
-
-### **5.1 必須項目のバリデーション**
-
-* 店舗選択と星評価が必須
-* 送信時に必須項目が未入力の場合:
-  * 該当質問の左ボーダーをアクセントカラーに変更
-  * 質問の下に専用のエラーメッセージを表示
-  * 最初のエラー項目へ自動スクロール
-  * 該当項目を一時的にハイライト表示
-
-### **5.2 質問への回答時のフィードバック**
-
-* 選択肢選択時またはテキスト入力時に質問カードに「回答済み」マークを表示
-* 星評価選択時に数値表示とアニメーションでフィードバック
-* エラー状態は回答入力で自動解除
-
-## **6. 送信後のフロー**
-
-### **6.1 低評価（星3以下）の場合**
-
-* シンプルなお礼メッセージを表示:
-  > ご回答ありがとうございました。
-  > 貴重なご意見を参考に、より良いサービスを目指します。
-
-### **6.2 高評価（星4以上）の場合**
-
-* 口コミ促進画面を表示
-* 星評価に応じたメッセージ表示:
-  * 星5: 「星5ありがとうございます！」
-  * 星4: 「星4ありがとうございます！」
-* 自由記述欄（Q12・Q13）の内容を口コミ用にコピーできる機能
-* ワンクリックでGoogleマップ口コミページへ誘導
-
-### **6.3 口コミ促進の文言**
-
-```
-星[4/5]ありがとうございます！
-いつも当店をご利用いただき、誠にありがとうございます。
-もしよろしければ、以下のコメントをコピーして「Googleマップ」にご投稿いただけますと大変励みになります。
-
-- ボタンを押すと簡単にコピーできます
-- 投稿ページが開いたらペーストしていただくだけでOKです
-
-今後とも皆様に喜んでいただけるよう、スタッフ一同さらに技術を磨いてまいります。
-どうぞよろしくお願いいたします。
-```
-
-## **7. Googleマップの口コミURL**
-
-店舗に応じて以下のURLへ誘導:
-
-* **QUARTER**:  
-  `https://g.page/r/CfiWzYV0WLCdEBE/review`
-* **QUARTER RESORT**:  
-  `https://g.page/r/CUpu9_cAhdaGEBE/review`
-* **QUARTER SEASONS**:  
-  `https://g.page/r/CWAu_dLl0DJmEBE/review`
-* **LINK**:  
-  `https://g.page/r/CYLblbqgWXsREBE/review`
-* **iL**:  
-  `https://g.page/r/CemPjkInZSpLEBE/review`
-
-## **8. 技術的な実装詳細**
-
-### **8.1 構成**
-
-* **フロントエンド**: HTML, CSS, JavaScript
-* **バックエンド**: Google Apps Script (GAS)
-* **データ保存**: Google スプレッドシート
-
-### **8.2 機能実装**
-
-* クライアントサイドのフォームバリデーション
-* セクション間のスムーズなナビゲーション
-* レスポンシブデザイン（モバイルファースト）
-* クリップボード操作（コメントコピー機能）
-* 動的なUIフィードバック（アニメーション、状態変化）
-* 動的なサービス選択機能
-* GASと連携したデータ送信
-
-### **8.3 設定**
-
-* グローバル変数として`CONFIG`オブジェクトを定義
-* GoogleマップURLと必要な設定を一元管理
-* Apps ScriptのWebアプリURLを設定
-
-```javascript
-window.CONFIG = {
-  APPS_SCRIPT_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbxA-xuRc_F0Ih1KE9r9YXfOJ5WJqF0vUZvm3Eb_aQ9coqBjJzoA3nNoRuxNmajK06Xceg/exec',
-  STORE_REVIEW_URLS: {
-    'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',
-    'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',
-    'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',
-    'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',
-    'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'
-  }
-};
-```
-
-### **8.4 プロジェクトフォルダ構造**
-
-```
-│
-├── index.html                     // HTMLメインファイル
-├── README.md                      // プロジェクト説明書
-├── css/
-│   ├── styles.css                 // メインスタイル
-│   └── responsive.css             // レスポンシブデザイン用
-├── js/
-│   ├── config.js                  // 設定ファイル
-│   ├── dynamic-services.js        // 動的サービス機能
-│   ├── main.js                    // メインのJavaScript
-│   ├── navigation.js              // ナビゲーション機能
-│   ├── validation.js              // フォームのバリデーション
-│   ├── star-rating.js             // 星評価機能
-│   └── scroll-monitor.js          // スクロール監視機能
-└── images/
-    └── quarter-logo.png           // ロゴ画像
-```
-
-## **9. 運用ルール・フロー**
-
-1. **スタッフによる案内**  
-   * カウンターにPOPを設置、またはセット面にQRシールを貼る  
-   * 施術後に「もしお時間ございましたら、こちらから簡単なアンケートにご協力いただけると嬉しいです」とご案内  
-   * 必要に応じてスタッフ用タブレットを手渡し、入力をサポート  
-
-2. **回答後のトラブル対応**  
-   * 口コミ投稿画面で迷った際などはスタッフがフォロー  
-   * 必要に応じて「LINEでURLをお送りしますので後ほど…」と案内  
-
-3. **定期的な改善サイクル**  
-   * 月次ミーティングで「回答一覧」シートを確認し、星3以下の要望やコメントを共有 → サービス改善策を検討  
-   * 口コミ投稿数や平均星評価もGoogleマップ上で定期チェック
-
-## **10. まとめ**
-
-* シンプルで上品なUI/UXを実現し、QUARTERブランドイメージに沿ったデザイン
-* 必須項目は「店舗選択」「星評価」のみに絞り、短時間で回答可能
-* 星4以上の高評価の場合は口コミ投稿を促進する仕組み
-* 各店舗ごとに最適なGoogleマップリンクへ誘導
-* スプレッドシートとの連携によるデータ収集と分析
-* モバイルファーストのレスポンシブデザインで幅広い端末に対応
-
-
-# **QUARTER アンケート開発環境セットアップガイド**
-
-プロジェクトに新しく「11. 開発環境のセットアップとガイドライン」セクションを追加します。このセクションは、本番環境に影響を与えずに安全に開発を行うための手順とベストプラクティスを説明します。
-
-## **11. 開発環境のセットアップとガイドライン**
-
-### **11.1 開発ブランチの作成**
-
-GitHub Pagesで運用されている本番環境に影響を与えないために、開発専用のブランチを使用します。
-
-```bash
-# リポジトリをクローン（初回のみ）
-git clone https://github.com/QUARTER-salon/survey.git
-cd [リポジトリ名]
-
-# 最新の変更を取得
-git pull origin main
-
-# 開発用ブランチを作成
-git checkout -b 拡張開発
-```
-
-### **11.2 ローカル開発環境のセットアップ**
-
-#### **11.2.1 ローカルサーバーの準備**
-
-以下のいずれかの方法でローカルサーバーを起動します：
-
-* **Visual Studio Code + Live Server拡張機能**:
-  1. VS Codeで「Live Server」拡張機能をインストール
-  2. `index.html`を右クリックして「Live Serverで開く」を選択
-
-* **Python組み込みサーバー**:
-  ```bash
-  # Python 3
-  python -m http.server 8000
-  # ブラウザでhttp://localhost:8000を開く
-  ```
-
-* **Node.js http-server**:
-  ```bash
-  # インストール（初回のみ）
-  npm install -g http-server
-  # プロジェクトフォルダで実行
-  http-server -p 8000
-  ```
-
-#### **11.2.2 開発用設定ファイルの作成**
-
-1. `js/config-dev.js`ファイルを作成：
-
-```javascript
-window.CONFIG = {
-  // 開発環境設定
-  APPS_SCRIPT_WEBAPP_URL: 'mock-api', // 実際には使用されない
-  STORE_REVIEW_URLS: {
-    // 本番と同じURLを使用
-    'QUARTER': 'https://g.page/r/CfiWzYV0WLCdEBE/review',
-    'QUARTER RESORT': 'https://g.page/r/CUpu9_cAhdaGEBE/review',
-    'QUARTER SEASONS': 'https://g.page/r/CWAu_dLl0DJmEBE/review',
-    'LINK': 'https://g.page/r/CYLblbqgWXsREBE/review',
-    'iL': 'https://g.page/r/CemPjkInZSpLEBE/review'
-  },
-  IS_DEV: true // 開発環境フラグ
-};
-```
-
-2. `js/mock-api.js`ファイルを作成：
-
-```javascript
-/**
- * 開発環境用モックAPI
- * Google Apps Scriptへの実際の送信をシミュレートします
- * 注意: 本番環境へのプッシュ前にindex.htmlから関連スクリプトを削除すること
- */
-if (window.CONFIG && window.CONFIG.IS_DEV) {
-  // 元の関数を保存
-  window.originalSubmitFormData = window.submitFormData;
-  
-  // モック関数で置き換え
-  window.submitFormData = function(dataObj) {
-    console.log('開発モード - 送信データ:', dataObj);
-    
-    // モックレスポンスを返す
-    setTimeout(() => {
-      // 成功レスポンスをシミュレート
-      const mockResponse = {success: true};
-      console.log('開発モード - 応答:', mockResponse);
-      
-      // フォーム送信後の処理を呼び出し
-      const rating = parseInt(dataObj.rating) || 3;
-      if (typeof window.handleFormAfterSubmission === 'function') {
-        window.handleFormAfterSubmission(rating, dataObj);
-      }
-    }, 500); // リアルな遅延をシミュレート
-    
-    return false; // 実際の送信を防止
-  };
-}
-```
-
-3. 開発用スクリプトタグを`index.html`に追加（一時的な変更）：
-
-```html
-<!-- 開発モード用の設定とモック (本番環境にはプッシュしない) -->
-<script src="js/config-dev.js"></script>
-<script src="js/mock-api.js"></script>
-
-<!-- 本番設定 -->
-<script src="js/config.js"></script>
-```
-
-4. `.gitignore`に開発ファイルを追加（リポジトリのルートに作成または更新）：
-
-```
-# 開発用ファイル
-js/config-dev.js
-js/mock-api.js
-```
-
-### **11.3 開発からデプロイまでのワークフロー**
-
-#### **11.3.1 開発サイクル**
-
-1. 開発ブランチで機能実装・修正を行う
-2. ローカル環境でテスト
-3. 変更をコミット
-
-```bash
-git add .
-git commit -m "機能の追加: XXX"
-```
-
-#### **11.3.2 本番環境への反映手順**
-
-1. 開発用ファイルの削除またはコメントアウト：
-   - `index.html`から開発用スクリプトタグを削除
-   - 一時的なデバッグコードを削除
-
-2. 最終テストを実施
-
-3. 本番ブランチにマージ：
-
-```bash
-# 本番ブランチに切り替え
-git checkout main
-
-# 開発ブランチの変更をマージ
-git merge 開発ブランチ名
-
-# 変更をリモートリポジトリにプッシュ
-git push origin main
-```
-
-### **11.4 開発時の注意点**
-
-1. **常に開発ブランチで作業する**：
-   - 本番ブランチ（main）に直接変更を加えない
-   - 複数の機能追加は別々のブランチで行うことを推奨
-
-2. **バックエンド連携**：
-   - 実際のGAS APIとの連携が必要な場合は、テスト用のスプレッドシートとApps Scriptを別途作成することを検討
-
-3. **パフォーマンステスト**：
-   - モバイルデバイスでの動作確認を忘れずに実施
-   - レスポンシブデザインの崩れがないか確認
-
-4. **コードレビュー**：
-   - 本番環境への反映前に、複数人でのレビューを推奨
-   - 改修による既存機能への影響を確認
-
-5. **デプロイ後の確認**：
-   - GitHub Pagesへのデプロイ後、実際の環境で動作確認を行う
-   - 問題があれば迅速にロールバックできるよう準備
-
-### **11.5 プロジェクト拡張の際のディレクトリ構造**
-
-新機能追加時は既存の構造を維持し、以下のように拡張します：
-
-```
-│
-├── index.html                     // HTMLメインファイル
-├── README.md                      // プロジェクト説明書
-├── css/
-│   ├── styles.css                 // メインスタイル
-│   ├── responsive.css             // レスポンシブデザイン用
-│   ├── layout-fix.css             // レイアウト統一用
-│   ├── style-fix.css              // 幅修正用
-│   └── [新規スタイル].css          // 拡張機能用スタイル
-├── js/
-│   ├── config.js                  // 設定ファイル
-│   ├── config-dev.js              // 開発用設定（本番環境には含めない）
-│   ├── mock-api.js                // APIモック（本番環境には含めない）
-│   ├── dynamic-services.js        // 動的サービス機能
-│   ├── main.js                    // メインのJavaScript
-│   ├── navigation.js              // ナビゲーション機能
-│   ├── validation.js              // フォームのバリデーション
-│   ├── star-rating.js             // 星評価機能
-│   ├── scroll-monitor.js          // スクロール監視機能
-│   └── [新規機能].js              // 拡張機能用スクリプト
-└── images/
-    └── quarter-logo.png           // ロゴ画像
-```
+> 本ドキュメントは **実装済みコード** と **運用フロー** を 1 つに集約した“仕様書兼 README”です。リポジトリを初めてクローンした開発者も、この README だけで **セットアップ → 開発 → デプロイ → 運用** まで到達できるよう、**詳細情報を一切省略せず** 記載しています。
 
 ---
 
-このガイドに従うことで、本番環境に影響を与えず安全に開発を進めることができます。各開発者は自分のローカル環境で変更をテストし、確認が取れたら本番環境に反映するというワークフローを維持してください。
+## **1. プロジェクト概要**
+
+| 項目              | 内容                                                 |
+| :-------------- | :------------------------------------------------- |
+| プロジェクト名         | **QUARTER アンケート Web アプリ構築**                        |
+| 目的              | *施術後 2 分* で来店客からフィードバックを取得し、サービス改善 & Google 口コミを増強 |
+| KPI             | ★ 回答率 70 % 以上 / ★4+ 口コミ月間 30 件 / 平均星評価 4.7 以上      |
+| UI キーワード        | **白基調・上質・ミニマル・ゴールドアクセント**                          |
+| ターゲット OS / ブラウザ | iOS 15+ / Android 11+ / Chrome・Safari 最新           |
+| デプロイ先           | **GitHub Pages** (`main` ブランチ)                     |
+| バックエンド          | **Google Apps Script** + Google スプレッドシート           |
+
+---
+
+## **2. サロンブランド & コンセプト**
+
+*運営* : **Studio25 グループ**（1948 年創業／文京区を中心に 5 店舗）
+
+|  #  | 店舗              
+| :-: | :-------------- |
+|  1  | QUARTER         |
+|  2  | QUARTER RESORT  | 
+|  3  | QUARTER SEASONS | 
+|  4  | LINK            |
+|  5  | iL              | 
+
+**経営理念** : *「技術を磨き続けることで地域のお客様の美に貢献し、豊かで誇りある人生を歩む」*
+
+---
+
+## **3. UI / UX デザイン仕様（実装済み）**
+
+### 3.1 カラー & タイポグラフィ
+
+| 変数                   | 色         | 用途              |
+| :------------------- | :-------- | :-------------- |
+| `--primary-color`    | `#C39000` | アクセント (ゴールド)    |
+| `--secondary-color`  | `#9F8C55` | セカンダリ (マットゴールド) |
+| `--background-color` | `#F9F6F0` | ページ全体背景         |
+| `--text-color`       | `#333333` | 本文カラー           |
+| `--border-color`     | `#E6D8B3` | ライン・枠線          |
+
+* 見出し : **Playfair Display** / 本文 : **Noto Sans JP** (Google Fonts)
+* `styles.css` に CSS 変数で集中管理
+
+### 3.2 ナビゲーション
+
+* `progress-nav` (5 タブ) を **`position:sticky`** で上部固定
+* `navigation.js` — タブクリック→スムーズスクロール
+* `scroll-monitor.js` — スクロール位置を監視しアクティブタブを自動切替
+
+### 3.3 フォーム要素デザイン
+
+* **質問カード** : 白背景 + 左ボーダー。未回答=グレー，回答済=マットゴールド，現在=リッチゴールド
+* **星評価** : `star-rating.js` でパルスアニメ & ★1‑2 で警告表示
+* **サービス選択 (Q14)** : `accordion-style.css` によるカテゴリー別アコーディオン
+* **メニュー整形** : `menu-formatter.js` が「タイトル｜説明」を自動分離し、スマホでの“つながり表示”を解消
+
+### 3.4 多言語対応
+
+| 言語       | コード  | 初期化              | 資源ファイル                        |
+| :------- | :--- | :--------------- | :---------------------------- |
+| 日本語      | `ja` | ブラウザ or fallback | `locales/ja/translation.json` |
+| 英語       | `en` | `?lng=en` でも切替可  | `locales/en/translation.json` |
+| 中国語 (簡体) | `zh` | `?lng=zh`        | `locales/zh/translation.json` |
+
+* `i18n.js` で `i18next` + `BrowserLanguageDetector` を初期化
+* 右上 `lang-link` クリックで `changeLang()` 実行 → 翻訳 + `localStorage` 保存
+
+### 3.5 レスポンシブ & レイアウト
+
+* モバイル幅 360 px を基準に `responsive.css` で段階式メディアクエリ
+* `layout-fix.css` & `menu-styles.css` で PC/スマホの文字詰まりを解消
+
+---
+
+## **4. アンケート項目（実装済みフォーム）**
+
+### 4.1 必須
+
+|  #  | 質問              | type                | options       |
+| :-: | :-------------- | :------------------ | :------------ |
+|  Q1 | **ご来店店舗**       | radio               | 5 店舗 (表 2 参照) |
+|  Q2 | **総合評価 (★1‑5)** | star + hidden radio | ★5〜★1         |
+
+### 4.2 任意
+
+|  #  | 質問                            | type     | 主な options                                              |
+| :-: | :---------------------------- | :------- | :------------------------------------------------------ |
+|  Q3 | お名前 (ニックネーム可)                 | text     | placeholder 指定                                          |
+|  Q4 | 新規 or 常連                      | radio    | 初めて / 2 回目以降                                            |
+|  Q5 | 性別                            | radio    | 男性 / 女性 / その他                                           |
+|  Q6 | 年齢                            | radio    | 10 代 / 20 代 … 60 代+                                     |
+|  Q7 | ご利用サービス (複数選択)                | checkbox | カット / カラー / …                                           |
+|  Q8 | 技術・仕上がり満足度                    | radio    | 5 段階                                                    |
+|  Q9 | スタッフ対応                        | radio    | 5 段階                                                    |
+| Q10 | 待ち時間                          | radio    | 5 段階                                                    |
+| Q11 | 店内清潔感                         | radio    | 5 段階                                                    |
+| Q12 | 追加してほしいサービス・改善点               | textarea |                                                         |
+| Q13 | その他ご感想                        | textarea |                                                         |
+| Q14 | **追加サービス希望 (複数選択 + アコーディオン)** | checkbox | *Hair Care / Trend Technique / Beauty / Men / …* 30+ 項目 |
+
+※ 各ラベルキーは `translation.json` で i18n 化済み
+
+---
+
+## **5. バリデーション & 入力支援**
+
+* `validation.js` で **フロントエンド必須チェック**
+* 未入力時
+   ↳ 左ボーダーをアクセントカラー → 質問下に `validation-message` 表示
+   ↳ 最初の未入力へスムーズスクロール
+* 入力完了で `question.completed` クラス付与 → 色変更＋チェックマーク
+
+---
+
+## **6. 送信後フロー**
+
+|  評価  | 画面                 | メインメッセージ                      |
+| :--: | :----------------- | :---------------------------- |
+| ★1‑3 | `#thankyou`        | 「貴重なご意見を参考に〜」                 |
+| ★4‑5 | `#review-redirect` | 口コミ促進 + コメントコピー + 店舗別 URL ボタン |
+
+コピー文は自由記述 (Q12/Q13) を自動結合し Language 切替後も保持。
+
+---
+
+## **7. Google マップ 口コミ URL (`CONFIG.STORE_REVIEW_URLS`)**
+
+| 店舗              | URL                                                                                 |
+| :-------------- | :---------------------------------------------------------------------------------- |
+| QUARTER         | [https://g.page/r/CfiWzYV0WLCdEBE/review](https://g.page/r/CfiWzYV0WLCdEBE/review)  |
+| QUARTER RESORT  | [https://g.page/r/CUpu9\_cAhdaGEBE/review](https://g.page/r/CUpu9_cAhdaGEBE/review) |
+| QUARTER SEASONS | [https://g.page/r/CWAu\_dLl0DJmEBE/review](https://g.page/r/CWAu_dLl0DJmEBE/review) |
+| LINK            | [https://g.page/r/CYLblbqgWXsREBE/review](https://g.page/r/CYLblbqgWXsREBE/review)  |
+| iL              | [https://g.page/r/CemPjkInZSpLEBE/review](https://g.page/r/CemPjkInZSpLEBE/review)  |
+
+---
+
+## **8. 技術実装詳細**
+
+### 8.1 フロントエンド構成
+
+* HTML + CSS + **Vanilla JS**
+* i18next 21.x (CDN) / BrowserLanguageDetector 8.x
+* CSS Variables + `:root` で一元管理
+
+### 8.2 バックエンド
+
+* Google Apps Script (`doPost`) に JSON 送信
+* Google スプレッドシートに追記
+
+### 8.3 主な JS モジュール
+
+| ファイル                  | 役割                             | 備考              |
+| :-------------------- | :----------------------------- | :-------------- |
+| `config.js`           | GAS URL & 店舗 URL 管理            | `window.CONFIG` |
+| `i18n.js`             | 多言語初期化 & DOM 反映                | defer 読込必須      |
+| `navigation.js`       | progress‑nav click / スムーズスクロール |                 |
+| `scroll-monitor.js`   | ビューポート可視率判定でタブ切替               |                 |
+| `star-rating.js`      | 星 UI & バリデーション更新               |                 |
+| `dynamic-services.js` | 店舗 `iL` 選択時に専用サービス表示           |                 |
+| `menu-formatter.js`   | ラベル分割 (タイトル/説明) 自動整形           |                 |
+| `validation.js`       | 必須チェック & エラーハンドリング             |                 |
+| `main.js`             | 初期化 & GAS submit & 依存チェック      |                 |
+
+### 8.4 フォルダツリー
+
+```text
+├── index.html
+├── README.md
+├── css/
+│   ├── styles.css
+│   ├── responsive.css
+│   ├── layout-fix.css
+│   ├── menu-styles.css
+│   └── accordion-style.css
+├── js/
+│   ├── config.js
+│   ├── i18n.js
+│   ├── navigation.js
+│   ├── scroll-monitor.js
+│   ├── menu-formatter.js
+│   ├── dynamic-services.js
+│   ├── star-rating.js
+│   ├── validation.js
+│   └── main.js
+├── locales/
+│   ├── ja/translation.json
+│   ├── en/translation.json
+│   └── zh/translation.json
+└── images/
+    └── quarter-logo.png
+```
+
+### 8.5 国際化拡張手順
+
+1. `locales/<lang>/translation.json` を追加
+2. `i18n.js` 内 `lngs` 配列へ言語コードを追加
+3. `index.html` Language Selector にリンクを追加
+
+### 8.6 開発モード (`config-dev.js` + `mock-api.js`)
+
+* GAS へ通信せず **console.log** でレスポンスを模倣
+* `.gitignore` に登録し本番へ push しない
+
+---
+
+## **9. 運用ルール & フロー**
+
+1. 施術終了後 **QRコード or タブレット** でアンケート案内
+2. ★4+ の場合、その場で口コミ投稿まで同席 (または LINE で URL 送付)
+3. 月次ミーティングでスプレッドシートを確認
+      ↳ ★3 以下コメントは即改善策を立案 / アサイン
+
+---
+
+## **10. 開発環境セットアップ & ガイドライン**
+
+### 10.1 ブランチ戦略
+
+* `main` : 本番 / GitHub Pages デプロイ
+* `dev` : 結合テスト用
+* `feature/<topic>` : 機能追加
+
+### 10.2 ローカル起動
+
+```bash
+# 初回のみ
+npm install -g http-server
+
+# ルートで実行
+http-server -p 8000
+# ↳ http://localhost:8000
+```
+
+*VS Code* 利用者は **Live Server** 拡張でも可。
+
+### 10.3 開発用モック API
+
+1. `js/config-dev.js` — `IS_DEV: true` を設定
+2. `js/mock-api.js` — `submitFormData()` をオーバーロード
+3. `index.html` で **開発用スクリプト** を本番より前に読み込む
+
+### 10.4 デプロイ手順
+
+```bash
+# 開発ブランチでコミット完了後
+npm run lint   # (必要なら)
+git checkout main
+git merge dev
+# 検証 OK → push
+```
+
+GitHub Pages が自動ビルド。完了通知 → 本番確認。
+
+---
+
+## **11. FAQ / トラブルシューティング**
+
+| 症状                       | 原因                      | 対処                                                         |
+| :----------------------- | :---------------------- | :--------------------------------------------------------- |
+| `i18next is not defined` | CDN 読込順序誤り              | `<script defer src="js/i18n.js">` は **i18next CDN の後** に配置 |
+| スマホ表示でメニューが繋がる           | `menu-formatter.js` 未適用 | `DOMContentLoaded` 二重登録を確認                                 |
+| 本番 CSS 崩れ                | キャッシュ / ビルド競合           | DevTools → Hard Reload / `layout-fix.css` のセレクタ競合を解消       |
+| 回答送信で CORS               | GAS デプロイ URL 差替忘れ       | `config.js` の `APPS_SCRIPT_WEBAPP_URL` を最新へ                |
+
+---
+
+## **12. まとめ**
+
+* **UI/UX・多言語・GAS 連携** 全て実装済み
+* 開発～運用までの **ベストプラクティス** を README に集約
+* 本 README を起点に、誰でも即座に開発・改善サイクルへ参加可能
+
+---
+
+© 2025 Studio25 Group / QUARTER アンケート開発チーム

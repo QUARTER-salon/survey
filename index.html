@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>QUARTERアンケート</title>
   
   <!-- Google Fonts - 原版から復元 -->
@@ -10,6 +10,12 @@
   
   <!-- 既存 CSS -->
   <link rel="stylesheet" href="css/styles.css">
+  <style>
+    input, textarea {
+      font-size: 16px; /* 16px以上のサイズは一般的に自動ズームを防ぎます */
+      touch-action: manipulation;
+    }
+  </style>
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/layout-fix.css">
   <link rel="stylesheet" href="css/menu-styles.css">
