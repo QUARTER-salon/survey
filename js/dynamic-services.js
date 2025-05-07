@@ -1,9 +1,11 @@
+
 /**
  * 動的サービスメニュー制御
  * 選択された店舗に基づいて施術メニューを切り替えます
  * 
  * このファイルは店舗選択ラジオボタンの変更を監視し、
- * iL店舗が選択された場合にのみ特別なメニュー選択肢を表示します。
+ * iL店舗が選択された場合にのみ特別なメニュー選択肢を表示し、
+ * Q14（追加希望サービス）を非表示にします。
  */
 
 // DOM読み込み完了後に初期化
@@ -32,7 +34,7 @@ function initDynamicServices() {
 }
 
 /**
- * 選択された店舗に応じてサービスメニューを更新
+ * 選択された店舗に応じてサービスメニューおよびQ14の表示を更新
  */
 function updateServiceOptions() {
   // 選択されている店舗を取得
@@ -42,28 +44,48 @@ function updateServiceOptions() {
   const standardServices = document.getElementById('standard-services');
   const ilServices = document.getElementById('il-services');
   
+  // Q14（追加希望サービス）のコンテナ
+  const question14 = document.getElementById('question14');
+
   if (!standardServices || !ilServices) {
     console.warn('サービスメニューコンテナが見つかりません');
-    return;
+    // Q14のチェックは必須ではないため、見つからなくても処理は継続
+  }
+  if (!question14) {
+    console.warn('Q14（追加希望サービス）のコンテナが見つかりません');
   }
   
   // 選択に応じて表示を切り替え
   if (selectedStore && selectedStore.value === 'iL') {
     // iLが選択された場合
     console.log('iL用メニューを表示');
-    standardServices.style.display = 'none';
-    ilServices.style.display = 'block';
+    if (standardServices) standardServices.style.display = 'none';
+    if (ilServices) ilServices.style.display = 'block';
     
     // 標準メニューのチェックを解除
-    uncheckAll(standardServices);
+    if (standardServices) uncheckAll(standardServices);
+
+    // Q14を非表示にし、チェックを解除
+    if (question14) {
+      console.log('Q14を非表示');
+      question14.style.display = 'none';
+      uncheckAll(question14); // Q14内のチェックボックスも解除
+    }
+
   } else {
     // iL以外が選択された場合または未選択の場合
     console.log('標準メニューを表示');
-    standardServices.style.display = 'block';
-    ilServices.style.display = 'none';
+    if (standardServices) standardServices.style.display = 'block';
+    if (ilServices) ilServices.style.display = 'none';
     
     // iLメニューのチェックを解除
-    uncheckAll(ilServices);
+    if (ilServices) uncheckAll(ilServices);
+
+    // Q14を表示
+    if (question14) {
+      console.log('Q14を表示');
+      question14.style.display = 'block'; // もしくは元のdisplayスタイル（通常は'block'）
+    }
   }
 }
 
