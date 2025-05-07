@@ -366,10 +366,10 @@ function submitFormData(dataObj) {
     fetch(apiUrl, {
       method: 'POST', // HTTPメソッド
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded' // コンテンツタイプ
+        'Content-Type': 'application/json' // JSONに変更
       },
-      // URLSearchParamsを使ってデータをURLエンコード形式に変換
-      body: new URLSearchParams(dataObj)
+      // JSONとしてデータを送信
+      body: JSON.stringify(dataObj)
     })
     .then(res => res.json()) // レスポンスをJSONとして解析
     .then(result => {
