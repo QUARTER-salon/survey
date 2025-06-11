@@ -37,7 +37,7 @@
         if (el.tagName.toLowerCase() === 'summary') {
           el.textContent = i18next.t(key, opts);
         } else {
-          el.innerHTML = i18next.t(key, opts);
+          el.textContent = i18next.t(key, opts);
         }
       });
       

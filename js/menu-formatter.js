@@ -102,7 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const originalText = label.textContent;
     
     // 既存のHTML内容をクリア
-    label.innerHTML = '';
+    while (label.firstChild) {
+      label.removeChild(label.firstChild);
+    }
     
     // タイトル要素を追加
     const titleSpan = document.createElement('span');
