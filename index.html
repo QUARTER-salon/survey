@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>QUARTERアンケート</title>
   
+  <!-- セキュリティヘッダー -->
+  <!-- CSPは<meta>タグで設定可能 -->
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; 
+                 script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+                 font-src 'self' https://fonts.gstatic.com;
+                 img-src 'self' data:;
+                 connect-src 'self' https://script.google.com https://script.googleusercontent.com;">
+  
+  <!-- 注意: 以下のヘッダーはHTTPレスポンスヘッダーでのみ有効です -->
+  <!-- GitHub Pagesでは.htaccessやサーバー設定が使えないため、これらは効果がありません -->
+  <!-- X-Content-Type-Options: nosniff -->
+  <!-- X-Frame-Options: DENY -->
+  <!-- X-XSS-Protection: 1; mode=block -->
+  
   <!-- Google Fonts - 原版から復元 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
   

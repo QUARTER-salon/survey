@@ -8,6 +8,75 @@
  * 一連の機能を実装しています。
  */
 
+/**
+ * 入力値をサニタイズする関数
+ * XSSやインジェクション攻撃を防ぐために特殊文字を除去
+ * @param {string} input - サニタイズする入力値
+ * @returns {string} サニタイズされた文字列
+ */
+function sanitizeInput(input) {
+  if (!input) return '';
+  
+  // 文字列に変換してトリム
+  input = String(input).trim();
+  
+  // スクリプトタグを完全に除去
+  input = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  
+  // HTMLタグを除去
+  input = input.replace(/<[^>]+>/g, '');
+  
+  // 危険な文字をエスケープ
+  input = input
+    .replace(/[<>]/g, '') // HTMLタグ文字を除去
+    .replace(/javascript:/gi, '') // JavaScriptプロトコルを除去
+    .replace(/on\w+\s*=/gi, ''); // イベントハンドラを除去
+  
+  return input;
+}
+
+/**
+ * HTMLエスケープ関数
+ * HTMLに埋め込む際の特殊文字をエスケープ
+ * @param {string} unsafe - エスケープする文字列
+ * @returns {string} エスケープされた文字列
+ */
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  
+  return String(unsafe)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/**
+ * フォームデータ全体をサニタイズする関数
+ * @param {Object} formData - サニタイズするフォームデータ
+ * @returns {Object} サニタイズされたフォームデータ
+ */
+function sanitizeFormData(formData) {
+  const sanitizedData = {};
+  
+  for (const [key, value] of Object.entries(formData)) {
+    if (typeof value === 'string') {
+      sanitizedData[key] = sanitizeInput(value);
+    } else if (Array.isArray(value)) {
+      // 配列の場合は各要素をサニタイズ
+      sanitizedData[key] = value.map(item => 
+        typeof item === 'string' ? sanitizeInput(item) : item
+      );
+    } else {
+      // その他の型はそのまま
+      sanitizedData[key] = value;
+    }
+  }
+  
+  return sanitizedData;
+}
+
 // DOM読み込み完了後に初期化
 // HTMLが解析された後、画像などのリソース読み込み前に実行
 document.addEventListener('DOMContentLoaded', function() {
@@ -280,7 +349,8 @@ function formDataToObject(formData) {
     }
   });
   
-  return dataObj;
+  // フォームデータ全体をサニタイズして返す
+  return sanitizeFormData(dataObj);
 }
 
 /**
@@ -363,9 +433,11 @@ function submitFormData(dataObj) {
     if (!apiUrl) return; // URLがなければ処理中断
     
     // fetch APIを使ってPOSTリクエストを送信
+    // 注意: Google Apps ScriptはCORSプリフライトをサポートしないため、
+    // Content-Typeを指定せずにtext/plainとして送信する必要があります
     fetch(apiUrl, {
         method: 'POST',
-        body: JSON.stringify(dataObj)   // text/plain 扱い → プリフライト不要
+        body: JSON.stringify(dataObj)
      })
     .then(res => {
       // レスポンスのステータスをチェック
@@ -375,20 +447,32 @@ function submitFormData(dataObj) {
       return res.json();
     })
     .then(result => {
-      console.log('送信成功:', result);
+      // 本番環境では詳細なログを出力しない
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('送信成功:', result);
+      }
       // サーバーからのレスポンスにエラーが含まれていた場合
       if (!result.success) {
-        alert('エラーが発生しました: ' + result.error);
+        // エラーメッセージを国際化対応
+        const errorMessage = i18next.t('errors.submission_failed') || '送信中にエラーが発生しました。';
+        alert(errorMessage);
       }
     })
     .catch(err => {
       // ネットワークエラーやその他の例外が発生した場合
-      console.error('送信エラー:', err);
-      alert('送信中に問題が発生しました。もう一度お試しください。');
+      // 本番環境では詳細なエラー情報を隠蔽
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.error('送信エラー:', err);
+      }
+      const errorMessage = i18next.t('errors.network') || '送信中に問題が発生しました。もう一度お試しください。';
+      alert(errorMessage);
     });
   } catch (e) {
     // 予期せぬエラーの場合
-    console.error('データ送信エラー:', e);
+    // 本番環境では詳細なエラー情報を隠蔽
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.error('データ送信エラー:', e);
+    }
   }
 }
 

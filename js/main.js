@@ -150,7 +150,7 @@ window.handleFormAfterSubmission = function(rating, dataObj) {
       // 国際化対応：翻訳キーを使って動的に文言を生成
       titleElement.setAttribute('data-i18n', 'thankyou.high');     // 翻訳キーを付与
       titleElement.setAttribute('data-i18n-options', JSON.stringify({ rating })); // rating も渡す
-      titleElement.innerHTML = i18next.t('thankyou.high', { rating });      }
+      titleElement.textContent = i18next.t('thankyou.high', { rating });      }
     } else {
       // 低評価（星3以下）の場合はお礼メッセージを表示
       thankYouMessage.classList.remove('hidden');

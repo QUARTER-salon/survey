@@ -130,17 +130,24 @@ function validateServerSide(data) {
 
 **対策手順**:
 
+⚠️ **GitHub Pagesの制限**: HTTPレスポンスヘッダーを設定できないため、一部のセキュリティヘッダーは適用できません。
+
 ```html
-<!-- Step 1: index.htmlのheadセクションに追加 -->
+<!-- Step 1: index.htmlのheadセクションに追加（CSPのみ有効） -->
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
                script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-               font-src 'self' https://fonts.gstatic.com;">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+               font-src 'self' https://fonts.gstatic.com;
+               img-src 'self' data:;
+               connect-src 'self' https://script.google.com;">
 ```
+
+**サーバー環境で実装可能なヘッダー**:
+- X-Content-Type-Options: nosniff
+- X-Frame-Options: DENY
+- X-XSS-Protection: 1; mode=block
+- Strict-Transport-Security: max-age=31536000
 
 ```javascript
 // Step 2: サーバー側でのヘッダー設定 (proxy-server.js)
@@ -159,18 +166,21 @@ app.use((req, res, next) => {
 
 **対策手順**:
 
-```javascript
-// Step 1: validation.js の修正
-// 変更前:
-headers: {
-  'Content-Type': 'text/plain',
-}
+⚠️ **重要な制限**: Google Apps ScriptはCORSプリフライトリクエストをサポートしていないため、
+Content-Typeをapplication/jsonに設定するとエラーが発生します。
 
-// 変更後:
-headers: {
-  'Content-Type': 'application/json',
-}
+**一時的な対応**:
+```javascript
+// Google Apps Scriptを使用している間は、Content-Typeを指定しない
+fetch(apiUrl, {
+  method: 'POST',
+  body: JSON.stringify(dataObj) // text/plainとして送信
+})
 ```
+
+**推奨される解決策**:
+1. サーバーサイドプロキシを実装してGoogle Apps Script URLを隠蔽
+2. プロキシ側で適切なCORS設定を実装
 
 ```javascript
 // Step 2: サーバー側でのCORS設定 (proxy-server.js)
