@@ -26,10 +26,12 @@ http-server -p 8000
 ### Core JavaScript Modules
 - **main.js**: Application initialization, form submission handling
 - **i18n.js**: Language detection and switching using i18next
-- **validation.js**: Form validation rules and error display
+- **validation.js**: Form validation rules, input sanitization, and error display
 - **star-rating.js**: Custom star rating component implementation
 - **dynamic-services.js**: Store-specific service menu display
 - **navigation.js**: Smooth scroll and section highlighting
+- **security-logger.js**: Security event logging and threat detection
+- **utils.js**: Development/production utilities and error handling
 
 ### Configuration
 - **js/config.js**: Contains Google Apps Script webhook URL and store review URLs
@@ -48,14 +50,24 @@ For local development without hitting the production API:
 - Form prevents double submission with button state management
 - Error messages display in user's selected language
 
-## Security Measures Implemented
+## Security Measures Implemented (2025年1月更新)
 - **XSS Protection**: All user inputs are sanitized, innerHTML usage is restricted
-- **Input Sanitization**: `sanitizeInput()` and `escapeHtml()` functions in validation.js
+- **Input Sanitization**: Enhanced `sanitizeInput()` with threat detection in validation.js
 - **Content Security Policy**: Configured in index.html meta tag
-- **Secure Error Handling**: Sensitive information hidden in production
+- **Secure Error Handling**: Environment-aware error messages (detailed in dev, generic in prod)
 - **CORS Handling**: Compatible with Google Apps Script limitations
+- **Security Logging**: Automatic detection of XSS/SQL injection attempts
+- **Rate Limiting**: Form submission limited to 3 attempts per minute
+- **Development Tools**: Enhanced debugging with utils.js for safer development
 
 ## Known Limitations
 - Google Apps Script doesn't support CORS preflight requests (must use text/plain)
 - GitHub Pages can't set HTTP response headers (only CSP via meta tag works)
-- For full security, implement a server-side proxy as described in SECURITY_FIXES.md
+- Google Apps Script URL is exposed in client-side code
+- For full security, implement a server-side proxy as described in PROXY_IMPLEMENTATION.md
+
+## Additional Documentation
+- **SECURITY_FIXES.md**: Complete security implementation guide and status
+- **PROXY_IMPLEMENTATION.md**: Guide for implementing Vercel Functions proxy
+- **SECURITY_TEST_GUIDE.md**: Comprehensive security testing procedures
+- **.env.example**: Template for environment variables when implementing proxy

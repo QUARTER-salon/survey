@@ -167,8 +167,10 @@
 | `star-rating.js`      | 星 UI & バリデーション更新               |                 |
 | `dynamic-services.js` | 店舗 `iL` 選択時に専用サービス表示           |                 |
 | `menu-formatter.js`   | ラベル分割 (タイトル/説明) 自動整形           |                 |
-| `validation.js`       | 必須チェック & エラーハンドリング             |                 |
+| `validation.js`       | 必須チェック & エラーハンドリング & 入力サニタイズ   |                 |
 | `main.js`             | 初期化 & GAS submit & 依存チェック      |                 |
+| `security-logger.js`  | セキュリティイベントログ & 脅威検出            | 2025年1月追加     |
+| `utils.js`            | 開発/本番環境判定 & エラーハンドリング          | 2025年1月追加     |
 
 ### 8.4 フォルダツリー
 
@@ -273,9 +275,45 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 
 ---
 
-## **12. まとめ**
+## **12. セキュリティ対策 (2025年1月実装)**
+
+### 12.1 実装済みセキュリティ機能
+
+| 対策項目 | 実装内容 | 関連ファイル |
+| :------ | :------ | :---------- |
+| **XSS防止** | innerHTML → textContent 変換、入力サニタイズ | `validation.js`, `i18n.js` |
+| **CSP設定** | Content Security Policy メタタグ | `index.html` |
+| **脅威検出** | XSS/SQLインジェクションパターン自動検出 | `security-logger.js` |
+| **レート制限** | フォーム送信を1分間3回まで制限 | `security-logger.js` |
+| **環境別処理** | 開発環境でのみ詳細エラー表示 | `utils.js` |
+
+### 12.2 セキュリティ関連ドキュメント
+
+| ドキュメント | 内容 |
+| :---------- | :--- |
+| `SECURITY_FIXES.md` | セキュリティ実装ガイドと現在の状況 |
+| `PROXY_IMPLEMENTATION.md` | Vercel Functionsを使用したプロキシ実装ガイド |
+| `SECURITY_TEST_GUIDE.md` | セキュリティテストの手順書 |
+| `CLAUDE.md` | AI開発アシスタント向けプロジェクトガイド |
+
+### 12.3 今後の推奨事項
+
+1. **プロキシサーバーの実装**
+   - Google Apps Script URLを隠蔽
+   - PROXY_IMPLEMENTATION.mdの手順に従って実装
+
+2. **HTTPセキュリティヘッダー**
+   - GitHub Pages制限のため、プロキシ経由で設定
+
+3. **自動化テスト**
+   - SECURITY_TEST_GUIDE.mdに基づくE2Eテスト実装
+
+---
+
+## **13. まとめ**
 
 * **UI/UX・多言語・GAS 連携** 全て実装済み
+* **セキュリティ強化** により安全性が大幅に向上 (2025年1月)
 * 開発～運用までの **ベストプラクティス** を README に集約
 * 本 README を起点に、誰でも即座に開発・改善サイクルへ参加可能
 

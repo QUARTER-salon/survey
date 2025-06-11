@@ -2,7 +2,7 @@
 
 このドキュメントは、現在のセキュリティ脆弱性を修正するためのステップバイステップガイドです。
 
-## 実装状況 (2025年6月11日更新)
+## 実装状況 (2025年1月11日更新)
 
 ✅ **実装済み**:
 - XSS脆弱性の修正（innerHTML → textContent）
@@ -10,6 +10,10 @@
 - Content Security Policy（CSP）の設定
 - エラーハンドリングの改善（本番環境での情報隠蔽）
 - 特定の翻訳キーのみHTML許可（thankyou.high.text3, text4）
+- セキュリティログシステム（security-logger.js）
+- XSS/SQLインジェクション試行の自動検出
+- レート制限機能（1分間で3回まで）
+- 開発/本番環境判定と環境別エラー表示（utils.js）
 
 ⚠️ **制限事項**:
 - Google Apps ScriptのCORS制限により、Content-Type: text/plainを使用
@@ -18,20 +22,25 @@
 
 🔧 **今後の推奨事項**:
 - サーバーサイドプロキシの実装（Google Apps Script URLの隠蔽）
+  - PROXY_IMPLEMENTATION.mdに実装ガイドを作成済み
+  - Vercel Functionsを使用した実装を推奨
 - 適切なHTTPセキュリティヘッダーの設定（プロキシ経由）
+- サーバーサイドでの入力検証の実装
 
 ## 優先度: 高 🔴
 
-### 1. Google Apps Script URLの保護
+### 1. Google Apps Script URLの保護 ✅ 部分的に実装済み
 
 **現状の問題**: config.jsにWebアプリURLが露出しており、誰でもアクセス可能
 
-**対策手順**:
-```bash
-# Step 1: 環境変数ファイルの作成
-touch .env
-echo ".env" >> .gitignore
-```
+**実装済み**:
+- ✅ .env.exampleファイルを作成
+- ✅ .gitignoreに環境変数ファイルを追加
+- ✅ PROXY_IMPLEMENTATION.mdに詳細な実装ガイドを作成
+
+**未実装**:
+- ❌ Vercel Functionsを使用したプロキシサーバーの実装
+- ❌ config.jsの更新（プロキシURLへの変更）
 
 ```javascript
 // Step 2: .envファイルに追加
@@ -59,9 +68,14 @@ const API_CONFIG = {
 };
 ```
 
-### 2. XSS脆弱性の修正
+### 2. XSS脆弱性の修正 ✅ 実装完了
 
 **現状の問題**: innerHTML使用による脆弱性
+
+**実装済み**:
+- ✅ すべてのinnerHTMLをtextContentに置換
+- ✅ 特定の安全な翻訳キーのみホワイトリスト化
+- ✅ XSS試行の自動検出機能を追加
 
 **対策手順**:
 
@@ -95,9 +109,17 @@ function escapeHtml(unsafe) {
 }
 ```
 
-### 3. 入力検証の強化
+### 3. 入力検証の強化 ✅ クライアント側完了
 
 **現状の問題**: クライアント側のみの検証
+
+**実装済み**:
+- ✅ sanitizeInput関数に脅威検出機能を統合
+- ✅ XSS/SQLインジェクションパターンの自動検出
+- ✅ セキュリティイベントのログ記録
+
+**未実装**:
+- ❌ サーバーサイドでの検証（プロキシ実装後）
 
 **対策手順**:
 
@@ -144,7 +166,7 @@ function validateServerSide(data) {
 
 ## 優先度: 中 🟡
 
-### 4. セキュリティヘッダーの実装
+### 4. セキュリティヘッダーの実装 ✅ 部分的に実装
 
 **対策手順**:
 
@@ -178,7 +200,7 @@ app.use((req, res, next) => {
 });
 ```
 
-### 5. CORS設定の適切な実装
+### 5. CORS設定の適切な実装 ⚠️ 制限事項あり
 
 **現状の問題**: text/plainでCORSを回避
 
@@ -214,7 +236,13 @@ app.use(cors({
 
 ## 優先度: 低 🟢
 
-### 6. エラーハンドリングの改善
+### 6. エラーハンドリングの改善 ✅ 実装完了
+
+**実装済み**:
+- ✅ 環境判定機能（isDevelopment関数）
+- ✅ 開発環境でのみ詳細エラー表示
+- ✅ APIレスポンスのデバッグ機能
+- ✅ セキュリティイベントログとの統合
 
 **対策手順**:
 
@@ -244,22 +272,33 @@ function logSecurityEvent(eventType, details) {
 }
 ```
 
-## 実装順序
+## 実装状況サマリー
 
-1. **即座に実装すべき項目** (1-2日)
-   - XSS脆弱性の修正
-   - 入力検証の強化
-   - セキュリティヘッダーの追加
+### ✅ 完了した項目
+1. XSS脆弱性の修正（innerHTML → textContent）
+2. 入力サニタイズ機能の実装と強化
+3. セキュリティログシステムの実装
+4. レート制限機能（1分間に3回まで）
+5. 環境別エラーハンドリング
+6. CSPの設定（メタタグ経由）
 
-2. **短期的に実装すべき項目** (1週間以内)
-   - サーバーサイドプロキシの実装
-   - Google Apps Script URLの隠蔽
-   - CORS設定の修正
+### ⚠️ 部分的に実装/制限事項
+1. Google Apps Script URLの保護（ガイド作成済み、実装待ち）
+2. HTTPセキュリティヘッダー（GitHub Pages制限）
+3. CORS設定（Google Apps Script制限）
 
-3. **中期的に実装すべき項目** (2週間以内)
-   - 包括的なサーバー側検証
-   - セキュリティログシステム
-   - エラーハンドリングの改善
+### 🔧 今後実装すべき項目
+1. **Vercel Functionsプロキシの実装**
+   - PROXY_IMPLEMENTATION.mdに従って実装
+   - Google Apps Script URLを完全に隠蔽
+   
+2. **サーバーサイド検証**
+   - プロキシ実装後に追加
+   - クライアント側検証の補完
+
+3. **自動化テスト**
+   - SECURITY_TEST_GUIDE.mdに基づくE2Eテスト
+   - CI/CDパイプラインでのセキュリティチェック
 
 ## テスト項目
 
