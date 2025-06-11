@@ -55,7 +55,8 @@ For local development without hitting the production API:
 ### Client-Side Security
 - **XSS Protection**: All user inputs are sanitized, innerHTML usage is restricted
 - **Input Sanitization**: Enhanced `sanitizeInput()` with threat detection in validation.js
-- **Content Security Policy**: Configured in index.html meta tag
+- **Enhanced Input Validation**: Length limits and special character patterns for all fields (2025年1月11日実装)
+- **Content Security Policy**: Configured in index.html meta tag, removed unsafe-inline for scripts (2025年1月11日強化)
 - **Secure Error Handling**: Environment-aware error messages (detailed in dev, generic in prod)
 - **CORS Handling**: Compatible with Google Apps Script limitations
 - **Security Logging**: Automatic detection of XSS/SQL injection attempts
@@ -63,6 +64,7 @@ For local development without hitting the production API:
 - **Development Tools**: Enhanced debugging with utils.js for safer development
 - **HTTPS Enforcement**: Automatic redirect from HTTP to HTTPS (2025年1月11日実装)
 - **CSRF Protection**: Session-based CSRF token validation on form submission (2025年1月11日実装)
+- **No Inline JavaScript**: All event handlers moved to external files (2025年1月11日実装)
 
 ### Google Apps Script Security (2025年1月11日完了)
 - **Domain Restriction**: Only accepts requests from allowed domains (configured in Script Properties)

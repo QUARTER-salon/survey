@@ -283,12 +283,14 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 | 対策項目 | 実装内容 | 関連ファイル |
 | :------ | :------ | :---------- |
 | **XSS防止** | innerHTML → textContent 変換、入力サニタイズ | `validation.js`, `i18n.js` |
-| **CSP設定** | Content Security Policy メタタグ | `index.html` |
+| **入力検証強化** | 文字数制限、特殊文字パターン検証 (2025年1月11日) | `validation.js` |
+| **CSP設定** | Content Security Policy メタタグ、unsafe-inline削除 (2025年1月11日) | `index.html` |
 | **脅威検出** | XSS/SQLインジェクションパターン自動検出 | `security-logger.js` |
 | **レート制限** | フォーム送信を1分間3回まで制限 | `security-logger.js` |
 | **環境別処理** | 開発環境でのみ詳細エラー表示 | `utils.js` |
-| **HTTPS強制** | HTTPアクセスを自動的にHTTPSへリダイレクト | `index.html` |
-| **CSRF保護** | セッション単位でCSRFトークン生成・検証 | `validation.js` |
+| **HTTPS強制** | HTTPアクセスを自動的にHTTPSへリダイレクト (2025年1月11日) | `js/https-redirect.js` |
+| **CSRF保護** | セッション単位でCSRFトークン生成・検証 (2025年1月11日) | `validation.js` |
+| **インラインJS削除** | すべてのイベントハンドラを外部ファイル化 (2025年1月11日) | `main.js`, `i18n.js` |
 
 #### Google Apps Script側セキュリティ (2025年1月11日完了)
 | 対策項目 | 実装内容 | 設定方法 |
