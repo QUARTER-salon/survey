@@ -33,6 +33,178 @@
 - 適切なHTTPセキュリティヘッダーの設定（プロキシ経由）
 - サーバーサイドでの入力検証の実装
 
+## プロキシ以外の高優先度セキュリティ対策 🚨
+
+### 1. HTTPS強制リダイレクトの実装 ✅ 実装完了 (2025年1月11日)
+**リスク**: 中間者攻撃、データ傍受の可能性
+
+**実装済み**:
+- index.htmlの<head>タグ内にHTTPS強制リダイレクトスクリプトを追加
+- localhostと127.0.0.1を除外して開発環境での動作を保証
+- HTTPアクセスは自動的にHTTPSにリダイレクトされる
+
+```javascript
+// index.htmlの<head>最上部に実装済み
+<script>
+  if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+    location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+  }
+</script>
+```
+
+### 2. CSRF（クロスサイトリクエストフォージェリ）保護 ✅ 実装完了 (2025年1月11日)
+**リスク**: 外部サイトからの不正なフォーム送信
+
+**実装済み**:
+- validation.jsにCSRFトークン生成・検証・取得関数を追加
+- フォーム送信時に自動的にCSRFトークンが付与される
+- トークンはセッションストレージに保存され、セッション単位で管理
+
+```javascript
+// validation.js に実装済み
+function generateCSRFToken() {
+  const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  sessionStorage.setItem('csrfToken', token);
+  return token;
+}
+
+function validateCSRFToken(token) {
+  const storedToken = sessionStorage.getItem('csrfToken');
+  return token === storedToken;
+}
+
+function getCSRFToken() {
+  let token = sessionStorage.getItem('csrfToken');
+  if (!token) {
+    token = generateCSRFToken();
+  }
+  return token;
+}
+
+// フォーム送信時に自動的にトークンが追加される
+dataObj.csrfToken = getCSRFToken();
+```
+
+### 3. 入力検証の強化 🟡
+**リスク**: バッファオーバーフロー、データ整合性の問題
+
+**実装方法**:
+```javascript
+// validation.js に追加
+const INPUT_LIMITS = {
+  name: { min: 1, max: 100 },
+  email: { min: 5, max: 254 },
+  feedback: { min: 0, max: 1000 },
+  phone: { min: 10, max: 15 }
+};
+
+function validateInputLength(input, field) {
+  const limits = INPUT_LIMITS[field];
+  if (!limits) return true;
+  
+  const length = input.length;
+  if (length < limits.min || length > limits.max) {
+    throw new Error(`${field} must be between ${limits.min} and ${limits.max} characters`);
+  }
+  return true;
+}
+
+// 特殊文字の厳密な検証
+function validateSpecialCharacters(input, field) {
+  const patterns = {
+    name: /^[a-zA-Z\s\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf]+$/,
+    email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    phone: /^[\d\s\-\+\(\)]+$/
+  };
+  
+  if (patterns[field] && !patterns[field].test(input)) {
+    throw new Error(`Invalid characters in ${field}`);
+  }
+  return true;
+}
+```
+
+### 4. CSP強化（unsafe-inlineの削除） 🟡
+**リスク**: インラインスクリプトによるXSS攻撃
+
+**実装方法**:
+```html
+<!-- index.html - nonceベースのCSPに変更 -->
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'nonce-{RANDOM_NONCE}' https://cdn.jsdelivr.net; 
+               style-src 'self' 'nonce-{RANDOM_NONCE}' https://fonts.googleapis.com;">
+
+<!-- すべてのインラインスクリプトにnonceを追加 -->
+<script nonce="{RANDOM_NONCE}">
+  // インラインコード
+</script>
+```
+
+### 5. セッション管理の実装 🟠
+**リスク**: 重複送信、データ整合性の問題
+
+**実装方法**:
+```javascript
+// session-manager.js（新規作成）
+class SessionManager {
+  constructor() {
+    this.sessionId = this.generateSessionId();
+    this.submissions = [];
+  }
+  
+  generateSessionId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+  
+  canSubmit() {
+    const now = Date.now();
+    const recentSubmission = this.submissions.find(s => now - s < 60000); // 1分以内
+    return !recentSubmission;
+  }
+  
+  recordSubmission() {
+    this.submissions.push(Date.now());
+    // 古い記録を削除（メモリ管理）
+    this.submissions = this.submissions.filter(s => Date.now() - s < 3600000); // 1時間
+  }
+}
+```
+
+### 6. エラーハンドリングの完全性向上 🟠
+**リスク**: 技術的詳細の漏洩、攻撃者への情報提供
+
+**実装方法**:
+```javascript
+// utils.js に追加
+function safeErrorHandler(error, context) {
+  // 開発環境のみ詳細ログ
+  if (isDevelopment()) {
+    console.error(`Error in ${context}:`, error);
+  } else {
+    // 本番環境では汎用エラーのみ
+    console.error(`Error in ${context}`);
+  }
+  
+  // ユーザーには常に汎用メッセージ
+  return i18next.t('errors.generic');
+}
+
+// ネットワークエラーの安全な処理
+async function safeFetch(url, options) {
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response;
+  } catch (error) {
+    // 技術的詳細を隠す
+    throw new Error('Network request failed');
+  }
+}
+```
+
 ## 優先度: 高 🔴
 
 ### 1. Google Apps Script URLの保護 ✅ 実装完了
@@ -296,6 +468,12 @@ function logSecurityEvent(eventType, details) {
    - サーバー側レート制限（IP単位）
    - リクエストバリデーション
    - 不正アクセスログとブロック機能
+8. **HTTPS強制リダイレクト**（2025年1月11日）
+   - HTTPアクセスを自動的にHTTPSへリダイレクト
+   - 開発環境（localhost）を除外
+9. **CSRF保護の実装**（2025年1月11日）
+   - セッション単位でのCSRFトークン生成
+   - フォーム送信時の自動トークン付与
 
 ### ⚠️ 制限事項
 1. HTTPセキュリティヘッダー（GitHub Pages制限）

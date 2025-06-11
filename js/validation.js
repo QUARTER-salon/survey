@@ -252,6 +252,9 @@ function validateAndSubmit(e) {
   // FormDataオブジェクトを通常のJavaScriptオブジェクトに変換
   const dataObj = formDataToObject(formData);
   
+  // CSRFトークンを追加
+  dataObj.csrfToken = getCSRFToken();
+  
   // 評価と店舗の情報を取得
   // 後の処理で利用するために個別に変数に保存
   const rating = parseInt(dataObj.rating);
@@ -518,6 +521,45 @@ window.updateValidationMessages = function () {
   set('#global-validation span', 'validation.global');
 };
 
+/**
+ * CSRFトークンを生成する関数
+ * ランダムな文字列を生成してセッションストレージに保存
+ * @returns {string} 生成されたCSRFトークン
+ */
+function generateCSRFToken() {
+  const token = Math.random().toString(36).substring(2, 15) + 
+                Math.random().toString(36).substring(2, 15);
+  sessionStorage.setItem('csrfToken', token);
+  return token;
+}
+
+/**
+ * CSRFトークンを検証する関数
+ * 送信されたトークンとセッションストレージのトークンを比較
+ * @param {string} token - 検証するトークン
+ * @returns {boolean} トークンが有効な場合true
+ */
+function validateCSRFToken(token) {
+  const storedToken = sessionStorage.getItem('csrfToken');
+  return token === storedToken;
+}
+
+/**
+ * 現在のCSRFトークンを取得する関数
+ * トークンが存在しない場合は新規生成
+ * @returns {string} CSRFトークン
+ */
+function getCSRFToken() {
+  let token = sessionStorage.getItem('csrfToken');
+  if (!token) {
+    token = generateCSRFToken();
+  }
+  return token;
+}
+
 // グローバルスコープに公開
 // HTMLのonclick属性や他のJSファイルからこの関数を呼び出せるようにする
 window.validateAndSubmit = validateAndSubmit;
+window.generateCSRFToken = generateCSRFToken;
+window.validateCSRFToken = validateCSRFToken;
+window.getCSRFToken = getCSRFToken;

@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>QUARTERアンケート</title>
   
+  <!-- HTTPS強制リダイレクト -->
+  <script>
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https:' + window.location.href.substring(window.location.protocol.length));
+    }
+  </script>
+  
   <!-- セキュリティヘッダー -->
   <!-- CSPは<meta>タグで設定可能 -->
   <meta http-equiv="Content-Security-Policy" 
