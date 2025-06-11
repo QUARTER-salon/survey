@@ -24,13 +24,14 @@ http-server -p 8000
 4. Success/Error → Display feedback to user
 
 ### Core JavaScript Modules
-- **main.js**: Application initialization, form submission handling
+- **main.js**: Application initialization, form submission handling, SessionManager integration
 - **i18n.js**: Language detection and switching using i18next
-- **validation.js**: Form validation rules, input sanitization, and error display
+- **validation.js**: Form validation rules, input sanitization, error display, and session checks
 - **star-rating.js**: Custom star rating component implementation
 - **dynamic-services.js**: Store-specific service menu display
 - **navigation.js**: Smooth scroll and section highlighting
 - **security-logger.js**: Security event logging and threat detection
+- **session-manager.js**: Session management, duplicate submission prevention, and rate limiting
 - **utils.js**: Development/production utilities and error handling
 
 ### Configuration
@@ -60,11 +61,12 @@ For local development without hitting the production API:
 - **Secure Error Handling**: Environment-aware error messages (detailed in dev, generic in prod)
 - **CORS Handling**: Compatible with Google Apps Script limitations
 - **Security Logging**: Automatic detection of XSS/SQL injection attempts
-- **Rate Limiting**: Form submission limited to 3 attempts per minute (client-side)
+- **Rate Limiting**: Form submission limited to 3 attempts per hour (client-side)
 - **Development Tools**: Enhanced debugging with utils.js for safer development
 - **HTTPS Enforcement**: Automatic redirect from HTTP to HTTPS (2025年1月11日実装)
 - **CSRF Protection**: Session-based CSRF token validation on form submission (2025年1月11日実装)
 - **No Inline JavaScript**: All event handlers moved to external files (2025年1月11日実装)
+- **Session Management**: Duplicate submission prevention and persistent rate limiting with LocalStorage (2025年1月11日実装)
 
 ### Google Apps Script Security (2025年1月11日完了)
 - **Domain Restriction**: Only accepts requests from allowed domains (configured in Script Properties)
