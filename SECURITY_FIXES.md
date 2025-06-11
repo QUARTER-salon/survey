@@ -1,0 +1,248 @@
+# セキュリティ対策実装ガイド
+
+このドキュメントは、現在のセキュリティ脆弱性を修正するためのステップバイステップガイドです。
+
+## 優先度: 高 🔴
+
+### 1. Google Apps Script URLの保護
+
+**現状の問題**: config.jsにWebアプリURLが露出しており、誰でもアクセス可能
+
+**対策手順**:
+```bash
+# Step 1: 環境変数ファイルの作成
+touch .env
+echo ".env" >> .gitignore
+```
+
+```javascript
+// Step 2: .envファイルに追加
+GOOGLE_APPS_SCRIPT_URL=your_actual_url_here
+```
+
+```javascript
+// Step 3: サーバーサイドプロキシの実装 (proxy-server.js)
+const express = require('express');
+const app = express();
+require('dotenv').config();
+
+app.post('/api/submit-survey', async (req, res) => {
+  // 認証チェック
+  // リクエストのバリデーション
+  // Google Apps Scriptへの転送
+});
+```
+
+```javascript
+// Step 4: config.jsの修正
+const API_CONFIG = {
+  WEBHOOK_URL: '/api/submit-survey', // プロキシエンドポイントに変更
+  // ...
+};
+```
+
+### 2. XSS脆弱性の修正
+
+**現状の問題**: innerHTML使用による脆弱性
+
+**対策手順**:
+
+```javascript
+// Step 1: main.js (153行目付近) の修正
+// 変更前:
+document.getElementById(elementId).innerHTML = message;
+
+// 変更後:
+document.getElementById(elementId).textContent = message;
+```
+
+```javascript
+// Step 2: i18n.js (40行目付近) の修正
+// 変更前:
+element.innerHTML = i18next.t(translationKey);
+
+// 変更後:
+element.textContent = i18next.t(translationKey);
+```
+
+```javascript
+// Step 3: HTMLエスケープ関数の追加 (utils.js)
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+```
+
+### 3. 入力検証の強化
+
+**現状の問題**: クライアント側のみの検証
+
+**対策手順**:
+
+```javascript
+// Step 1: サニタイズ関数の追加 (validation.js)
+function sanitizeInput(input) {
+  // 特殊文字の除去
+  return input.trim().replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+}
+
+// Step 2: 各入力フィールドにサニタイズを適用
+function validateAndSanitizeForm(formData) {
+  const sanitizedData = {};
+  for (const [key, value] of Object.entries(formData)) {
+    sanitizedData[key] = sanitizeInput(value);
+  }
+  return sanitizedData;
+}
+```
+
+```javascript
+// Step 3: サーバー側検証の実装 (proxy-server.js)
+function validateServerSide(data) {
+  const errors = [];
+  
+  // 必須フィールドチェック
+  if (!data.store || !['ilhair', 'ilmake', 'quarter', 'lim', 'ivil'].includes(data.store)) {
+    errors.push('Invalid store');
+  }
+  
+  // メールアドレス検証
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    errors.push('Invalid email');
+  }
+  
+  // 評価値検証
+  if (data.overallRating && (data.overallRating < 1 || data.overallRating > 5)) {
+    errors.push('Invalid rating');
+  }
+  
+  return errors;
+}
+```
+
+## 優先度: 中 🟡
+
+### 4. セキュリティヘッダーの実装
+
+**対策手順**:
+
+```html
+<!-- Step 1: index.htmlのheadセクションに追加 -->
+<meta http-equiv="Content-Security-Policy" 
+      content="default-src 'self'; 
+               script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+               font-src 'self' https://fonts.gstatic.com;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+```
+
+```javascript
+// Step 2: サーバー側でのヘッダー設定 (proxy-server.js)
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  next();
+});
+```
+
+### 5. CORS設定の適切な実装
+
+**現状の問題**: text/plainでCORSを回避
+
+**対策手順**:
+
+```javascript
+// Step 1: validation.js の修正
+// 変更前:
+headers: {
+  'Content-Type': 'text/plain',
+}
+
+// 変更後:
+headers: {
+  'Content-Type': 'application/json',
+}
+```
+
+```javascript
+// Step 2: サーバー側でのCORS設定 (proxy-server.js)
+const cors = require('cors');
+
+app.use(cors({
+  origin: ['https://yourdomain.com', 'http://localhost:8000'],
+  credentials: true,
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+```
+
+## 優先度: 低 🟢
+
+### 6. エラーハンドリングの改善
+
+**対策手順**:
+
+```javascript
+// Step 1: 詳細なエラー情報の隠蔽 (main.js)
+// 変更前:
+console.error('Error details:', error);
+alert(`Error: ${error.message}`);
+
+// 変更後:
+console.error('Submission failed');
+if (process.env.NODE_ENV === 'development') {
+  console.error('Error details:', error);
+}
+alert(i18next.t('errors.generic'));
+```
+
+```javascript
+// Step 2: エラーログの実装
+function logSecurityEvent(eventType, details) {
+  // サーバーにセキュリティイベントを送信
+  fetch('/api/security-log', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ eventType, details, timestamp: new Date() })
+  });
+}
+```
+
+## 実装順序
+
+1. **即座に実装すべき項目** (1-2日)
+   - XSS脆弱性の修正
+   - 入力検証の強化
+   - セキュリティヘッダーの追加
+
+2. **短期的に実装すべき項目** (1週間以内)
+   - サーバーサイドプロキシの実装
+   - Google Apps Script URLの隠蔽
+   - CORS設定の修正
+
+3. **中期的に実装すべき項目** (2週間以内)
+   - 包括的なサーバー側検証
+   - セキュリティログシステム
+   - エラーハンドリングの改善
+
+## テスト項目
+
+- [ ] XSS攻撃のテスト（`<script>alert('XSS')</script>`を各フィールドに入力）
+- [ ] SQLインジェクションのテスト（`'; DROP TABLE--`などの入力）
+- [ ] 不正なAPI直接アクセスのテスト
+- [ ] CSPヘッダーの動作確認
+- [ ] エラーメッセージの適切性確認
+
+## 参考資料
+
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+- [Express.js Security Best Practices](https://expressjs.com/en/advanced/best-practice-security.html)
