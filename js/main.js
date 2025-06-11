@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // フォーム送信ボタンのイベントリスナーを設定
   setupFormSubmission();
+  
+  // コピーボタンとリダイレクトボタンのイベントリスナーを設定
+  const copyButton = document.getElementById('copy-button');
+  if (copyButton) {
+    copyButton.addEventListener('click', copyComment);
+  }
+  
+  const redirectButton = document.getElementById('redirect-button');
+  if (redirectButton) {
+    redirectButton.addEventListener('click', redirectToGoogleMaps);
+  }
 });
 
 /**
