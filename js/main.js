@@ -7,12 +7,19 @@
  * 複数の場所から呼び出される共通機能を定義しています。
  */
 
+// セッションマネージャーインスタンス
+let sessionManager;
+
 // DOM読み込み完了時の処理
 // DOMContentLoadedイベントは、HTMLの解析が完了した時点で発火します（画像などのリソース読み込み完了前）
 // これにより、ユーザーが画面を見られるようになった早い段階で初期化処理を開始できます
 document.addEventListener('DOMContentLoaded', function() {
   // 開発・デバッグ用のログ出力
   console.log('アプリケーション初期化開始');
+  
+  // セッションマネージャーの初期化
+  sessionManager = new SessionManager();
+  console.log('セッションマネージャー初期化完了:', sessionManager.getSessionInfo());
   
   // 各モジュールが正しく読み込まれたか確認
   // 依存ファイル（config.jsなど）が正しく読み込まれているか確認する安全対策

@@ -393,6 +393,23 @@ function validateAndSubmit(e) {
     throw error;
   }
   
+  // セッション管理による重複送信チェック
+  if (typeof sessionManager !== 'undefined') {
+    const canSubmitResult = sessionManager.canSubmit();
+    if (!canSubmitResult.allowed) {
+      if (canSubmitResult.reason === 'duplicate_submission') {
+        alert(i18next.t('validation.duplicateSubmission', { 
+          seconds: canSubmitResult.waitTime 
+        }) || `まだ送信できません。${canSubmitResult.waitTime}秒後に再度お試しください。`);
+      } else if (canSubmitResult.reason === 'rate_limit') {
+        alert(i18next.t('validation.rateLimit', { 
+          seconds: canSubmitResult.waitTime 
+        }) || `送信回数の上限に達しました。${canSubmitResult.waitTime}秒後に再度お試しください。`);
+      }
+      return false;
+    }
+  }
+  
   // CSRFトークンを追加
   dataObj.csrfToken = getCSRFToken();
   
@@ -408,6 +425,11 @@ function validateAndSubmit(e) {
   // フォーム非表示
   // 送信後はフォームを隠し、結果画面を表示
   hideFormElements();
+  
+  // セッションに送信を記録
+  if (typeof sessionManager !== 'undefined') {
+    sessionManager.recordSubmission();
+  }
   
 // データ送信
 // サーバーにデータを送信（API呼び出し）
