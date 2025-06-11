@@ -85,8 +85,14 @@ function getCSRFToken() {
 dataObj.csrfToken = getCSRFToken();
 ```
 
-### 3. 入力検証の強化 🟡
+### 3. 入力検証の強化 ✅ 実装完了 (2025年6月11日)
 **リスク**: バッファオーバーフロー、データ整合性の問題
+
+**実装済み**:
+- validation.jsに文字数制限機能を追加（INPUT_LIMITS）
+- 各フィールドの特殊文字検証パターンを実装（VALIDATION_PATTERNS）
+- リアルタイムフィールドエラー表示機能
+- 3言語対応のエラーメッセージ
 
 **実装方法**:
 ```javascript
@@ -124,8 +130,15 @@ function validateSpecialCharacters(input, field) {
 }
 ```
 
-### 4. CSP強化（unsafe-inlineの削除） 🟡
+### 4. CSP強化（unsafe-inlineの削除） ✅ 実装完了 (2025年6月11日)
 **リスク**: インラインスクリプトによるXSS攻撃
+
+**実装済み**:
+- すべてのインラインスクリプトを外部ファイルに移動
+- インラインスタイルを外部CSSファイルに移動
+- CSPからscript-srcのunsafe-inlineを削除
+- HTTPS強制リダイレクトをhttps-redirect.jsに移動
+- フォームスタイルをform-styles.cssに移動
 
 **実装方法**:
 ```html
