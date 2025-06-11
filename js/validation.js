@@ -12,27 +12,50 @@
  * 入力値をサニタイズする関数
  * XSSやインジェクション攻撃を防ぐために特殊文字を除去
  * @param {string} input - サニタイズする入力値
+ * @param {string} fieldName - フィールド名（ログ用）
  * @returns {string} サニタイズされた文字列
  */
-function sanitizeInput(input) {
+function sanitizeInput(input, fieldName = 'unknown') {
   if (!input) return '';
   
   // 文字列に変換してトリム
-  input = String(input).trim();
+  const originalInput = String(input).trim();
+  let sanitized = originalInput;
+  
+  // セキュリティチェック（SecurityLoggerが存在する場合）
+  if (window.SecurityLogger) {
+    // XSS試行を検出
+    if (window.SecurityLogger.detectXSSAttempt(originalInput, fieldName)) {
+      window.SecurityLogger.log(
+        window.SecurityLogger.EVENTS.SUSPICIOUS_INPUT,
+        window.SecurityLogger.LEVELS.WARNING,
+        { field: fieldName, action: 'sanitized' }
+      );
+    }
+    
+    // SQLインジェクション試行を検出
+    if (window.SecurityLogger.detectInjectionAttempt(originalInput, fieldName)) {
+      window.SecurityLogger.log(
+        window.SecurityLogger.EVENTS.SUSPICIOUS_INPUT,
+        window.SecurityLogger.LEVELS.WARNING,
+        { field: fieldName, action: 'sanitized' }
+      );
+    }
+  }
   
   // スクリプトタグを完全に除去
-  input = input.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+  sanitized = sanitized.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
   
   // HTMLタグを除去
-  input = input.replace(/<[^>]+>/g, '');
+  sanitized = sanitized.replace(/<[^>]+>/g, '');
   
   // 危険な文字をエスケープ
-  input = input
+  sanitized = sanitized
     .replace(/[<>]/g, '') // HTMLタグ文字を除去
     .replace(/javascript:/gi, '') // JavaScriptプロトコルを除去
     .replace(/on\w+\s*=/gi, ''); // イベントハンドラを除去
   
-  return input;
+  return sanitized;
 }
 
 /**
@@ -62,11 +85,11 @@ function sanitizeFormData(formData) {
   
   for (const [key, value] of Object.entries(formData)) {
     if (typeof value === 'string') {
-      sanitizedData[key] = sanitizeInput(value);
+      sanitizedData[key] = sanitizeInput(value, key);
     } else if (Array.isArray(value)) {
       // 配列の場合は各要素をサニタイズ
       sanitizedData[key] = value.map(item => 
-        typeof item === 'string' ? sanitizeInput(item) : item
+        typeof item === 'string' ? sanitizeInput(item, key) : item
       );
     } else {
       // その他の型はそのまま
@@ -426,52 +449,61 @@ function showResult(rating) {
  * 
  * @param {Object} dataObj - 送信するデータオブジェクト
  */
-function submitFormData(dataObj) {
+async function submitFormData(dataObj) {
   try {
     // 設定ファイルからAPIのURLを取得
     const apiUrl = typeof CONFIG !== 'undefined' ? CONFIG.APPS_SCRIPT_WEBAPP_URL : '';
-    if (!apiUrl) return; // URLがなければ処理中断
+    if (!apiUrl) {
+      throw new Error('API URLが設定されていません');
+    }
     
-    // fetch APIを使ってPOSTリクエストを送信
-    // 注意: Google Apps ScriptはCORSプリフライトをサポートしないため、
-    // Content-Typeを指定せずにtext/plainとして送信する必要があります
-    fetch(apiUrl, {
+    // レート制限チェック付きで実行
+    await window.utils.executeWithRateLimit(async () => {
+      // fetch APIを使ってPOSTリクエストを送信
+      // 注意: Google Apps ScriptはCORSプリフライトをサポートしないため、
+      // Content-Typeを指定せずにtext/plainとして送信する必要があります
+      const response = await fetch(apiUrl, {
         method: 'POST',
         body: JSON.stringify(dataObj)
-     })
-    .then(res => {
+      });
+      
+      // 開発環境ではAPIレスポンスを詳細にログ
+      if (window.utils) {
+        await window.utils.logApiResponse(response, 'submitFormData');
+      }
+      
       // レスポンスのステータスをチェック
-      if (!res.ok) {
-        throw new Error('サーバーエラー: ' + res.status);
+      if (!response.ok) {
+        throw new Error(`サーバーエラー: ${response.status} ${response.statusText}`);
       }
-      return res.json();
-    })
-    .then(result => {
-      // 本番環境では詳細なログを出力しない
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.log('送信成功:', result);
-      }
+      
+      const result = await response.json();
+      
       // サーバーからのレスポンスにエラーが含まれていた場合
       if (!result.success) {
-        // エラーメッセージを国際化対応
-        const errorMessage = i18next.t('errors.submission_failed') || '送信中にエラーが発生しました。';
-        alert(errorMessage);
+        throw new Error(result.error || '送信に失敗しました');
       }
-    })
-    .catch(err => {
-      // ネットワークエラーやその他の例外が発生した場合
-      // 本番環境では詳細なエラー情報を隠蔽
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.error('送信エラー:', err);
+      
+      // 成功ログ（開発環境のみ）
+      if (window.utils && window.utils.isDevelopment()) {
+        console.log('送信成功:', result);
       }
-      const errorMessage = i18next.t('errors.network') || '送信中に問題が発生しました。もう一度お試しください。';
+    }, 'form_submission', 3, 60000); // 1分間に3回まで
+    
+  } catch (error) {
+    // エラーハンドリング
+    if (window.utils) {
+      window.utils.handleError(error, 'submitFormData', {
+        apiUrl: apiUrl,
+        dataSize: JSON.stringify(dataObj).length
+      });
+    } else {
+      // utilsが読み込まれていない場合のフォールバック
+      console.error('データ送信エラー:', error);
+      const errorMessage = window.i18next ? 
+        window.i18next.t('errors.network') : 
+        '送信中に問題が発生しました。もう一度お試しください。';
       alert(errorMessage);
-    });
-  } catch (e) {
-    // 予期せぬエラーの場合
-    // 本番環境では詳細なエラー情報を隠蔽
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      console.error('データ送信エラー:', e);
     }
   }
 }
