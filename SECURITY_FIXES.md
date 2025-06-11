@@ -130,17 +130,24 @@ function validateServerSide(data) {
 
 **対策手順**:
 
+⚠️ **GitHub Pagesの制限**: HTTPレスポンスヘッダーを設定できないため、一部のセキュリティヘッダーは適用できません。
+
 ```html
-<!-- Step 1: index.htmlのheadセクションに追加 -->
+<!-- Step 1: index.htmlのheadセクションに追加（CSPのみ有効） -->
 <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
                script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
                style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-               font-src 'self' https://fonts.gstatic.com;">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+               font-src 'self' https://fonts.gstatic.com;
+               img-src 'self' data:;
+               connect-src 'self' https://script.google.com;">
 ```
+
+**サーバー環境で実装可能なヘッダー**:
+- X-Content-Type-Options: nosniff
+- X-Frame-Options: DENY
+- X-XSS-Protection: 1; mode=block
+- Strict-Transport-Security: max-age=31536000
 
 ```javascript
 // Step 2: サーバー側でのヘッダー設定 (proxy-server.js)
