@@ -6,17 +6,13 @@
   <title>QUARTERアンケート</title>
   
   <!-- HTTPS強制リダイレクト -->
-  <script>
-    if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-      location.replace('https:' + window.location.href.substring(window.location.protocol.length));
-    }
-  </script>
+  <script src="js/https-redirect.js"></script>
   
   <!-- セキュリティヘッダー -->
   <!-- CSPは<meta>タグで設定可能 -->
   <meta http-equiv="Content-Security-Policy" 
         content="default-src 'self'; 
-                 script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
+                 script-src 'self' https://cdn.jsdelivr.net 'sha256-vvt4KWwuNr51XfE5m+hzeNEGhiOfZzG97ccfqGsPwvE='; 
                  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
                  font-src 'self' https://fonts.gstatic.com;
                  img-src 'self' data:;
@@ -33,12 +29,7 @@
   
   <!-- 既存 CSS -->
   <link rel="stylesheet" href="css/styles.css">
-  <style>
-    input, textarea {
-      font-size: 16px; /* 16px以上のサイズは一般的に自動ズームを防ぎます */
-      touch-action: manipulation;
-    }
-  </style>
+  <link rel="stylesheet" href="css/form-styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/layout-fix.css">
   <link rel="stylesheet" href="css/menu-styles.css">
@@ -73,11 +64,11 @@
     <!-- ★ ヘッダー（言語セレクタを右上に配置） -->
     <header class="site-header-alt">
       <div class="language-selector-top-right">
-        <a href="#" class="lang-link" data-lang="ja" onclick="changeLang('ja')">日本語</a>
+        <a href="#" class="lang-link" data-lang="ja">日本語</a>
         <span class="separator">|</span>
-        <a href="#" class="lang-link" data-lang="en" onclick="changeLang('en')">English</a>
+        <a href="#" class="lang-link" data-lang="en">English</a>
         <span class="separator">|</span>
-        <a href="#" class="lang-link" data-lang="zh" onclick="changeLang('zh')">中文</a>
+        <a href="#" class="lang-link" data-lang="zh">中文</a>
       </div>
       
       <div class="logo-container">
@@ -565,8 +556,8 @@
         <textarea id="comment-to-copy" readonly></textarea>
         <p class="copy-hint" data-i18n="thankyou.copy.hint"></p>
         <div>
-          <button id="copy-button" class="action-button" onclick="copyComment()" data-i18n="thankyou.copy.button"></button>
-          <button id="redirect-button" class="action-button" onclick="redirectToGoogleMaps()" data-i18n="thankyou.redirect.button"></button>
+          <button id="copy-button" class="action-button" data-i18n="thankyou.copy.button"></button>
+          <button id="redirect-button" class="action-button" data-i18n="thankyou.redirect.button"></button>
         </div>
       </div>
       

@@ -110,6 +110,20 @@
     "validation.global": "必須項目をご入力ください",
     "validation.store": "店舗を選択してください",
     "validation.rating": "評価を選択してください",
+    "validation.tooShort": "{{field}}は{{min}}文字以上で入力してください",
+    "validation.tooLong": "{{field}}は{{max}}文字以内で入力してください",
+    "validation.invalidName": "名前には文字のみを使用してください",
+    "validation.invalidEmail": "有効なメールアドレスを入力してください",
+    "validation.invalidPhone": "有効な電話番号を入力してください",
+    "validation.invalidCharacters": "{{field}}に無効な文字が含まれています",
+    
+    "fields.name": "お名前",
+    "fields.email": "メールアドレス",
+    "fields.phone": "電話番号",
+    "fields.feedback": "フィードバック",
+    "fields.improvement": "改善点",
+    "fields.otherComments": "その他コメント",
+    
     "submit": "送信する",
     
     "thankyou.title": "ご回答ありがとうございました。",

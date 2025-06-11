@@ -100,6 +100,137 @@ function sanitizeFormData(formData) {
   return sanitizedData;
 }
 
+/**
+ * 入力フィールドの文字数制限
+ * UXを考慮し、一般的な使用に十分な長さを設定
+ */
+const INPUT_LIMITS = {
+  name: { min: 1, max: 100 },          // 名前: 1-100文字
+  email: { min: 5, max: 254 },         // メール: 5-254文字（RFC準拠）
+  phone: { min: 10, max: 20 },         // 電話番号: 10-20文字
+  feedback: { min: 0, max: 1000 },     // フィードバック: 0-1000文字
+  improvement: { min: 0, max: 1000 },  // 改善点: 0-1000文字
+  otherComments: { min: 0, max: 1000 } // その他コメント: 0-1000文字
+};
+
+/**
+ * 入力文字数を検証する関数
+ * @param {string} input - 検証する入力値
+ * @param {string} field - フィールド名
+ * @returns {Object} 検証結果 {valid: boolean, message?: string}
+ */
+function validateInputLength(input, field) {
+  const limits = INPUT_LIMITS[field];
+  if (!limits) return { valid: true }; // 制限が設定されていないフィールドは許可
+  
+  const length = input.length;
+  
+  // 最小文字数チェック（0でない場合のみ）
+  if (limits.min > 0 && length < limits.min) {
+    return { 
+      valid: false, 
+      message: i18next.t('validation.tooShort', { 
+        field: i18next.t(`fields.${field}`), 
+        min: limits.min 
+      }) || `${field}は${limits.min}文字以上で入力してください`
+    };
+  }
+  
+  // 最大文字数チェック
+  if (length > limits.max) {
+    return { 
+      valid: false, 
+      message: i18next.t('validation.tooLong', { 
+        field: i18next.t(`fields.${field}`), 
+        max: limits.max 
+      }) || `${field}は${limits.max}文字以内で入力してください`
+    };
+  }
+  
+  return { valid: true };
+}
+
+/**
+ * 特殊文字パターンの定義
+ * 各フィールドに応じた適切なパターンを設定
+ */
+const VALIDATION_PATTERNS = {
+  // 名前: 日本語、英字、スペースを許可
+  name: /^[a-zA-Z\s\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf\u3400-\u4dbf\u20000-\u2a6df\u2a700-\u2b73f\u2b740-\u2b81f\u2b820-\u2ceaf\uff66-\uff9f\u3000-\u303f]+$/,
+  // メール: 標準的なメールアドレス形式
+  email: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+  // 電話番号: 数字、ハイフン、括弧、プラス記号を許可
+  phone: /^[\d\s\-\+\(\)]+$/
+};
+
+/**
+ * 特殊文字を検証する関数
+ * @param {string} input - 検証する入力値
+ * @param {string} field - フィールド名
+ * @returns {Object} 検証結果 {valid: boolean, message?: string}
+ */
+function validateSpecialCharacters(input, field) {
+  const pattern = VALIDATION_PATTERNS[field];
+  if (!pattern) return { valid: true }; // パターンが設定されていないフィールドは許可
+  
+  // 空文字列は許可（必須チェックは別途行う）
+  if (!input || input.length === 0) return { valid: true };
+  
+  if (!pattern.test(input)) {
+    // フィールド別のエラーメッセージ
+    let message = '';
+    switch(field) {
+      case 'name':
+        message = i18next.t('validation.invalidName') || '名前には文字のみを使用してください';
+        break;
+      case 'email':
+        message = i18next.t('validation.invalidEmail') || '有効なメールアドレスを入力してください';
+        break;
+      case 'phone':
+        message = i18next.t('validation.invalidPhone') || '有効な電話番号を入力してください';
+        break;
+      default:
+        message = i18next.t('validation.invalidCharacters', { field: field }) || `${field}に無効な文字が含まれています`;
+    }
+    
+    return { valid: false, message };
+  }
+  
+  return { valid: true };
+}
+
+/**
+ * 総合的な入力検証関数
+ * サニタイズ、文字数チェック、特殊文字チェックを統合
+ * @param {string} input - 検証する入力値
+ * @param {string} field - フィールド名
+ * @returns {Object} 検証結果 {valid: boolean, value: string, errors: string[]}
+ */
+function validateInput(input, field) {
+  const errors = [];
+  
+  // 1. サニタイズ
+  const sanitized = sanitizeInput(input, field);
+  
+  // 2. 文字数検証
+  const lengthResult = validateInputLength(sanitized, field);
+  if (!lengthResult.valid) {
+    errors.push(lengthResult.message);
+  }
+  
+  // 3. 特殊文字検証
+  const charResult = validateSpecialCharacters(sanitized, field);
+  if (!charResult.valid) {
+    errors.push(charResult.message);
+  }
+  
+  return {
+    valid: errors.length === 0,
+    value: sanitized,
+    errors: errors
+  };
+}
+
 // DOM読み込み完了後に初期化
 // HTMLが解析された後、画像などのリソース読み込み前に実行
 document.addEventListener('DOMContentLoaded', function() {
@@ -250,7 +381,17 @@ function validateAndSubmit(e) {
   
   // 送信データの準備
   // FormDataオブジェクトを通常のJavaScriptオブジェクトに変換
-  const dataObj = formDataToObject(formData);
+  let dataObj;
+  try {
+    dataObj = formDataToObject(formData);
+  } catch (error) {
+    // 検証エラーがある場合
+    if (error.validationErrors) {
+      scrollToFirstError();
+      return false;
+    }
+    throw error;
+  }
   
   // CSRFトークンを追加
   dataObj.csrfToken = getCSRFToken();
@@ -358,9 +499,25 @@ function scrollToFirstError() {
  */
 function formDataToObject(formData) {
   const dataObj = {};
+  const validationErrors = {};
   
   // FormDataの各エントリーに対して処理
   formData.forEach((val, key) => {
+    // 文字列フィールドの検証
+    if (typeof val === 'string' && val.trim()) {
+      const validationResult = validateInput(val, key);
+      
+      if (!validationResult.valid) {
+        // エラーがある場合は記録
+        validationErrors[key] = validationResult.errors;
+        // エラーメッセージを表示（最初のエラーのみ）
+        showFieldError(key, validationResult.errors[0]);
+      }
+      
+      // 検証済みの値を使用
+      val = validationResult.value;
+    }
+    
     // すでにそのキーが存在する場合（複数選択のチェックボックスなど）
     if (dataObj[key]) {
       // まだ配列になっていない場合は配列に変換
@@ -375,8 +532,45 @@ function formDataToObject(formData) {
     }
   });
   
+  // エラーがある場合は例外を投げる
+  if (Object.keys(validationErrors).length > 0) {
+    const error = new Error('Validation failed');
+    error.validationErrors = validationErrors;
+    throw error;
+  }
+  
   // フォームデータ全体をサニタイズして返す
   return sanitizeFormData(dataObj);
+}
+
+/**
+ * フィールド固有のエラーを表示する関数
+ * @param {string} fieldName - フィールド名
+ * @param {string} errorMessage - エラーメッセージ
+ */
+function showFieldError(fieldName, errorMessage) {
+  // フィールドに対応する要素を探す
+  const field = document.querySelector(`[name="${fieldName}"]`);
+  if (!field) return;
+  
+  // 親要素（通常は.questionクラス）を取得
+  const questionElement = field.closest('.question');
+  if (!questionElement) return;
+  
+  // エラー状態を追加
+  questionElement.classList.add('error');
+  
+  // 既存のエラーメッセージ要素を探すか、新規作成
+  let errorElement = questionElement.querySelector('.field-error-message');
+  if (!errorElement) {
+    errorElement = document.createElement('div');
+    errorElement.className = 'field-error-message validation-message';
+    questionElement.appendChild(errorElement);
+  }
+  
+  // エラーメッセージを設定して表示
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('visible');
 }
 
 /**

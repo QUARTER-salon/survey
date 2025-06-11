@@ -95,5 +95,16 @@
       // 言語リンクがあれば現在の言語に合わせてハイライト
       const currentLang = i18next.language || 'ja';
       updateLanguageLinks(currentLang);
+      
+      // 言語リンクにイベントリスナーを追加
+      document.querySelectorAll('.lang-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const lang = link.getAttribute('data-lang');
+          if (lang) {
+            changeLang(lang);
+          }
+        });
+      });
     });
 })();
