@@ -279,6 +279,7 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 
 ### 12.1 実装済みセキュリティ機能
 
+#### クライアント側セキュリティ
 | 対策項目 | 実装内容 | 関連ファイル |
 | :------ | :------ | :---------- |
 | **XSS防止** | innerHTML → textContent 変換、入力サニタイズ | `validation.js`, `i18n.js` |
@@ -286,6 +287,14 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 | **脅威検出** | XSS/SQLインジェクションパターン自動検出 | `security-logger.js` |
 | **レート制限** | フォーム送信を1分間3回まで制限 | `security-logger.js` |
 | **環境別処理** | 開発環境でのみ詳細エラー表示 | `utils.js` |
+
+#### Google Apps Script側セキュリティ (2025年1月11日完了)
+| 対策項目 | 実装内容 | 設定方法 |
+| :------ | :------ | :---------- |
+| **ドメイン制限** | 許可ドメインからのみアクセス受付 | Script Propertiesに`ALLOWED_DOMAINS`設定 |
+| **サーバー側レート制限** | IPアドレス単位で1分間3回まで | 自動実装 |
+| **リクエスト検証** | 必須フィールドとデータ型検証 | サーバー側自動検証 |
+| **セキュリティログ** | 不審なアクセスの記録とブロック | 自動実装 |
 
 ### 12.2 セキュリティ関連ドキュメント
 
@@ -296,10 +305,17 @@ GitHub Pages が自動ビルド。完了通知 → 本番確認。
 | `SECURITY_TEST_GUIDE.md` | セキュリティテストの手順書 |
 | `CLAUDE.md` | AI開発アシスタント向けプロジェクトガイド |
 
-### 12.3 今後の推奨事項
+### 12.3 Google Apps Scriptセキュリティ設定
+
+Google Apps Scriptのスクリプトプロパティに以下を設定：
+- `ALLOWED_DOMAINS`: 許可ドメインのカンマ区切りリスト（例: "yourdomain.com,localhost:8000"）
+- `RATE_LIMIT_MINUTES`: レート制限の時間枠（デフォルト: 1）
+- `RATE_LIMIT_MAX_REQUESTS`: 時間枠内の最大リクエスト数（デフォルト: 3）
+
+### 12.4 今後の推奨事項（オプション）
 
 1. **プロキシサーバーの実装**
-   - Google Apps Script URLを隠蔽
+   - Google Apps Script URLを完全に隠蔽（現在はGAS側で保護済み）
    - PROXY_IMPLEMENTATION.mdの手順に従って実装
 
 2. **HTTPセキュリティヘッダー**

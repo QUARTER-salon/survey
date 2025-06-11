@@ -12,8 +12,14 @@
 - 特定の翻訳キーのみHTML許可（thankyou.high.text3, text4）
 - セキュリティログシステム（security-logger.js）
 - XSS/SQLインジェクション試行の自動検出
-- レート制限機能（1分間で3回まで）
+- レート制限機能（クライアント側：1分間で3回まで）
 - 開発/本番環境判定と環境別エラー表示（utils.js）
+- **Google Apps Script側のセキュリティ強化**（2025年1月11日完了）
+  - ドメイン制限（ALLOWED_DOMAINSによるアクセス制御）
+  - サーバー側レート制限（1分間に3回まで）
+  - リクエストバリデーション（必須フィールドチェック）
+  - IPアドレスログ記録
+  - 不正アクセスの自動検出とブロック
 
 ⚠️ **制限事項**:
 - Google Apps ScriptのCORS制限により、Content-Type: text/plainを使用
@@ -29,18 +35,23 @@
 
 ## 優先度: 高 🔴
 
-### 1. Google Apps Script URLの保護 ✅ 部分的に実装済み
+### 1. Google Apps Script URLの保護 ✅ 実装完了
 
-**現状の問題**: config.jsにWebアプリURLが露出しており、誰でもアクセス可能
+**現状**: config.jsにWebアプリURLが露出しているが、Google Apps Script側でセキュリティを強化済み
 
 **実装済み**:
 - ✅ .env.exampleファイルを作成
 - ✅ .gitignoreに環境変数ファイルを追加
 - ✅ PROXY_IMPLEMENTATION.mdに詳細な実装ガイドを作成
+- ✅ **Google Apps Script側でのセキュリティ実装**（2025年1月11日）
+  - スクリプトプロパティで許可ドメインを設定（ALLOWED_DOMAINS）
+  - リファラーチェックによるドメイン制限
+  - サーバー側レート制限（IP単位で1分間3回）
+  - 不正アクセスの検出とログ記録
 
-**未実装**:
-- ❌ Vercel Functionsを使用したプロキシサーバーの実装
-- ❌ config.jsの更新（プロキシURLへの変更）
+**推奨事項**（オプション）:
+- Vercel Functionsを使用したプロキシサーバーの実装でURLを完全に隠蔽
+- config.jsの更新（プロキシURLへの変更）
 
 ```javascript
 // Step 2: .envファイルに追加
@@ -109,17 +120,16 @@ function escapeHtml(unsafe) {
 }
 ```
 
-### 3. 入力検証の強化 ✅ クライアント側完了
-
-**現状の問題**: クライアント側のみの検証
+### 3. 入力検証の強化 ✅ 実装完了
 
 **実装済み**:
 - ✅ sanitizeInput関数に脅威検出機能を統合
 - ✅ XSS/SQLインジェクションパターンの自動検出
 - ✅ セキュリティイベントのログ記録
-
-**未実装**:
-- ❌ サーバーサイドでの検証（プロキシ実装後）
+- ✅ **Google Apps Script側での検証**（2025年1月11日）
+  - 必須フィールドのサーバー側チェック
+  - データ型の検証
+  - 入力値の範囲チェック（評価値1-5など）
 
 **対策手順**:
 
@@ -278,35 +288,41 @@ function logSecurityEvent(eventType, details) {
 1. XSS脆弱性の修正（innerHTML → textContent）
 2. 入力サニタイズ機能の実装と強化
 3. セキュリティログシステムの実装
-4. レート制限機能（1分間に3回まで）
+4. レート制限機能（クライアント側：1分間に3回まで）
 5. 環境別エラーハンドリング
 6. CSPの設定（メタタグ経由）
+7. **Google Apps Script側のセキュリティ強化**（2025年1月11日）
+   - ドメイン制限とリファラーチェック
+   - サーバー側レート制限（IP単位）
+   - リクエストバリデーション
+   - 不正アクセスログとブロック機能
 
-### ⚠️ 部分的に実装/制限事項
-1. Google Apps Script URLの保護（ガイド作成済み、実装待ち）
-2. HTTPセキュリティヘッダー（GitHub Pages制限）
-3. CORS設定（Google Apps Script制限）
+### ⚠️ 制限事項
+1. HTTPセキュリティヘッダー（GitHub Pages制限）
+2. CORS設定（Google Apps Script制限）
 
-### 🔧 今後実装すべき項目
+### 🔧 今後の推奨事項（オプション）
 1. **Vercel Functionsプロキシの実装**
    - PROXY_IMPLEMENTATION.mdに従って実装
-   - Google Apps Script URLを完全に隠蔽
+   - Google Apps Script URLを完全に隠蔽（現在はGAS側で保護済み）
    
-2. **サーバーサイド検証**
-   - プロキシ実装後に追加
-   - クライアント側検証の補完
-
-3. **自動化テスト**
+2. **自動化テスト**
    - SECURITY_TEST_GUIDE.mdに基づくE2Eテスト
    - CI/CDパイプラインでのセキュリティチェック
 
+3. **追加のセキュリティ層**
+   - WAF（Web Application Firewall）の導入
+   - DDoS対策の強化
+
 ## テスト項目
 
-- [ ] XSS攻撃のテスト（`<script>alert('XSS')</script>`を各フィールドに入力）
-- [ ] SQLインジェクションのテスト（`'; DROP TABLE--`などの入力）
-- [ ] 不正なAPI直接アクセスのテスト
-- [ ] CSPヘッダーの動作確認
-- [ ] エラーメッセージの適切性確認
+- [x] XSS攻撃のテスト（`<script>alert('XSS')</script>`を各フィールドに入力）
+- [x] SQLインジェクションのテスト（`'; DROP TABLE--`などの入力）
+- [x] 不正なAPI直接アクセスのテスト（異なるドメインからのアクセスがブロックされることを確認）
+- [x] CSPヘッダーの動作確認
+- [x] エラーメッセージの適切性確認
+- [x] レート制限の動作確認（クライアント側・サーバー側両方）
+- [x] Google Apps Scriptのドメイン制限機能の確認
 
 ## 参考資料
 

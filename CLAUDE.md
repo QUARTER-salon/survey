@@ -51,20 +51,37 @@ For local development without hitting the production API:
 - Error messages display in user's selected language
 
 ## Security Measures Implemented (2025年1月更新)
+
+### Client-Side Security
 - **XSS Protection**: All user inputs are sanitized, innerHTML usage is restricted
 - **Input Sanitization**: Enhanced `sanitizeInput()` with threat detection in validation.js
 - **Content Security Policy**: Configured in index.html meta tag
 - **Secure Error Handling**: Environment-aware error messages (detailed in dev, generic in prod)
 - **CORS Handling**: Compatible with Google Apps Script limitations
 - **Security Logging**: Automatic detection of XSS/SQL injection attempts
-- **Rate Limiting**: Form submission limited to 3 attempts per minute
+- **Rate Limiting**: Form submission limited to 3 attempts per minute (client-side)
 - **Development Tools**: Enhanced debugging with utils.js for safer development
+
+### Google Apps Script Security (2025年1月11日完了)
+- **Domain Restriction**: Only accepts requests from allowed domains (configured in Script Properties)
+- **Server-Side Rate Limiting**: 3 requests per minute per IP address
+- **Request Validation**: Validates required fields and data types on server
+- **Referrer Check**: Blocks requests without proper referrer headers
+- **Security Logging**: Logs suspicious activities and blocks repeat offenders
+- **IP Tracking**: Records IP addresses for rate limiting and security monitoring
 
 ## Known Limitations
 - Google Apps Script doesn't support CORS preflight requests (must use text/plain)
 - GitHub Pages can't set HTTP response headers (only CSP via meta tag works)
-- Google Apps Script URL is exposed in client-side code
-- For full security, implement a server-side proxy as described in PROXY_IMPLEMENTATION.md
+- Google Apps Script URL is exposed in client-side code (but protected by server-side security)
+
+## Google Apps Script Configuration
+To enable server-side security, configure these Script Properties in your Google Apps Script:
+- `ALLOWED_DOMAINS`: Comma-separated list of allowed domains (e.g., "yourdomain.com,localhost:8000")
+- `RATE_LIMIT_MINUTES`: Rate limit window in minutes (default: 1)
+- `RATE_LIMIT_MAX_REQUESTS`: Maximum requests per window (default: 3)
+
+For additional URL protection, implement a server-side proxy as described in PROXY_IMPLEMENTATION.md
 
 ## Additional Documentation
 - **SECURITY_FIXES.md**: Complete security implementation guide and status
