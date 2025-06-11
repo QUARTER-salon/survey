@@ -108,6 +108,8 @@
     "validation.invalidEmail": "请输入有效的电子邮件地址",
     "validation.invalidPhone": "请输入有效的电话号码",
     "validation.invalidCharacters": "{{field}}包含无效字符",
+    "validation.duplicateSubmission": "还不能提交。请在{{seconds}}秒后重试。",
+    "validation.rateLimit": "已达到提交限制。请在{{seconds}}秒后重试。",
     
     "fields.name": "姓名",
     "fields.email": "电子邮件",

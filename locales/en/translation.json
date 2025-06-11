@@ -109,6 +109,8 @@
     "validation.invalidEmail": "Please enter a valid email address",
     "validation.invalidPhone": "Please enter a valid phone number",
     "validation.invalidCharacters": "{{field}} contains invalid characters",
+    "validation.duplicateSubmission": "Cannot submit yet. Please try again in {{seconds}} seconds.",
+    "validation.rateLimit": "Submission limit reached. Please try again in {{seconds}} seconds.",
     
     "fields.name": "Name",
     "fields.email": "Email",

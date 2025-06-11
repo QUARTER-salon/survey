@@ -154,32 +154,74 @@ function validateSpecialCharacters(input, field) {
 </script>
 ```
 
-### 5. セッション管理の実装 🟠
+### 5. セッション管理の実装 ✅ 実装完了 (2025年6月11日)
 **リスク**: 重複送信、データ整合性の問題
+
+**実装済み**:
+- session-manager.jsを作成し、完全なセッション管理機能を実装
+- LocalStorageを使用した永続的な送信履歴管理
+- 重複送信防止（1分以内の再送信をブロック）
+- レート制限（1時間あたり3回まで）
+- main.jsとvalidation.jsに統合
+- 3言語対応のエラーメッセージ
 
 **実装方法**:
 ```javascript
-// session-manager.js（新規作成）
+// session-manager.js（実装済み）
 class SessionManager {
   constructor() {
     this.sessionId = this.generateSessionId();
-    this.submissions = [];
+    this.submissions = this.loadSubmissions();
+    this.maxSubmissionsPerHour = 3;
+    this.blockDurationMs = 60 * 60 * 1000; // 1時間
   }
   
   generateSessionId() {
     return Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
   
-  canSubmit() {
-    const now = Date.now();
-    const recentSubmission = this.submissions.find(s => now - s < 60000); // 1分以内
-    return !recentSubmission;
+  loadSubmissions() {
+    try {
+      const stored = localStorage.getItem('survey_submissions');
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Failed to load submission history:', e);
+      return [];
+    }
   }
   
-  recordSubmission() {
-    this.submissions.push(Date.now());
-    // 古い記録を削除（メモリ管理）
-    this.submissions = this.submissions.filter(s => Date.now() - s < 3600000); // 1時間
+  canSubmit() {
+    this.cleanOldSubmissions();
+    const now = Date.now();
+    
+    // 直近1分以内の送信をチェック（重複送信防止）
+    const recentSubmission = this.submissions.find(timestamp => 
+      now - timestamp < 60000
+    );
+    
+    if (recentSubmission) {
+      return {
+        allowed: false,
+        reason: 'duplicate_submission',
+        waitTime: Math.ceil((60000 - (now - recentSubmission)) / 1000)
+      };
+    }
+    
+    // 1時間以内の送信回数をチェック（レート制限）
+    const hourlySubmissions = this.submissions.filter(timestamp => 
+      now - timestamp < this.blockDurationMs
+    );
+    
+    if (hourlySubmissions.length >= this.maxSubmissionsPerHour) {
+      const oldestSubmission = Math.min(...hourlySubmissions);
+      return {
+        allowed: false,
+        reason: 'rate_limit',
+        waitTime: Math.ceil((this.blockDurationMs - (now - oldestSubmission)) / 1000)
+      };
+    }
+    
+    return { allowed: true };
   }
 }
 ```

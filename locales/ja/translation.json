@@ -116,6 +116,8 @@
     "validation.invalidEmail": "有効なメールアドレスを入力してください",
     "validation.invalidPhone": "有効な電話番号を入力してください",
     "validation.invalidCharacters": "{{field}}に無効な文字が含まれています",
+    "validation.duplicateSubmission": "まだ送信できません。{{seconds}}秒後に再度お試しください。",
+    "validation.rateLimit": "送信回数の上限に達しました。{{seconds}}秒後に再度お試しください。",
     
     "fields.name": "お名前",
     "fields.email": "メールアドレス",
