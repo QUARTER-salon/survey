@@ -1,0 +1,10 @@
+/**
+ * フォーム要素のスタイル
+ * モバイルでの自動ズームを防ぐための設定
+ */
+
+/* 16px以上のフォントサイズは一般的に自動ズームを防ぎます */
+input, textarea {
+  font-size: 16px;
+  touch-action: manipulation;
+}
