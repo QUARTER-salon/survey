@@ -47,3 +47,15 @@ For local development without hitting the production API:
 - Mobile-first responsive design (see responsive.css)
 - Form prevents double submission with button state management
 - Error messages display in user's selected language
+
+## Security Measures Implemented
+- **XSS Protection**: All user inputs are sanitized, innerHTML usage is restricted
+- **Input Sanitization**: `sanitizeInput()` and `escapeHtml()` functions in validation.js
+- **Content Security Policy**: Configured in index.html meta tag
+- **Secure Error Handling**: Sensitive information hidden in production
+- **CORS Handling**: Compatible with Google Apps Script limitations
+
+## Known Limitations
+- Google Apps Script doesn't support CORS preflight requests (must use text/plain)
+- GitHub Pages can't set HTTP response headers (only CSP via meta tag works)
+- For full security, implement a server-side proxy as described in SECURITY_FIXES.md
