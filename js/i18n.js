@@ -32,12 +32,21 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         const opts = el.dataset.i18nOptions ? JSON.parse(el.dataset.i18nOptions) : {};
+        const translatedText = i18next.t(key, opts);
         
-        // summary要素には特別な処理を適用
-        if (el.tagName.toLowerCase() === 'summary') {
-          el.textContent = i18next.t(key, opts);
+        // HTMLを含む特定の翻訳キーのみinnerHTMLを使用（安全な内容のみ）
+        const htmlAllowedKeys = [
+          'thankyou.high.text3',
+          'thankyou.high.text4'
+        ];
+        
+        if (htmlAllowedKeys.includes(key)) {
+          // これらのキーは管理者が制御する安全な内容のみ含む
+          el.innerHTML = translatedText;
+        } else if (el.tagName.toLowerCase() === 'summary') {
+          el.textContent = translatedText;
         } else {
-          el.textContent = i18next.t(key, opts);
+          el.textContent = translatedText;
         }
       });
       
