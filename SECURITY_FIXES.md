@@ -159,18 +159,21 @@ app.use((req, res, next) => {
 
 **対策手順**:
 
-```javascript
-// Step 1: validation.js の修正
-// 変更前:
-headers: {
-  'Content-Type': 'text/plain',
-}
+⚠️ **重要な制限**: Google Apps ScriptはCORSプリフライトリクエストをサポートしていないため、
+Content-Typeをapplication/jsonに設定するとエラーが発生します。
 
-// 変更後:
-headers: {
-  'Content-Type': 'application/json',
-}
+**一時的な対応**:
+```javascript
+// Google Apps Scriptを使用している間は、Content-Typeを指定しない
+fetch(apiUrl, {
+  method: 'POST',
+  body: JSON.stringify(dataObj) // text/plainとして送信
+})
 ```
+
+**推奨される解決策**:
+1. サーバーサイドプロキシを実装してGoogle Apps Script URLを隠蔽
+2. プロキシ側で適切なCORS設定を実装
 
 ```javascript
 // Step 2: サーバー側でのCORS設定 (proxy-server.js)

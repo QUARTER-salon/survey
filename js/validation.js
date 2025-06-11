@@ -433,11 +433,10 @@ function submitFormData(dataObj) {
     if (!apiUrl) return; // URLがなければ処理中断
     
     // fetch APIを使ってPOSTリクエストを送信
+    // 注意: Google Apps ScriptはCORSプリフライトをサポートしないため、
+    // Content-Typeを指定せずにtext/plainとして送信する必要があります
     fetch(apiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify(dataObj)
      })
     .then(res => {
