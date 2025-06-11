@@ -61,6 +61,8 @@ For local development without hitting the production API:
 - **Security Logging**: Automatic detection of XSS/SQL injection attempts
 - **Rate Limiting**: Form submission limited to 3 attempts per minute (client-side)
 - **Development Tools**: Enhanced debugging with utils.js for safer development
+- **HTTPS Enforcement**: Automatic redirect from HTTP to HTTPS (2025年1月11日実装)
+- **CSRF Protection**: Session-based CSRF token validation on form submission (2025年1月11日実装)
 
 ### Google Apps Script Security (2025年1月11日完了)
 - **Domain Restriction**: Only accepts requests from allowed domains (configured in Script Properties)
